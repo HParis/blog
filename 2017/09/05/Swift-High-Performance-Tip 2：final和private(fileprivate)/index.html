@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Swift High-Performance Tip 2：final 和 private(fileprivate) | 帕帕&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.  我们都知道 Swift 的 class 是可以被继承，functi">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift High-Performance Tip 2：final 和 private(fileprivate)">
+<meta property="og:url" content="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.  我们都知道 Swift 的 class 是可以被继承，functi">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://i.imgur.com/0AxWEVA.jpg">
+<meta property="og:updated_time" content="2017-09-06T06:57:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift High-Performance Tip 2：final 和 private(fileprivate)">
+<meta name="twitter:description" content="Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.  我们都知道 Swift 的 class 是可以被继承，functi">
+<meta name="twitter:image" content="http://i.imgur.com/0AxWEVA.jpg">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="帕帕&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/blog/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">帕帕&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/blog/" id="subtitle">记录点点滴滴</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hparis.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Swift-High-Performance-Tip 2：final和private(fileprivate)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/" class="article-date">
+  <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/blog/categories/iOS/">iOS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift High-Performance Tip 2：final 和 private(fileprivate)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.</p>
+</blockquote>
+<p>我们都知道 Swift 的 class 是可以被继承，function 和 property 是可以被重写的，而这就意味着 Swift 需要 dynamic dispatch 这种机制来完成这些功能。Swift 的 dynamic dispatch 首先会再 method table 查找方法，然后间接调用。很明显这种方式要比直接调用的效率慢，并且用间接调用的方式还会阻止编译器的一些优化无法实现。</p>
+<p><strong>那么应该怎么优化呢？</strong></p>
+<p>当我们明确的知道 class、function、property 是不需要 overridden，我们可以通过使用 final 和 private(fileprivate) 这些关键字减少动态派发的发生，从而有效的提高效率。</p>
+<p>在 Swift 中，如果被 final 或 private(fileprivate) 修饰的 class、function、property 是不能 overridden，并且调用这些 class、function、property 的时候不再通过 dynamic dispatch 去间接调用，而是直接调用。</p>
+<p>所以，通过在必要的代码中使用 final 或 private(fileprivate) 这些关键字进行优化的话，将可以有效提高的效率。</p>
+<p><strong>Whole Module Optimization</strong></p>
+<p>Swift 的 class、function、property 的默认权限都是 internal ，除非我们明确的加上 public 或 private(fileprivate) 关键字才能改变它们的默认权限。</p>
+<p>编译器在编译 Module 的时候都是对里面的源文件进行单独编译，这样的话编译器就无法确切的知道被 internal 修饰的 class、function、property 究竟有没有被 overridden。一旦我们开启 Whole Module Optimization 的优化选项，编译器就会同时对整个 Module 的所有源文件进行编译，这个时候编译器就可以知道哪些被 internal 修饰的 class、function、property 没有被 overridden，从而把它们的权限从 internal 修改为 final。这样的话，就可以减少 dynamic dispatch 的发生从而提高效率。</p>
+<p>开启编译优化选项的步骤如下：Xcode -&gt; Build Settings -&gt; Swift Compiler -&gt; Optimization Level。</p>
+<p><img src="http://i.imgur.com/0AxWEVA.jpg" alt=""></p>
+<hr>
+<p><strong>参考文献</strong></p>
+<ol>
+<li><p><a href="https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/" target="_blank" rel="noopener">https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/</a></p>
+</li>
+<li><p><a href="https://developer.apple.com/swift/blog/?id=27" target="_blank" rel="noopener">https://developer.apple.com/swift/blog/?id=27</a></p>
+</li>
+<li><p><a href="https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations" target="_blank" rel="noopener">https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations</a></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/" data-id="cjefaczqd000bwrvb8r126w19" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/iOS/">iOS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2017/09/05/Auto-Update/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Auto Update
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/2017/09/05/Vim-Tip/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Vim Tip</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/iOS/">iOS</a></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/tip/">tip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/other/">other</a></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tip/">tip</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/blog/tags/React/" style="font-size: 10px;">React</a> <a href="/blog/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/blog/tags/other/" style="font-size: 10px;">other</a> <a href="/blog/tags/tip/" style="font-size: 15px;">tip</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2017/09/">September 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2018/03/06/Raspberry-PI-基本使用/">Raspberry PI 基本使用</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2018/02/27/redux-之页面跳转/">redux 之页面跳转</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/09/05/#include、#import和@import的区别/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/blog/2017/09/05/Shell-Tip/">Shell Tip</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 帕帕<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.css">
+  <script src="/blog/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

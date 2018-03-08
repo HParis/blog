@@ -358,94 +358,6 @@
 
 
 
-    <article id="post-Swift-High-Performance-Tip 2：final和private(fileprivate)" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">Swift High-Performance Tip 2：final 和 private(fileprivate)</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/iOS/">iOS</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
-<p>Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.</p>
-</blockquote>
-<p>我们都知道 Swift 的 class 是可以被继承，function 和 property 是可以被重写的，而这就意味着 Swift 需要 dynamic dispatch 这种机制来完成这些功能。Swift 的 dynamic dispatch 首先会再 method table 查找方法，然后间接调用。很明显这种方式要比直接调用的效率慢，并且用间接调用的方式还会阻止编译器的一些优化无法实现。</p>
-<p><strong>那么应该怎么优化呢？</strong></p>
-<p>当我们明确的知道 class、function、property 是不需要 overridden，我们可以通过使用 final 和 private(fileprivate) 这些关键字减少动态派发的发生，从而有效的提高效率。</p>
-<p>在 Swift 中，如果被 final 或 private(fileprivate) 修饰的 class、function、property 是不能 overridden，并且调用这些 class、function、property 的时候不再通过 dynamic dispatch 去间接调用，而是直接调用。</p>
-<p>所以，通过在必要的代码中使用 final 或 private(fileprivate) 这些关键字进行优化的话，将可以有效提高的效率。</p>
-<p><strong>Whole Module Optimization</strong></p>
-<p>Swift 的 class、function、property 的默认权限都是 internal ，除非我们明确的加上 public 或 private(fileprivate) 关键字才能改变它们的默认权限。</p>
-<p>编译器在编译 Module 的时候都是对里面的源文件进行单独编译，这样的话编译器就无法确切的知道被 internal 修饰的 class、function、property 究竟有没有被 overridden。一旦我们开启 Whole Module Optimization 的优化选项，编译器就会同时对整个 Module 的所有源文件进行编译，这个时候编译器就可以知道哪些被 internal 修饰的 class、function、property 没有被 overridden，从而把它们的权限从 internal 修改为 final。这样的话，就可以减少 dynamic dispatch 的发生从而提高效率。</p>
-<p>开启编译优化选项的步骤如下：Xcode -&gt; Build Settings -&gt; Swift Compiler -&gt; Optimization Level。</p>
-<p><img src="http://i.imgur.com/0AxWEVA.jpg" alt=""></p>
-<hr>
-<p><strong>参考文献</strong></p>
-<ol>
-<li><p><a href="https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/" target="_blank" rel="noopener">https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/</a></p>
-</li>
-<li><p><a href="https://developer.apple.com/swift/blog/?id=27" target="_blank" rel="noopener">https://developer.apple.com/swift/blog/?id=27</a></p>
-</li>
-<li><p><a href="https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations" target="_blank" rel="noopener">https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations</a></p>
-</li>
-</ol>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <article id="post-Shell-Tip" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -553,7 +465,7 @@
 
 
 
-    <article id="post-Swift-High-Performance-Tip 1：Array和ContiguousArray" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Swift-High-Performance-Tip 2：final和private(fileprivate)" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -561,7 +473,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
+            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">Swift High-Performance Tip 2：final 和 private(fileprivate)</a>
         </h1>
     
 
@@ -570,7 +482,7 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">
+        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">
             <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
         </a>
     </div>
@@ -597,21 +509,28 @@
         
             
             <blockquote>
-<p>Array 是随机存储的（random-access）集合类型。</p>
+<p>Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.</p>
 </blockquote>
-<blockquote>
-<p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
-</blockquote>
-<p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray = <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
-<p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
-<blockquote>
-<p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
-</blockquote>
-<p>但是 <a href="https://twitter.com/twostraws" target="_blank" rel="noopener">@Paul Hudson</a> 在他的<a href="https://gumroad.com/l/proswift" target="_blank" rel="noopener">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 = <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"><span class="keyword">var</span> end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line">end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
-<p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
-<p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
+<p>我们都知道 Swift 的 class 是可以被继承，function 和 property 是可以被重写的，而这就意味着 Swift 需要 dynamic dispatch 这种机制来完成这些功能。Swift 的 dynamic dispatch 首先会再 method table 查找方法，然后间接调用。很明显这种方式要比直接调用的效率慢，并且用间接调用的方式还会阻止编译器的一些优化无法实现。</p>
+<p><strong>那么应该怎么优化呢？</strong></p>
+<p>当我们明确的知道 class、function、property 是不需要 overridden，我们可以通过使用 final 和 private(fileprivate) 这些关键字减少动态派发的发生，从而有效的提高效率。</p>
+<p>在 Swift 中，如果被 final 或 private(fileprivate) 修饰的 class、function、property 是不能 overridden，并且调用这些 class、function、property 的时候不再通过 dynamic dispatch 去间接调用，而是直接调用。</p>
+<p>所以，通过在必要的代码中使用 final 或 private(fileprivate) 这些关键字进行优化的话，将可以有效提高的效率。</p>
+<p><strong>Whole Module Optimization</strong></p>
+<p>Swift 的 class、function、property 的默认权限都是 internal ，除非我们明确的加上 public 或 private(fileprivate) 关键字才能改变它们的默认权限。</p>
+<p>编译器在编译 Module 的时候都是对里面的源文件进行单独编译，这样的话编译器就无法确切的知道被 internal 修饰的 class、function、property 究竟有没有被 overridden。一旦我们开启 Whole Module Optimization 的优化选项，编译器就会同时对整个 Module 的所有源文件进行编译，这个时候编译器就可以知道哪些被 internal 修饰的 class、function、property 没有被 overridden，从而把它们的权限从 internal 修改为 final。这样的话，就可以减少 dynamic dispatch 的发生从而提高效率。</p>
+<p>开启编译优化选项的步骤如下：Xcode -&gt; Build Settings -&gt; Swift Compiler -&gt; Optimization Level。</p>
+<p><img src="http://i.imgur.com/0AxWEVA.jpg" alt=""></p>
+<hr>
+<p><strong>参考文献</strong></p>
+<ol>
+<li><p><a href="https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/" target="_blank" rel="noopener">https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/</a></p>
+</li>
+<li><p><a href="https://developer.apple.com/swift/blog/?id=27" target="_blank" rel="noopener">https://developer.apple.com/swift/blog/?id=27</a></p>
+</li>
+<li><p><a href="https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations" target="_blank" rel="noopener">https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations</a></p>
+</li>
+</ol>
 
         
         </div>
@@ -624,98 +543,7 @@
 
             
     
-        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-RAC和内存管理" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/RAC和内存管理/">RAC和内存管理</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/RAC和内存管理/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/iOS/">iOS</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。<br>在一开始接触 RAC 的时候，我们知道 RAC 对于 block 都是 copy 赋值的。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">RACSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">RACSignal</span> *)createSignal:(<span class="type">RACDisposable</span> * (^)(id&lt;<span class="type">RACSubscriber</span>&gt; subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="type">RACDynamicSignal</span> createSignal:didSubscribe];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">RACDynamicSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">RACSignal</span> *)createSignal:(<span class="type">RACDisposable</span> * (^)(id&lt;<span class="type">RACSubscriber</span>&gt; subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="type">RACDynamicSignal</span> *signal = [[<span class="keyword">self</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    signal-&gt;_didSubscribe = [didSubscribe copy];</span><br><span class="line">    <span class="keyword">return</span> [signal setNameWithFormat:@<span class="string">"+createSignal:"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在创建 RACSingal 的时候会调用其子类 RACDynamicSignal 去创建，我们也看到 RACDynamicSignal 对 didSuscribe 这个 block 是进行了 copy。所以大家可能会被要求注意循环引用的问题，于是大家都用 @weakify(target) 和 @strongify(target) 来避免循环引用的问题。那是不是所有用到 RAC 的地方都需要使用这些宏来避免循环引用的问题，不尽然。比如下面这个：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景1</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>, title) subscribeNext:^(id x) &#123;</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">"%@"</span>, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>接下来，我们来对比以下的几种用法：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@interface <span class="type">ViewController</span>()</span><br><span class="line">@property (strong, nonatomic) <span class="type">ViewModel</span> * viewModel;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">ViewController</span></span><br><span class="line"></span><br><span class="line">- (void)viewDidiLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.viewModel = [<span class="type">ViewModel</span> new];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景2</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.title = @<span class="string">"你好"</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景3</span></span><br><span class="line">    [<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景4</span></span><br><span class="line">    [<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title)     &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title;</span><br><span class="line">    &#125;]; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>场景2是我们平常都会用到的，而且我们也没有在这种场景下去考虑循环引用的问题，这是因为 dispatch 的 block 不是属于 self 的（至于这个 block 是属于谁的，回头我再查点资料或者请各位指教），所以即使你在 block 使用了 self 也不会有循环应用的问题。</p>
-<p>场景3很明显是有循环引用的问题：<strong>self-&gt;viewModel-&gt;titleSignal-&gt;block-&gt;self</strong>，这个时候如果我们不做处理的话，那么 self 就永远不会被释放。正确的做法应该是使用 @weakify(self) 和 @strongify(self)：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景3</span></span><br><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    @strongify(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>场景4在我们看来是没有问题的，因为这里看起来只有 <strong>singal-&gt;block-&gt;self</strong> 的引用，它们之间并没有造成循环引用的问题。我们先来看看 RACObserve 的实现：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#define <span class="type">RACObserve</span>(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) \</span><br><span class="line">(&#123; \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic push"</span>) \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic ignored \"-Wreceiver-is-weak\""</span>) \</span><br><span class="line">__weak id target_ = (<span class="type">TARGET</span>); \</span><br><span class="line">[target_ rac_valuesForKeyPath:@keypath(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) observer:<span class="keyword">self</span>]; \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic pop"</span>) \</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">- (<span class="type">RACSignal</span> *)rac_valuesForKeyPath:(<span class="type">NSString</span> *)keyPath observer:(__weak <span class="type">NSObject</span> *)observer;</span><br></pre></td></tr></table></figure>
-<p>其实，看到这里你会认为这里只是调用了一个方法创建了一个 Signal，而且这个 Signal 也并不属于任何对象。我们再来看看具体的实现是怎么样的？</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">RACSignal</span> *)rac_valuesAndChangesForKeyPath:(<span class="type">NSString</span> *)keyPath options:(<span class="type">NSKeyValueObservingOptions</span>)options observer:(__weak <span class="type">NSObject</span> *)weakObserver &#123;</span><br><span class="line">    <span class="type">NSObject</span> *strongObserver = weakObserver;</span><br><span class="line">    keyPath = [keyPath copy];</span><br><span class="line"></span><br><span class="line">    <span class="type">NSRecursiveLock</span> *objectLock = [[<span class="type">NSRecursiveLock</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    objectLock.name = @<span class="string">"org.reactivecocoa.ReactiveCocoa.NSObjectRACPropertySubscribing"</span>;</span><br><span class="line"></span><br><span class="line">    __weak <span class="type">NSObject</span> *weakSelf = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">RACSignal</span> *deallocSignal = [[<span class="type">RACSignal</span> <span class="built_in">zip</span>:@[</span><br><span class="line">                            <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                            strongObserver.rac_willDeallocSignal ?: [<span class="type">RACSignal</span> never]</span><br><span class="line">    ]] doCompleted:^&#123;</span><br><span class="line">        <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">        <span class="comment">// being read on another thread.</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        @onExit &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [[[<span class="type">RACSignal</span> createSignal:^ <span class="type">RACDisposable</span> * (id&lt;<span class="type">RACSubscriber</span>&gt; subscriber) &#123;</span><br><span class="line">        <span class="comment">// Hold onto the lock the whole time we're setting up the KVO</span></span><br><span class="line">        <span class="comment">// observation, because any resurrection that might be caused by our</span></span><br><span class="line">        <span class="comment">// retaining below must be balanced out by the time -dealloc returns</span></span><br><span class="line">        <span class="comment">// (if another thread is waiting on the lock above).</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        @onExit &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">        __strong <span class="type">NSObject</span> *observer __attribute__((objc_precise_lifetime)) = weakObserver;</span><br><span class="line">        __strong <span class="type">NSObject</span> *<span class="keyword">self</span> __attribute__((objc_precise_lifetime)) = weakSelf;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span> == <span class="literal">nil</span>) &#123;</span><br><span class="line">            [subscriber sendCompleted];</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> [<span class="keyword">self</span> rac_observeKeyPath:keyPath options:options observer:observer block:^(id value, <span class="type">NSDictionary</span> *change, <span class="type">BOOL</span> causedByDealloc, <span class="type">BOOL</span> affectedOnlyLastComponent) &#123;</span><br><span class="line">                [subscriber sendNext:<span class="type">RACTuplePack</span>(value, change)];</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;] takeUntil:deallocSignal] setNameWithFormat:@<span class="string">"%@ -rac_valueAndChangesForKeyPath: %@ options: %lu observer: %@"</span>, <span class="keyword">self</span>.rac_description, keyPath, (unsigned long)options, strongObserver.rac_description];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重点观察 <strong>deallocSignal</strong> 和 <strong>[signal takeUntile:deallocSignal]</strong>，我们把 deallocSignal 单独拿出来看看：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RACSignal</span> *deallocSignal = [[<span class="type">RACSignal</span> <span class="built_in">zip</span>:@[</span><br><span class="line">                        <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                        strongObserver.rac_willDeallocSignal ?: [<span class="type">RACSignal</span> never]</span><br><span class="line">                        ]] doCompleted:^&#123;</span><br><span class="line">    <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">    <span class="comment">// being read on another thread.</span></span><br><span class="line">    [objectLock lock];</span><br><span class="line">    @onExit &#123;</span><br><span class="line">    [objectLock unlock];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>这里的 deallocSignal 是只有在 self 和 strongObserve 都将要发生 dealloc 的时候才会触发的。即用 RACObserve 创建的信号只有在其 target 和 observe 都发生 dealloc 的时候才会被 disposable (这个好像是 RAC 用来销毁自己资源的东西)。不明白的童鞋，我们回头来分析一下场景4的代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>用 RACObserve 创建的信号看起来只要出了函数体其资源应该就会被回收，但是这个信号其实是只有在 self.viewModel.rac_willDeallocSignal 和 self.rac_willDeallocSignal 都发生的情况下才会被释放。所以场景4的引用关系看起来只有 signal-&gt;block-&gt;self，但是这个 signal 只有在 self.rac_willDeallocSignal 的时候才会被释放。所以这里如果不打断这种关系的话就会造成循环引用的问题，正确做法应该是：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    @strongify(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<p>最后，在说一个特别需要注意的，就是 UITableViewCell 和 UICollectionViewCell 复用和 RAC 的问题。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> *)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">UITableViewCell</span> *)tableView:(nonnull <span class="type">UITableView</span> *)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> * cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"TableViewCell"</span>];</span><br><span class="line"></span><br><span class="line">    @weakify(<span class="keyword">self</span>);</span><br><span class="line">    [<span class="type">RACObserve</span>(cell.textLabel, text) subscribeNext:^(id x) &#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们看到这里的 RACObserve 创建的 Signal 和 self 之间已经去掉了循环引用的问题，所以应该是没有什么问题的。但是结合之前我们对 RACObserve 的理解再仔细分析一下，这里的 Signal 只要 self 没有被 dealloc 的话就不会被释放。虽然每次 UITableViewCell 都会被重用，但是每次重用过程中创建的信号确实无法被 disposable。那我们该怎么做呢？</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> *)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">UITableViewCell</span> *)tableView:(nonnull <span class="type">UITableView</span> *)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> * cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"TableViewCell"</span>];</span><br><span class="line"></span><br><span class="line">    @weakify(<span class="keyword">self</span>);</span><br><span class="line">    [[<span class="type">RACObserve</span>(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) &#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意，我们在cell里面创建的信号加上 takeUntil:cell.rac_prepareForReuseSignal，这个是让 cell 在每次重用的时候都去 disposable 创建的信号。</p>
-<p>以上所说的关于内存的东西我都用 Instrument 的 Allocations 验证过了，但是依旧建议大家自己也去试试。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/">Comments</a>
+        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">Comments</a>
     
 
         </footer>
@@ -855,6 +683,108 @@
             
     
         <a href="https://hparis.github.io/blog/2017/09/05/Auto-Update/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Auto-Update/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-启动" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/启动/">计算机的启动过程</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/启动/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/other/">other</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/other/">other</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>一、启动</p>
+<ol>
+<li>启动电源</li>
+<li>CPU(只能执行指令，不能保存指令，它的指令全存在内存中)去内存地址 0xFFFFFFF0 找到第一条需要执行的指令（跳转指令）</li>
+<li>跳转到 BIOS 系统，运行 BIOS 的一大堆指令，只要是做系统自检（硬盘、内存、显卡等）。如果有问题会通过喇叭声音的长短组合进行提示</li>
+<li>BIOS 在自检之后生成中断向量表</li>
+<li>当 BIOS 的所有工作都完成之后，会给 CPU 发送一条中断指令，比如 <code>int 0x19</code></li>
+<li>CPU 接到中断指令之后就去中断向量表找到第 19 号对应的一大堆指令</li>
+<li>这堆指令主要是把磁盘的第一扇区（磁盘最开始的 512 Byte）的数据运到内存中，之后 CPU 就开始执行这些指令</li>
+<li>这些精巧的指令会把 OS(操作系统) 从磁盘运到内存中</li>
+</ol>
+<p>二、运行</p>
+<ol>
+<li>OS 进入内存之后，立刻就是老大</li>
+<li>OS 告诉 CPU 开始运行 A 程序</li>
+<li>CPU 会去硬盘把 A 程序装载到内存中，CPU 才能执行 A 程序的指令</li>
+<li>如果此时 OS 告诉 CPU 去执行 B 程序，那么 CPU 会保存好现场，然后去执行 B 程序的指令</li>
+</ol>
+<p>三、缓存</p>
+<ol>
+<li>因为硬盘的读写速度太慢了，所以都需要先把硬盘的数据装载到内存中之后，CPU 再去内存取指令来执行</li>
+<li>但是内存的读写速度依旧还是要比 CPU 慢，一旦指令多起来之后内存的读写速度也会让 CPU 觉得受不了</li>
+<li>经过一段时间的运行之后，我们会发现 CPU 去内存取指令是有规律的，这个规律叫<strong>程序的局部性原理</strong>。CPU 在访问一个内存位置以后过不多久还会多次访问；一个内存位置被访问了， 附近的位置很快也会访问到。</li>
+<li>CPU 需要读写指令和数据的时候直接从缓存要，如果缓存没有才会去找内存</li>
+<li>局部性原理在程序切换之后，缓存就会失效。因为两个程序之间没什么联系，局部性原理就不起作用了，所以需要重建缓存。</li>
+</ol>
+<p>四、流水线</p>
+<ol>
+<li>CPU 在计算的过程分成四个步骤：从内存读取指令 - 翻译指令 - 执行 - 把结果写回内存（该步骤有时候没有）</li>
+<li>CPU 可以同时执行上面四个步骤，比如：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读取指令 A</span><br><span class="line">读取指令 B - 翻译指令 A</span><br><span class="line">读取指令 C - 翻译指令 B - 执行指令 C</span><br><span class="line">读取指令 D - 翻译指令 C - 执行指令 B - 把指令 A 的结果写回内存</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考文献：</p>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&amp;mid=2665513017&amp;idx=1&amp;sn=5550ee714abd36d0b580713f673e670b&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&amp;mid=2665513017&amp;idx=1&amp;sn=5550ee714abd36d0b580713f673e670b&amp;scene=21#wechat_redirect</a></li>
+</ol>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/启动/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/启动/">Comments</a>
     
 
         </footer>
@@ -1014,7 +944,7 @@
 
 
 
-    <article id="post-启动" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-RAC和内存管理" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -1022,7 +952,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/启动/">计算机的启动过程</a>
+            <a class="article-title" href="/blog/2017/09/05/RAC和内存管理/">RAC和内存管理</a>
         </h1>
     
 
@@ -1031,7 +961,7 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/启动/">
+        <a href="/blog/2017/09/05/RAC和内存管理/">
             <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
         </a>
     </div>
@@ -1040,13 +970,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/other/">other</a>
+        <a class="article-category-link" href="/blog/categories/iOS/">iOS</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/other/">other</a>
+        <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
     </div>
 
                     </div>
@@ -1057,43 +987,32 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>一、启动</p>
-<ol>
-<li>启动电源</li>
-<li>CPU(只能执行指令，不能保存指令，它的指令全存在内存中)去内存地址 0xFFFFFFF0 找到第一条需要执行的指令（跳转指令）</li>
-<li>跳转到 BIOS 系统，运行 BIOS 的一大堆指令，只要是做系统自检（硬盘、内存、显卡等）。如果有问题会通过喇叭声音的长短组合进行提示</li>
-<li>BIOS 在自检之后生成中断向量表</li>
-<li>当 BIOS 的所有工作都完成之后，会给 CPU 发送一条中断指令，比如 <code>int 0x19</code></li>
-<li>CPU 接到中断指令之后就去中断向量表找到第 19 号对应的一大堆指令</li>
-<li>这堆指令主要是把磁盘的第一扇区（磁盘最开始的 512 Byte）的数据运到内存中，之后 CPU 就开始执行这些指令</li>
-<li>这些精巧的指令会把 OS(操作系统) 从磁盘运到内存中</li>
-</ol>
-<p>二、运行</p>
-<ol>
-<li>OS 进入内存之后，立刻就是老大</li>
-<li>OS 告诉 CPU 开始运行 A 程序</li>
-<li>CPU 会去硬盘把 A 程序装载到内存中，CPU 才能执行 A 程序的指令</li>
-<li>如果此时 OS 告诉 CPU 去执行 B 程序，那么 CPU 会保存好现场，然后去执行 B 程序的指令</li>
-</ol>
-<p>三、缓存</p>
-<ol>
-<li>因为硬盘的读写速度太慢了，所以都需要先把硬盘的数据装载到内存中之后，CPU 再去内存取指令来执行</li>
-<li>但是内存的读写速度依旧还是要比 CPU 慢，一旦指令多起来之后内存的读写速度也会让 CPU 觉得受不了</li>
-<li>经过一段时间的运行之后，我们会发现 CPU 去内存取指令是有规律的，这个规律叫<strong>程序的局部性原理</strong>。CPU 在访问一个内存位置以后过不多久还会多次访问；一个内存位置被访问了， 附近的位置很快也会访问到。</li>
-<li>CPU 需要读写指令和数据的时候直接从缓存要，如果缓存没有才会去找内存</li>
-<li>局部性原理在程序切换之后，缓存就会失效。因为两个程序之间没什么联系，局部性原理就不起作用了，所以需要重建缓存。</li>
-</ol>
-<p>四、流水线</p>
-<ol>
-<li>CPU 在计算的过程分成四个步骤：从内存读取指令 - 翻译指令 - 执行 - 把结果写回内存（该步骤有时候没有）</li>
-<li>CPU 可以同时执行上面四个步骤，比如：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">读取指令 A</span><br><span class="line">读取指令 B - 翻译指令 A</span><br><span class="line">读取指令 C - 翻译指令 B - 执行指令 C</span><br><span class="line">读取指令 D - 翻译指令 C - 执行指令 B - 把指令 A 的结果写回内存</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考文献：</p>
-<ol>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&amp;mid=2665513017&amp;idx=1&amp;sn=5550ee714abd36d0b580713f673e670b&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&amp;mid=2665513017&amp;idx=1&amp;sn=5550ee714abd36d0b580713f673e670b&amp;scene=21#wechat_redirect</a></li>
-</ol>
+            <p>最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。<br>在一开始接触 RAC 的时候，我们知道 RAC 对于 block 都是 copy 赋值的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">RACSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">RACSignal</span> *)createSignal:(<span class="type">RACDisposable</span> * (^)(id&lt;<span class="type">RACSubscriber</span>&gt; subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="type">RACDynamicSignal</span> createSignal:didSubscribe];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">RACDynamicSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">RACSignal</span> *)createSignal:(<span class="type">RACDisposable</span> * (^)(id&lt;<span class="type">RACSubscriber</span>&gt; subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="type">RACDynamicSignal</span> *signal = [[<span class="keyword">self</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    signal-&gt;_didSubscribe = [didSubscribe copy];</span><br><span class="line">    <span class="keyword">return</span> [signal setNameWithFormat:@<span class="string">"+createSignal:"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在创建 RACSingal 的时候会调用其子类 RACDynamicSignal 去创建，我们也看到 RACDynamicSignal 对 didSuscribe 这个 block 是进行了 copy。所以大家可能会被要求注意循环引用的问题，于是大家都用 @weakify(target) 和 @strongify(target) 来避免循环引用的问题。那是不是所有用到 RAC 的地方都需要使用这些宏来避免循环引用的问题，不尽然。比如下面这个：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景1</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>, title) subscribeNext:^(id x) &#123;</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">"%@"</span>, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>接下来，我们来对比以下的几种用法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@interface <span class="type">ViewController</span>()</span><br><span class="line">@property (strong, nonatomic) <span class="type">ViewModel</span> * viewModel;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">ViewController</span></span><br><span class="line"></span><br><span class="line">- (void)viewDidiLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.viewModel = [<span class="type">ViewModel</span> new];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景2</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.title = @<span class="string">"你好"</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景3</span></span><br><span class="line">    [<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景4</span></span><br><span class="line">    [<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title)     &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title;</span><br><span class="line">    &#125;]; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>场景2是我们平常都会用到的，而且我们也没有在这种场景下去考虑循环引用的问题，这是因为 dispatch 的 block 不是属于 self 的（至于这个 block 是属于谁的，回头我再查点资料或者请各位指教），所以即使你在 block 使用了 self 也不会有循环应用的问题。</p>
+<p>场景3很明显是有循环引用的问题：<strong>self-&gt;viewModel-&gt;titleSignal-&gt;block-&gt;self</strong>，这个时候如果我们不做处理的话，那么 self 就永远不会被释放。正确的做法应该是使用 @weakify(self) 和 @strongify(self)：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景3</span></span><br><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    @strongify(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>场景4在我们看来是没有问题的，因为这里看起来只有 <strong>singal-&gt;block-&gt;self</strong> 的引用，它们之间并没有造成循环引用的问题。我们先来看看 RACObserve 的实现：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#define <span class="type">RACObserve</span>(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) \</span><br><span class="line">(&#123; \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic push"</span>) \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic ignored \"-Wreceiver-is-weak\""</span>) \</span><br><span class="line">__weak id target_ = (<span class="type">TARGET</span>); \</span><br><span class="line">[target_ rac_valuesForKeyPath:@keypath(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) observer:<span class="keyword">self</span>]; \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic pop"</span>) \</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">- (<span class="type">RACSignal</span> *)rac_valuesForKeyPath:(<span class="type">NSString</span> *)keyPath observer:(__weak <span class="type">NSObject</span> *)observer;</span><br></pre></td></tr></table></figure>
+<p>其实，看到这里你会认为这里只是调用了一个方法创建了一个 Signal，而且这个 Signal 也并不属于任何对象。我们再来看看具体的实现是怎么样的？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">RACSignal</span> *)rac_valuesAndChangesForKeyPath:(<span class="type">NSString</span> *)keyPath options:(<span class="type">NSKeyValueObservingOptions</span>)options observer:(__weak <span class="type">NSObject</span> *)weakObserver &#123;</span><br><span class="line">    <span class="type">NSObject</span> *strongObserver = weakObserver;</span><br><span class="line">    keyPath = [keyPath copy];</span><br><span class="line"></span><br><span class="line">    <span class="type">NSRecursiveLock</span> *objectLock = [[<span class="type">NSRecursiveLock</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    objectLock.name = @<span class="string">"org.reactivecocoa.ReactiveCocoa.NSObjectRACPropertySubscribing"</span>;</span><br><span class="line"></span><br><span class="line">    __weak <span class="type">NSObject</span> *weakSelf = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">RACSignal</span> *deallocSignal = [[<span class="type">RACSignal</span> <span class="built_in">zip</span>:@[</span><br><span class="line">                            <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                            strongObserver.rac_willDeallocSignal ?: [<span class="type">RACSignal</span> never]</span><br><span class="line">    ]] doCompleted:^&#123;</span><br><span class="line">        <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">        <span class="comment">// being read on another thread.</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        @onExit &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [[[<span class="type">RACSignal</span> createSignal:^ <span class="type">RACDisposable</span> * (id&lt;<span class="type">RACSubscriber</span>&gt; subscriber) &#123;</span><br><span class="line">        <span class="comment">// Hold onto the lock the whole time we're setting up the KVO</span></span><br><span class="line">        <span class="comment">// observation, because any resurrection that might be caused by our</span></span><br><span class="line">        <span class="comment">// retaining below must be balanced out by the time -dealloc returns</span></span><br><span class="line">        <span class="comment">// (if another thread is waiting on the lock above).</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        @onExit &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">        __strong <span class="type">NSObject</span> *observer __attribute__((objc_precise_lifetime)) = weakObserver;</span><br><span class="line">        __strong <span class="type">NSObject</span> *<span class="keyword">self</span> __attribute__((objc_precise_lifetime)) = weakSelf;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span> == <span class="literal">nil</span>) &#123;</span><br><span class="line">            [subscriber sendCompleted];</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> [<span class="keyword">self</span> rac_observeKeyPath:keyPath options:options observer:observer block:^(id value, <span class="type">NSDictionary</span> *change, <span class="type">BOOL</span> causedByDealloc, <span class="type">BOOL</span> affectedOnlyLastComponent) &#123;</span><br><span class="line">                [subscriber sendNext:<span class="type">RACTuplePack</span>(value, change)];</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;] takeUntil:deallocSignal] setNameWithFormat:@<span class="string">"%@ -rac_valueAndChangesForKeyPath: %@ options: %lu observer: %@"</span>, <span class="keyword">self</span>.rac_description, keyPath, (unsigned long)options, strongObserver.rac_description];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重点观察 <strong>deallocSignal</strong> 和 <strong>[signal takeUntile:deallocSignal]</strong>，我们把 deallocSignal 单独拿出来看看：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RACSignal</span> *deallocSignal = [[<span class="type">RACSignal</span> <span class="built_in">zip</span>:@[</span><br><span class="line">                        <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                        strongObserver.rac_willDeallocSignal ?: [<span class="type">RACSignal</span> never]</span><br><span class="line">                        ]] doCompleted:^&#123;</span><br><span class="line">    <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">    <span class="comment">// being read on another thread.</span></span><br><span class="line">    [objectLock lock];</span><br><span class="line">    @onExit &#123;</span><br><span class="line">    [objectLock unlock];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>这里的 deallocSignal 是只有在 self 和 strongObserve 都将要发生 dealloc 的时候才会触发的。即用 RACObserve 创建的信号只有在其 target 和 observe 都发生 dealloc 的时候才会被 disposable (这个好像是 RAC 用来销毁自己资源的东西)。不明白的童鞋，我们回头来分析一下场景4的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>用 RACObserve 创建的信号看起来只要出了函数体其资源应该就会被回收，但是这个信号其实是只有在 self.viewModel.rac_willDeallocSignal 和 self.rac_willDeallocSignal 都发生的情况下才会被释放。所以场景4的引用关系看起来只有 signal-&gt;block-&gt;self，但是这个 signal 只有在 self.rac_willDeallocSignal 的时候才会被释放。所以这里如果不打断这种关系的话就会造成循环引用的问题，正确做法应该是：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    @strongify(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>最后，在说一个特别需要注意的，就是 UITableViewCell 和 UICollectionViewCell 复用和 RAC 的问题。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> *)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">UITableViewCell</span> *)tableView:(nonnull <span class="type">UITableView</span> *)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> * cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"TableViewCell"</span>];</span><br><span class="line"></span><br><span class="line">    @weakify(<span class="keyword">self</span>);</span><br><span class="line">    [<span class="type">RACObserve</span>(cell.textLabel, text) subscribeNext:^(id x) &#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看到这里的 RACObserve 创建的 Signal 和 self 之间已经去掉了循环引用的问题，所以应该是没有什么问题的。但是结合之前我们对 RACObserve 的理解再仔细分析一下，这里的 Signal 只要 self 没有被 dealloc 的话就不会被释放。虽然每次 UITableViewCell 都会被重用，但是每次重用过程中创建的信号确实无法被 disposable。那我们该怎么做呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> *)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">UITableViewCell</span> *)tableView:(nonnull <span class="type">UITableView</span> *)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> * cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"TableViewCell"</span>];</span><br><span class="line"></span><br><span class="line">    @weakify(<span class="keyword">self</span>);</span><br><span class="line">    [[<span class="type">RACObserve</span>(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) &#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，我们在cell里面创建的信号加上 takeUntil:cell.rac_prepareForReuseSignal，这个是让 cell 在每次重用的时候都去 disposable 创建的信号。</p>
+<p>以上所说的关于内存的东西我都用 Instrument 的 Allocations 验证过了，但是依旧建议大家自己也去试试。</p>
 
         
         </div>
@@ -1106,7 +1025,88 @@
 
             
     
-        <a href="https://hparis.github.io/blog/2017/09/05/启动/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/启动/">Comments</a>
+        <a href="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-Swift-High-Performance-Tip 1：Array和ContiguousArray" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/iOS/">iOS</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>Array 是随机存储的（random-access）集合类型。</p>
+</blockquote>
+<blockquote>
+<p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
+</blockquote>
+<p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray = <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
+<p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
+<blockquote>
+<p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
+</blockquote>
+<p>但是 <a href="https://twitter.com/twostraws" target="_blank" rel="noopener">@Paul Hudson</a> 在他的<a href="https://gumroad.com/l/proswift" target="_blank" rel="noopener">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 = <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"><span class="keyword">var</span> end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line">end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
+<p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
+<p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Comments</a>
     
 
         </footer>
@@ -1171,25 +1171,6 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/blog/categories/iOS/">iOS</a></p>
-                            <p class="item-title"><a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/" class="title">Swift High-Performance Tip 2：final 和 private(fileprivate)</a></p>
-                            <p class="item-date"><time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
                             <a href="/blog/2017/09/05/Shell-Tip/" class="thumbnail">
     
     
@@ -1209,7 +1190,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/" class="thumbnail">
+                            <a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -1220,7 +1201,26 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/blog/categories/iOS/">iOS</a></p>
-                            <p class="item-title"><a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/" class="title">Swift High-Performance Tip 1：Array 和 ContiguousArray</a></p>
+                            <p class="item-title"><a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/" class="title">Swift High-Performance Tip 2：final 和 private(fileprivate)</a></p>
+                            <p class="item-date"><time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/blog/2017/09/05/Vim-Tip/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/blog/categories/tip/">tip</a></p>
+                            <p class="item-title"><a href="/blog/2017/09/05/Vim-Tip/" class="title">Vim Tip</a></p>
                             <p class="item-date"><time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time></p>
                         </div>
                     </li>

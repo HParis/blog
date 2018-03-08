@@ -1,6 +1,6 @@
 ---
 layout: post 
-title: #include、#import和@import的区别
+title: include 和 import 的区别
 subtitle: 
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
@@ -22,7 +22,7 @@ tag: iOS
 
 ## 一、#include
 
-学过 C 语言的人都知道，#include 其实是一个预处理命令。它会在预处理的时候简单的把被#include 包含的文件内容进行复制粘贴。我们来看看下面的代码：
+学过 C 语言的人都知道，#include 其实是一个预处理命令。它会在预处理的时候简单的把被 #include 包含的文件内容进行复制粘贴。我们来看看下面的代码：
 
 ```
 // A.h

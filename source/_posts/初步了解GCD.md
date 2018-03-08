@@ -89,17 +89,17 @@ After Sync
         }
         print("End Execute Block Task1")
     }
-    ```
-    
-    ```Swift
+
     // 例1的结果
     Begin Execute Block Task1
+    
     ```
     
     为什么会 Block1 后面的 print 和 Block2 的 print 都不执行了呢？首先我们要知道被 DISPATCH_QUEUE_SERIAL 声明的调度队列是串行调度队列，串行调度队列里的任务是同时只能有一个任务在执行，并且当前任务没有执行完成，下一个任务也无法执行。上面的例子中会先输出 Block1 中的 *Begin Execute Block Task1*，然后这个时候再把 Block2 添加到同一个串行调度队列中去。这个时候的 Block1 还没有执行完成，它需要等 dispatch_sync 的 Block2 执行完成之后才能继续执行，而 Block2 又必须等待 Block1 执行完成之后才能执行，所以这个时候就造成 Block1 等着 Block2，Block2 等着 Block1 的死锁。
     
-    我们再把调度队列属性改为 DISPAT_QUEUE_CONCURRENT，然后在看看执行结果是什么：
-      
+    我们再把调度队列属性改为 DISPAT_QUEUE_CONCURRENT，然后再看看执行结果是什么：
+
+
     ```Swift
     // 例2
     let queue = dispatch_queue_create("com.PS.Queue", DISPATCH_QUEUE_SERIAL)  // 创建串行的调度队列

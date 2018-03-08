@@ -4,8 +4,8 @@ title: Raspberry PI 基本使用
 subtitle: 记录自己在 RaspberryPI 比较频繁使用的命令
 author: 帕帕
 date: 2018-03-05 22:04:56 +0800
-categories: tip
-tag: tip
+categories: Raspberry PI
+tag: Raspberry PI
 ---
 
 

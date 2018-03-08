@@ -8,7 +8,7 @@ categories: tip
 tag: tip
 ---
 
-```
+```sh
 #!/bin/sh
 # 此脚本是用来自动更新 Mac 上的一些软件或配置
 

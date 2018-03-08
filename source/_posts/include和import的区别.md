@@ -10,7 +10,7 @@ tag: iOS
  
 今天我们来了解下面这几种包含文件的方式有什么特点和区别：
 
-```
+```Swift
 #include "fiel"
 #include <file>
 #import "file"
@@ -24,7 +24,7 @@ tag: iOS
 
 学过 C 语言的人都知道，#include 其实是一个预处理命令。它会在预处理的时候简单的把被 #include 包含的文件内容进行复制粘贴。我们来看看下面的代码：
 
-```
+```C
 // A.h
 void sampleA() {
   // A code
@@ -32,7 +32,7 @@ void sampleA() {
 
 ```
 
-```
+```C
 // B.h
 #include "A.h"
 
@@ -43,7 +43,7 @@ void sampleB() {
 
 我们使用 gcc -E B.h 命令来看看经过预处理后的文件内容大概如下：
 
-```
+```C
 # 1 "B.h"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
@@ -64,14 +64,14 @@ void sampleB() {
 
 我们可以看到经过预处理之后，A.h 文件中的内容被直接复制并粘贴到 B.h 文件中来。如果我们在 B.h 文件中多次包含了 A.h 文件，会出现什么情况？比如：
 
-```
+```C
 // A.h
 void sampleA() {
   // A code
 }
 ```
 
-```
+```C
 // B.h
 #include "A.h"
 #include "A.h"
@@ -83,7 +83,7 @@ void sampleB() {
 
 经过预处理之后的内容大概如下：
 
-```
+```C
 # 1 "B.h"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
@@ -109,7 +109,7 @@ void sampleB() {
 
 A.h 文件中的 sampleA() 函数出现了两次，所以我们需要利用其他的一些预处理命令来规避这种情况，看看下面的代码：
 
-```
+```C
 // A.h
 #ifndef FILE_A
 #define FILE_A
@@ -120,7 +120,7 @@ void sampleA() {
 #endif
 ```
 
-```
+```C
 // B.h
 #include "A.h"
 #include "A.h"
@@ -132,7 +132,7 @@ void sampleB() {
 
 我们再来看看增加了这些预处理命令之后的预处理文件内容：
 
-```
+```C
 # 1 "B.h"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
@@ -157,7 +157,7 @@ void sampleB() {
 
 OK，这就正常了。如果我们在 A.h 中包含 B.h，然后又在 B.h 中包含 A.h，具体代码如下：
 
-```
+```C
 // A.h
 #include "B.h"
 
@@ -178,7 +178,7 @@ void sampleB() {
 
 我们再来看看经过 gcc -E B.h 处理之后的文件内容：
 
-```
+```C
 # 1 "B.h"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
@@ -247,7 +247,7 @@ void sampleB() {
 
 我们发现 A.h 和 B.h 重复出现，这是因为这个时候 A.h 和 B.h 文件互相引用导致的。从理论上来讲，这个时候会无限循环下去，直至世界终结。在这里最后会出现一句 *1 error generated.*的提示是 gcc 强行中断了这个预处理的过程，所以我们才能看到这样的结果。那我们可以怎么做？当然是利用前面说的预处理命令来避免循环引用的问题。看下面的代码：
 
-```
+```C
 // A.h
 #ifndef FILE_A
 #define FILE_A
@@ -260,7 +260,7 @@ void sampleA() {
 #endif
 ```
 
-```
+```C
 // B.h
 #ifndef FILE_B
 #define FILE_B
@@ -275,7 +275,7 @@ void sampleB() {
 
 这个时候使用 gcc -E B.h 就可以正常的进行预处理，最后的结果如下：
 
-```
+```C
 # 1 "B.h"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
@@ -328,13 +328,13 @@ void sampleB() {
 
 比如导入 UIKit 的时候只需要一行代码：
 
-```Objective-C
+```Swift
 #import <UIKit/UIKit.h>
 ```
 
 预处理之后会变成200多行（UIKit.h 文件有200多行代码）：
 
-```Objective-C
+```Swift
 #import <UIKit/UIKitDefines.h>
 
 #if __has_include(<UIKit/UIAccelerometer.h>)
@@ -357,7 +357,7 @@ void sampleB() {
 
 最后，给大家提供一个例子看看 #import 编译出来之后的文件内容：
 
-```
+```C
 // A.h
 #import "B.h"
  
@@ -367,7 +367,7 @@ void sampleA() {
 #endif
 ```
 
-```
+```C
 // B.h
 #import "A.h"
 #import "A.h"
@@ -379,7 +379,7 @@ void sampleB() {
 
 使用 gcc -E B.h 进行预处理之后的内容如下：
 
-```
+```C
 
 # 1 "B.h"
 # 1 "<built-in>" 1

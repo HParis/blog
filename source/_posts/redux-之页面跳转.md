@@ -11,7 +11,7 @@ tag: React
 最近正在用 React Native 重构整个项目，我们用了 **[react-native-navigation](https://github.com/krystofcelba/react-native-navigation#rn52)** 这个库来作为项目的导航控制器。
 所以，我们平常会把页面跳转逻辑的时候放在 Screen 里面的，比如:
 
-```
+```Javascript
 class FirstScreen extends React.Component {
     
     // 点击事件
@@ -29,7 +29,7 @@ class FirstScreen extends React.Component {
 
 一般情况下，上面的写法没有问题。但是直到我们碰到这样一个需求的时候就抓瞎了：点击一个 PDF 文件，如果 PDF 文件没有下载就先去下载，下载完成之后自动跳转到 PDF 阅读器。由于用了 redux 之后，我们就增加一个 finished 的 state 来判断是否已经下载完成。示例代码如下：
 
-```
+```Javascript
 class ExampleScreen extends React.Component {
 
     componentWillReceiveProps = (nextProps) => {
@@ -67,7 +67,7 @@ export default connect(mapStateToProps)(ExampleScreen);
 
 经过讨论之后，我们决定改成用 callback 的方式来实现：
 
-```
+```Javascript
 class ExampleScreen extends React.Component {
 
     // 点击事件
@@ -90,7 +90,7 @@ class ExampleScreen extends React.Component {
 
 其实最好的实现是，这个点击事件应该连页面的跳转逻辑也不需要处理：
 
-```
+```Javascript
 class ExampleScreen extends React.Component {
 
     // 点击事件，这个事件只做一件事就是去 dispatch 一个 openPDF() 的 action
@@ -106,7 +106,7 @@ class ExampleScreen extends React.Component {
 
 像上面这种实现，我们也就只能在 openPDF() 里动手脚了：
 
-```
+```Javascript
 // action.js
 export const openPDF = await () => {
     return dispatch => {

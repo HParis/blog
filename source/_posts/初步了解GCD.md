@@ -76,67 +76,67 @@ After Sync
 
 2. 你不能够在当前的串行调度队列的任务里面去添加新的任务到当前的调度队列里面，否则会造成死锁。这句话怎么理解呢，我们来来看看下面的例子：
     
-    ```Swift
-    // 例1
-    let queue = dispatch_queue_create("com.PS.Queue", DISPATCH_QUEUE_SERIAL)  // 创建串行的调度队列
-    // 同步调用
+```Swift
+// 例1
+let queue = dispatch_queue_create("com.PS.Queue", DISPATCH_QUEUE_SERIAL)  // 创建串行的调度队列
+// 同步调用
+dispatch_sync(queue) {
+    // Block1
+    print("Begin Execute Block Task1")
     dispatch_sync(queue) {
-        // Block1
-        print("Begin Execute Block Task1")
-        dispatch_sync(queue) {
-            // Block2
-            print("Execute Block Task2")   
-        }
-        print("End Execute Block Task1")
+        // Block2
+        print("Execute Block Task2")   
     }
+    print("End Execute Block Task1")
+}
 
-    // 例1的结果
-    Begin Execute Block Task1
+// 例1的结果
+Begin Execute Block Task1
     
-    ```
-    
-    为什么会 Block1 后面的 print 和 Block2 的 print 都不执行了呢？首先我们要知道被 DISPATCH_QUEUE_SERIAL 声明的调度队列是串行调度队列，串行调度队列里的任务是同时只能有一个任务在执行，并且当前任务没有执行完成，下一个任务也无法执行。上面的例子中会先输出 Block1 中的 *Begin Execute Block Task1*，然后这个时候再把 Block2 添加到同一个串行调度队列中去。这个时候的 Block1 还没有执行完成，它需要等 dispatch_sync 的 Block2 执行完成之后才能继续执行，而 Block2 又必须等待 Block1 执行完成之后才能执行，所以这个时候就造成 Block1 等着 Block2，Block2 等着 Block1 的死锁。
-    
-    我们再把调度队列属性改为 DISPAT_QUEUE_CONCURRENT，然后再看看执行结果是什么：
+```
+
+为什么 Block1 后面的 print 和 Block2 的 print 都不执行了呢？首先我们要知道被 DISPATCH_QUEUE_SERIAL 声明的调度队列是串行调度队列，串行调度队列里的任务是同时只能有一个任务在执行，并且当前任务没有执行完成，下一个任务也无法执行。上面的例子中会先输出 Block1 中的 *Begin Execute Block Task1*，然后这个时候再把 Block2 添加到同一个串行调度队列中去。这个时候的 Block1 还没有执行完成，它需要等 dispatch_sync 的 Block2 执行完成之后才能继续执行，而 Block2 又必须等待 Block1 执行完成之后才能执行，所以这个时候就造成 Block1 等着 Block2，Block2 等着 Block1 的死锁。
+
+我们再把调度队列属性改为 DISPAT_QUEUE_CONCURRENT，然后再看看执行结果是什么：
 
 
-    ```Swift
-    // 例2
-    let queue = dispatch_queue_create("com.PS.Queue", DISPATCH_QUEUE_SERIAL)  // 创建串行的调度队列
-    // 同步调用
+```Swift
+// 例2
+let queue = dispatch_queue_create("com.PS.Queue", DISPATCH_QUEUE_SERIAL)  // 创建串行的调度队列
+// 同步调用
+dispatch_sync(queue) {
+    // Block1
+    print("Begin Execute Block Task1")
     dispatch_sync(queue) {
-        // Block1
-        print("Begin Execute Block Task1")
-        dispatch_sync(queue) {
-            // Block2
-            print("Execute Block Task2")   
-        }
-        print("End Execute Block Task1")
+        // Block2
+        print("Execute Block Task2")   
     }
-    ```
+    print("End Execute Block Task1")
+}
+```
     
-    ```Swift
-    // 例2的结果
-    Begin Execute Block Task1
-    Execute Block Task2
-    End Execute Block Task1
-    ```
-    
-    被 DISPATCH_QUEUE_CONCURRENT 声明的并发调度队列就没有这种死锁的问题。并发调度队列里的任务是不会霸占资源不放的，每一个任务执行一个时间片段之后会把资源交出来给别的任务去执行。所以例2中的 Block1 虽然需要等待 Block2 执行完成之后才能继续执行，但是当 Block1 在等待的过程中，是可以把资源释放出来交给 Block2 去执行，Block2 执行完成之后 Block1 就可以继续执行了。所以，这个时候就不会造成死锁来。
-    
-    再来看看下面的例子会不会造成死锁：
+```Swift
+// 例2的结果
+Begin Execute Block Task1
+Execute Block Task2
+End Execute Block Task1
+```
 
-    ```Swift
-    override func viewDidLoad() {
-        dispatch_sync(dispatch_get_main_queue()) {
-            print("Excute Block Task")
-        }
+被 DISPATCH_QUEUE_CONCURRENT 声明的并发调度队列就没有这种死锁的问题。并发调度队列里的任务是不会霸占资源不放的，每一个任务执行一个时间片段之后会把资源交出来给别的任务去执行。所以例2中的 Block1 虽然需要等待 Block2 执行完成之后才能继续执行，但是当 Block1 在等待的过程中，是可以把资源释放出来交给 Block2 去执行，Block2 执行完成之后 Block1 就可以继续执行了。所以，这个时候就不会造成死锁来。
+
+再来看看下面的例子会不会造成死锁：
+
+```Swift
+override func viewDidLoad() {
+    dispatch_sync(dispatch_get_main_queue()) {
+        print("Excute Block Task")
     }
-    ```
+}
+```
     
-    答案是会的。给大家一点提示，主线程的默认调度队列是串行（DISPATCH_QUEUE_SERIAL）的，viewDidLoad() 是在主线程的调度队列 com.apple.main-thread (serial) 执行的。
-    
-    上面的例子主要是希望大家理解串行和并发的概念，同时要明白造成死锁的原因。而要解决死锁一般可以用 DISPATCH_QUEUE_CONCURRENT 或接下来我们要讲的 dispatch_async 来解决。
+答案是会的。给大家一点提示，主线程的默认调度队列是串行（DISPATCH_QUEUE_SERIAL）的，viewDidLoad() 是在主线程的调度队列 com.apple.main-thread (serial) 执行的。
+
+上面的例子主要是希望大家理解串行和并发的概念，同时要明白造成死锁的原因。而要解决死锁一般可以用 DISPATCH_QUEUE_CONCURRENT 或接下来我们要讲的 dispatch_async 来解决。
 
 通过对 dispatch_sync 的了解，我们可以利用 dispatch_async 很快的写出异步代码：
 
@@ -198,7 +198,7 @@ dispatch_async(queue) {
 
 写过 Objective-C 的人都知道，dispatch_once 一般会被用来创建单例对象：
 
-```Objective-C
+```Swift
 @implementation Single
 + (Single *)sharedInstance {
     static Single * _single = nil;

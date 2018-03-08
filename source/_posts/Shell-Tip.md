@@ -11,7 +11,7 @@ tag: tip
 ## Tip 1 : 修改文件里面的内容
 早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现
 
-```
+```sh
 find . -name '*.html' -print0 | xargs -0 sed -i '' -e 's/<title>.*<\/title>/<title>黑米流量通<\/title>/g'
 ```
 
@@ -30,32 +30,32 @@ find . -name '*.html' -print0 | xargs -0 sed -i '' -e 's/<title>.*<\/title>/<tit
 ## Tip 2 : 查找文件的内容
 把匹配的文件内容的相关文件列出来
 
-```
+```sh
 find . -name '*.html' -print0 | xargs -0 grep 'PATTERN'
 ```
 
 ## Tip 3 : 解决 Homebrew 的权限问题
 查看 Homebrew 的所有权
 
-```
+```sh
 ls -al `which brew`
 ```
 
 把 Homebrew 的用户和分组修改为 root 和 wheel
 
-```
+```sh
 sudo chown root:wheel `which brew`
 ```
 
 最后还原 Homebrew 的权限（安全）
 
-```
+```sh
 sudo chown : `chown brew`
 ```
 
 ## Tip 4 : 利用 Shell 生成生成 ICON
 
-```
+```sh
 #!/bin/sh
 #此脚本是用来生成 iPhone 和 iPad 所需 icon 的不同尺寸的，最好是准备一张 1024x1024 的 Icon 图片
 
@@ -90,7 +90,7 @@ done
 
 利用下面的命令可以暂时开启一个端口号为 8000 的 HTTP 服务，其他人只需要在浏览器输入 `http://ip-address:8000` 即可浏览共享目录下的文件
 
-```
+```sh
 python -m SimpleHTTPServer
 ```
 
@@ -99,7 +99,7 @@ python -m SimpleHTTPServer
 
 * 加密
 
-```
+```sh
 tar czf - {SRC_DIR} | openssl des3 -salt -k "{KEY}" -out {DIST_PACKAGE}.tar.gz
 ```
 
@@ -107,7 +107,7 @@ tar czf - {SRC_DIR} | openssl des3 -salt -k "{KEY}" -out {DIST_PACKAGE}.tar.gz
 
 目录名 `paris_code`，秘钥 `meta#com`，输出包 `paris_code_20161008.tar.gz`
 
-```
+```sh
 tar czf - paris_code | openssl des3 -salt -k "meta#com" -out paris_code_20161008.tar.gz
 ```
 
@@ -121,13 +121,13 @@ tar czf - paris_code | openssl des3 -salt -k "meta#com" -out paris_code_20161008
 
 在 Terminal 进入压缩文件包同级目录，输入以下命令：
 
-```
+```sh
 openssl des3 -d -k "meta#com" -salt -in paris_code_20161008.tar.gz | tar xzf -
 ```
 
 ## Tip7: iOS 打包命令
 
-```
+```sh
 echo "----------------"
 echo "Begin Build!"
 PROJECT_NAME="orbit"

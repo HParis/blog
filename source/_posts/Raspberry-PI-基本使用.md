@@ -11,7 +11,7 @@ tag: tip
 
 ## 1. 保证 Raspberry PI 能够在外网使用
 
-```
+```sh
 // 在你的 Raspberry PI 上使用 autossh 来实现不掉线的反向代理：
 autossh -M 5678 -fNR 2018:localhost:22 root@54.219.12.213
 ```

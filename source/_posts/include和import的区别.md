@@ -4,8 +4,8 @@ title: include 和 import 的区别
 subtitle: 
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
-categories: iOS 
-tag: iOS 
+categories: 技术 
+tags: [iOS]
 ---
  
 今天我们来了解下面这几种包含文件的方式有什么特点和区别：

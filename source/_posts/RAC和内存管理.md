@@ -1,11 +1,11 @@
 ---
 layout: post 
-title: RAC和内存管理
+title: RAC 和内存管理
 subtitle: 最近在用 RAC 的时候发现自己对内存管理还是有些困惑...
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
-categories: iOS
-tag: iOS 
+categories: 技术
+tags: [iOS, RAC]
 ---
 
 最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。

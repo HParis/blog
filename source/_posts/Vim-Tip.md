@@ -4,8 +4,8 @@ title: Vim Tip
 subtitle: 记录日常中使用的 Vim 命令，经常更新
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
-categories: tip
-tag: tip
+categories: 技术
+tags: [tip]
 ---
 
 ## 1、替换第n1行到第n2行的内容

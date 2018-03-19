@@ -4,8 +4,8 @@ title: Swift High-Performance Tip 1：Array 和 ContiguousArray
 subtitle: 简单了解一下 Swift 中的 Array 的性能
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
-categories: iOS
-tag: iOS
+categories: 技术
+tags: [iOS, Swift]
 ---
 
 > Array 是随机存储的（random-access）集合类型。

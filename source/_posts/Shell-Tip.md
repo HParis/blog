@@ -4,8 +4,8 @@ title: Shell Tip
 subtitle: 记录日常中用到的一些 Bash 脚本，经常更新
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
-categories: tip
-tag: tip
+categories: 技术
+tags: [tip] 
 ---
 
 ## Tip 1 : 修改文件里面的内容

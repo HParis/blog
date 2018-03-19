@@ -4,8 +4,8 @@ title: redux 之页面跳转
 subtitle: 关于 React Native 的页面跳转逻辑的一点思考
 author: 帕帕
 date: 2018-02-26 17:48:56 +0800
-categories: React
-tag: React
+categories: 技术
+tags: [RN, redux]
 ---
 
 最近正在用 React Native 重构整个项目，我们用了 **[react-native-navigation](https://github.com/krystofcelba/react-native-navigation#rn52)** 这个库来作为项目的导航控制器。

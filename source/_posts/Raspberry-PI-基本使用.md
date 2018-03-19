@@ -5,7 +5,7 @@ subtitle: 记录自己在 RaspberryPI 比较频繁使用的命令
 author: 帕帕
 date: 2018-03-05 22:04:56 +0800
 categories: Raspberry PI
-tag: Raspberry PI
+tags: [Raspberry PI]
 ---
 
 

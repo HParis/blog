@@ -1,6 +1,6 @@
 ---
 title: 如何在 iOS 上自定义 React Native Component
-subtitle: 记录自己在 RaspberryPI 比较频繁使用的命令
+subtitle: 踩过的吭就是最好后面三句话
 author: 帕帕
 date: 2018-03-19 17:22:09
 categories: 技术

@@ -6,6 +6,7 @@ author: 帕帕
 date: 2018-03-05 22:04:56 +0800
 categories: Raspberry PI
 tags: [Raspberry PI]
+thumbnail: https://images.unsplash.com/photo-1507289872412-523fc6b2db5f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=20ca9d0eba2016344894aec7bb453a2d&auto=format&fit=crop&w=100&q=50
 ---
 
 

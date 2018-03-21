@@ -5,6 +5,7 @@ author: 帕帕
 date: 2018-03-19 17:22:09
 categories: 技术
 tags: [iOS, RN]
+thumbnail: https://images.unsplash.com/photo-1508921234172-b68ed335b3e6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=92e40b3819e4c173debf1500f27c9b60&auto=format&fit=crop&w=160&q=60
 ---
 
 当我们要在 iOS 端实现一个 React Native 可用的 Component，比如：

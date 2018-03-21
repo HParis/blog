@@ -6,6 +6,7 @@ author: 帕帕
 date: 2017-09-05 15:30:56 +0800
 categories: 技术
 tags: [iOS, RAC]
+thumbnail: https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3f799bed83db2959c476e69a3307d39e&auto=format&fit=crop&w=160&q=100
 ---
 
 最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。

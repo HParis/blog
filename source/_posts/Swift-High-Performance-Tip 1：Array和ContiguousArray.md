@@ -6,6 +6,7 @@ author: 帕帕
 date: 2017-09-05 15:30:56 +0800
 categories: 技术
 tags: [iOS, Swift]
+thumbnail: https://images.unsplash.com/photo-1485988412941-77a35537dae4?ixlib=rb-0.3.5&s=177fa5618e070b6d13cf5debd2034426&auto=format&fit=crop&w=160&q=100
 ---
 
 > Array 是随机存储的（random-access）集合类型。

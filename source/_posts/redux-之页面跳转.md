@@ -6,6 +6,7 @@ author: 帕帕
 date: 2018-02-26 17:48:56 +0800
 categories: 技术
 tags: [RN, redux]
+thumbnail: https://images.unsplash.com/photo-1493235431945-90c060301e41?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0279978342b1a6b4f3e0e00a0784c2e3&auto=format&fit=crop&w=160&q=100
 ---
 
 最近正在用 React Native 重构整个项目，我们用了 **[react-native-navigation](https://github.com/krystofcelba/react-native-navigation#rn52)** 这个库来作为项目的导航控制器。

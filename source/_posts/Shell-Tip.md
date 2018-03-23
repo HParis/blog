@@ -219,3 +219,16 @@ echo "Upload successfully!"
 ```
 
 
+## Tip8: 重置 iOS 模拟器
+
+相信各位在做 iOS 开发的同学都会碰到模拟器上各种神奇的现象，通过重置 iOS 模拟器基本上可以解决大部分问题：
+
+```Sh
+// 退出当前的所有模拟器
+osascript -e 'tell application "iOS Simulator" to quit'
+osascript -e 'tell application "Simulator" to quit'
+
+// 清掉之前使用模拟器产生的所有内容
+xcrun simctl erase all
+```
+

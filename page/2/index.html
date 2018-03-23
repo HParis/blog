@@ -210,7 +210,7 @@
 
             
             <section id="main">
-    <article id="post-Shell-Tip" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Swift-High-Performance-Tip 2：final和private(fileprivate)" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -218,7 +218,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Shell-Tip/">Shell Tip</a>
+            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">Swift High-Performance Tip 2：final 和 private(fileprivate)</a>
         </h1>
     
 
@@ -227,7 +227,7 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Shell-Tip/">
+        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">
             <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
         </a>
     </div>
@@ -242,7 +242,7 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/tip/">tip</a>
+        <a class="tag-link" href="/blog/tags/Swift/">Swift</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
     </div>
 
                     </div>
@@ -253,48 +253,29 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="Tip-1-修改文件里面的内容"><a href="#Tip-1-修改文件里面的内容" class="headerlink" title="Tip 1 : 修改文件里面的内容"></a>Tip 1 : 修改文件里面的内容</h2><p>早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">'*.html'</span> -print0 | xargs -0 sed -i <span class="string">''</span> -e <span class="string">'s/&lt;title&gt;.*&lt;\/title&gt;/&lt;title&gt;黑米流量通&lt;\/title&gt;/g'</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>find</code>          查找命令，可以用 man find 查看更多的信息</li>
-<li><code>.</code>             代表当前目录</li>
-<li><code>-name</code>         find 命令的参数，表示要查找的文件名</li>
-<li><code>-print0</code>       是一种不换行的输出格式，以 ASCII NUL 字符（也就是\0）作为分隔符。上面的例子可能是 <code>a.html\0b.html\0c.html</code></li>
-<li><code>|</code>             这是一个管道符，表示把前面命令的输出作为后面命令的输入</li>
-<li><code>xargs</code>         是用来构造输入参数，并且循环执行每一个参数</li>
-<li><code>-0</code>            表示让 xargs 使用 ASCII NUL 来分隔参数。上面的例子将被分隔成 <code>a.html</code> <code>b.html</code> <code>c.html</code> 三个参数依次执行</li>
-<li><code>sed</code>           这是一个流编辑器，如果传的是文件名会把文件内容读入内存，如果只是普通字符串就会把字符串读入内存</li>
-<li><code>-i</code>            表示要把原来的文件内容做一次备份，后面的 <code>&#39;&#39;</code> 是表示要备份的文件名字，如果没有文件名字就表示不需要备份</li>
-<li><code>-e</code>            表示后面的字符串是一个命令，需要被执行</li>
-<li><code>s/old/new/g</code>   这个是用来替换字符串的命令</li>
-</ul>
-<h2 id="Tip-2-查找文件的内容"><a href="#Tip-2-查找文件的内容" class="headerlink" title="Tip 2 : 查找文件的内容"></a>Tip 2 : 查找文件的内容</h2><p>把匹配的文件内容的相关文件列出来</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -name <span class="string">'*.html'</span> -print0 | xargs -0 grep <span class="string">'PATTERN'</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip-3-解决-Homebrew-的权限问题"><a href="#Tip-3-解决-Homebrew-的权限问题" class="headerlink" title="Tip 3 : 解决 Homebrew 的权限问题"></a>Tip 3 : 解决 Homebrew 的权限问题</h2><p>查看 Homebrew 的所有权</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al `<span class="built_in">which</span> brew`</span><br></pre></td></tr></table></figure>
-<p>把 Homebrew 的用户和分组修改为 root 和 wheel</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root:wheel `<span class="built_in">which</span> brew`</span><br></pre></td></tr></table></figure>
-<p>最后还原 Homebrew 的权限（安全）</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown : `chown brew`</span><br></pre></td></tr></table></figure>
-<h2 id="Tip-4-利用-Shell-生成生成-ICON"><a href="#Tip-4-利用-Shell-生成生成-ICON" class="headerlink" title="Tip 4 : 利用 Shell 生成生成 ICON"></a>Tip 4 : 利用 Shell 生成生成 ICON</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#此脚本是用来生成 iPhone 和 iPad 所需 icon 的不同尺寸的，最好是准备一张 1024x1024 的 Icon 图片</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filename=<span class="string">"icon.png"</span></span><br><span class="line"></span><br><span class="line">dirname=<span class="string">"icon"</span></span><br><span class="line"></span><br><span class="line">name_array=(<span class="string">"Icon-20.png"</span> <span class="string">"Icon-20@2x.png"</span> <span class="string">"Icon-20@3x.png"</span></span><br><span class="line"><span class="string">"Icon-29.png"</span> <span class="string">"Icon-29@2x.png"</span> <span class="string">"Icon-29@3x.png"</span></span><br><span class="line"><span class="string">"Icon-40.png"</span> <span class="string">"Icon-40@2x.png"</span> <span class="string">"Icon-40@3x.png"</span></span><br><span class="line"><span class="string">"Icon-60@2x.png"</span> <span class="string">"Icon-60@3x.png"</span></span><br><span class="line"><span class="string">"Icon-76.png"</span> <span class="string">"Icon-76@2x.png"</span></span><br><span class="line"><span class="string">"Icon-83.5@2x.png"</span>)</span><br><span class="line">size_array=(<span class="string">"20"</span> <span class="string">"40"</span> <span class="string">"80"</span></span><br><span class="line"><span class="string">"29"</span> <span class="string">"58"</span> <span class="string">"87"</span></span><br><span class="line"><span class="string">"40"</span> <span class="string">"80"</span> <span class="string">"120"</span></span><br><span class="line"><span class="string">"120"</span> <span class="string">"180"</span></span><br><span class="line"><span class="string">"76"</span> <span class="string">"152"</span></span><br><span class="line"><span class="string">"167"</span>)</span><br><span class="line"></span><br><span class="line">mkdir <span class="variable">$dirname</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ((i=0;i&lt;<span class="variable">$&#123;#name_array[@]&#125;</span>;++i)); <span class="keyword">do</span></span><br><span class="line">    m_dir=<span class="variable">$dirname</span>/<span class="variable">$&#123;name_array[i]&#125;</span></span><br><span class="line">    cp <span class="variable">$filename</span> <span class="variable">$m_dir</span></span><br><span class="line">    sips -Z <span class="variable">$&#123;size_array[i]&#125;</span> <span class="variable">$m_dir</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip5-使用-Python-共享当前目录"><a href="#Tip5-使用-Python-共享当前目录" class="headerlink" title="Tip5 : 使用 Python 共享当前目录"></a>Tip5 : 使用 Python 共享当前目录</h2><p>利用下面的命令可以暂时开启一个端口号为 8000 的 HTTP 服务，其他人只需要在浏览器输入 <code>http://ip-address:8000</code> 即可浏览共享目录下的文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m SimpleHTTPServer</span><br></pre></td></tr></table></figure>
-<h2 id="Tip6-加密和解密文件"><a href="#Tip6-加密和解密文件" class="headerlink" title="Tip6 : 加密和解密文件"></a>Tip6 : 加密和解密文件</h2><ul>
-<li>加密</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czf - &#123;SRC_DIR&#125; | openssl des3 -salt -k <span class="string">"&#123;KEY&#125;"</span> -out &#123;DIST_PACKAGE&#125;.tar.gz</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<p>目录名 <code>paris_code</code>，秘钥 <code>meta#com</code>，输出包 <code>paris_code_20161008.tar.gz</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czf - paris_code | openssl des3 -salt -k <span class="string">"meta#com"</span> -out paris_code_20161008.tar.gz</span><br></pre></td></tr></table></figure>
-<ul>
-<li>解密</li>
-</ul>
-<p>第一步：获取代码压缩文件包</p>
-<p>下载地址 <code>http://XXXX.com/paris_code_20161008.tar.gz</code></p>
-<p>第二步：解密文件（OS X / Linux only）</p>
-<p>在 Terminal 进入压缩文件包同级目录，输入以下命令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl des3 -d -k <span class="string">"meta#com"</span> -salt -<span class="keyword">in</span> paris_code_20161008.tar.gz | tar xzf -</span><br></pre></td></tr></table></figure>
-<h2 id="Tip7-iOS-打包命令"><a href="#Tip7-iOS-打包命令" class="headerlink" title="Tip7: iOS 打包命令"></a>Tip7: iOS 打包命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"----------------"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Begin Build!"</span></span><br><span class="line">PROJECT_NAME=<span class="string">"orbit"</span></span><br><span class="line">BUILD_DATE=<span class="string">"<span class="variable">$(date +'%Y%m%d')</span>"</span></span><br><span class="line">BUNDLE_ID=<span class="string">"com.meta.paris"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;WORKSPACE&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#/usr/local/bin/npm install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/build"</span> ]; <span class="keyword">then</span> </span><br><span class="line">    <span class="keyword">if</span> ls <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.ipa 1&gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">        rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.ipa; </span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line">    <span class="keyword">if</span> ls <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.xcarchive 1&gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">        rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.xcarchive; </span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    mkdir <span class="variable">$&#123;WORKSPACE&#125;</span>/build; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"计算今天的 Build Version"</span></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_DATE&#125;</span>"</span> ]; <span class="keyword">then</span> </span><br><span class="line">   <span class="comment">#如果不加上面的 if, Jenkins 无法直接执行下面的命令❓</span></span><br><span class="line">	BUILD_DATE_COUNT=$(ls <span class="variable">$&#123;WORKSPACE&#125;</span>/build | grep <span class="string">"^<span class="variable">$&#123;BUILD_DATE&#125;</span>"</span> -c)</span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span> -lt 10 ]; <span class="keyword">then</span></span><br><span class="line">        BUILD_DATE_COUNT=<span class="string">"0<span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span>"</span></span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line">	BUILD_VERSION=<span class="string">"<span class="variable">$&#123;BUILD_DATE&#125;</span><span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span>"</span></span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">  	BUILD_VERSION=<span class="variable">$&#123;BUILD_DATE&#125;</span></span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"今天的 Build Version 是 <span class="variable">$&#123;BUILD_VERSION&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>"</span> ]; <span class="keyword">then</span> </span><br><span class="line">    rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line">mkdir <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist"</span> ]; <span class="keyword">then</span></span><br><span class="line">    rm <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#http://www.matrixprojects.net/p/xcodebuild-export-options-plist/</span></span><br><span class="line">Enterprise=<span class="string">'&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></span><br><span class="line"><span class="string">&lt;plist version="1.0"&gt;</span></span><br><span class="line"><span class="string">&lt;dict&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;teamID&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;string&gt;&lt;/string&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;method&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;string&gt;app-store&lt;/string&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;uploadSymbols&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;true/&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;uploadBitcode&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;false/&gt;</span></span><br><span class="line"><span class="string">&lt;/dict&gt;</span></span><br><span class="line"><span class="string">&lt;/plist&gt;'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;Enterprise&#125;</span> &gt; <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">''</span> <span class="string">'s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g'</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcodeproj/project.pbxproj</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">''</span> <span class="string">'s/DEVELOPMENT_TEAM = .*;/DEVELOPMENT_TEAM = "";/g'</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcodeproj/project.pbxproj</span><br><span class="line"></span><br><span class="line"><span class="comment">#动态生成 Build Version</span></span><br><span class="line">sed -i <span class="string">''</span> <span class="string">"/&lt;key&gt;CFBundleVersion&lt;\/key&gt;/&#123;N;s/&lt;string&gt;.*&lt;\/string&gt;/&lt;string&gt;<span class="variable">$&#123;BUILD_VERSION&#125;</span>&lt;\/string&gt;/g;&#125;"</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>-Info.plist</span><br><span class="line"></span><br><span class="line">xcodebuild -workspace <span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcworkspace \</span><br><span class="line">-scheme <span class="variable">$&#123;PROJECT_NAME&#125;</span> -sdk iphoneos \</span><br><span class="line">build CODE_SIGN_IDENTITY=<span class="string">"iPhone Distribution: Beijing PS Technology Co., Ltd."</span> \</span><br><span class="line">PROVISIONING_PROFILE=<span class="string">""</span> \</span><br><span class="line">-configuration Release clean archive \</span><br><span class="line">-archivePath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcarchive</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive -exportOptionsPlist <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist \</span><br><span class="line">-archivePath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcarchive \</span><br><span class="line">-exportPath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"----------------"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Build successfully!"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Begin Upload to itunes..."</span></span><br><span class="line"><span class="comment">#Use [shenzhen](https://github.com/nomad/shenzhen) to upload the ipa file to itunes connect.</span></span><br><span class="line">/usr/<span class="built_in">local</span>/bin/ipa distribute:itunesconnect -f <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.ipa -a YourAppleID -p YourPassword -i <span class="variable">$&#123;BUNDLE_ID&#125;</span> --upload</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Upload successfully!"</span></span><br></pre></td></tr></table></figure>
+            <blockquote>
+<p>Dynamic dispatch means that program has to determine at run time which method or property is being referred to and then perform an indirect call or indirect access.</p>
+</blockquote>
+<p>我们都知道 Swift 的 class 是可以被继承，function 和 property 是可以被重写的，而这就意味着 Swift 需要 dynamic dispatch 这种机制来完成这些功能。Swift 的 dynamic dispatch 首先会再 method table 查找方法，然后间接调用。很明显这种方式要比直接调用的效率慢，并且用间接调用的方式还会阻止编译器的一些优化无法实现。</p>
+<p><strong>那么应该怎么优化呢？</strong></p>
+<p>当我们明确的知道 class、function、property 是不需要 overridden，我们可以通过使用 final 和 private(fileprivate) 这些关键字减少动态派发的发生，从而有效的提高效率。</p>
+<p>在 Swift 中，如果被 final 或 private(fileprivate) 修饰的 class、function、property 是不能 overridden，并且调用这些 class、function、property 的时候不再通过 dynamic dispatch 去间接调用，而是直接调用。</p>
+<p>所以，通过在必要的代码中使用 final 或 private(fileprivate) 这些关键字进行优化的话，将可以有效提高的效率。</p>
+<p><strong>Whole Module Optimization</strong></p>
+<p>Swift 的 class、function、property 的默认权限都是 internal ，除非我们明确的加上 public 或 private(fileprivate) 关键字才能改变它们的默认权限。</p>
+<p>编译器在编译 Module 的时候都是对里面的源文件进行单独编译，这样的话编译器就无法确切的知道被 internal 修饰的 class、function、property 究竟有没有被 overridden。一旦我们开启 Whole Module Optimization 的优化选项，编译器就会同时对整个 Module 的所有源文件进行编译，这个时候编译器就可以知道哪些被 internal 修饰的 class、function、property 没有被 overridden，从而把它们的权限从 internal 修改为 final。这样的话，就可以减少 dynamic dispatch 的发生从而提高效率。</p>
+<p>开启编译优化选项的步骤如下：Xcode -&gt; Build Settings -&gt; Swift Compiler -&gt; Optimization Level。</p>
+<p><img src="http://i.imgur.com/0AxWEVA.jpg" alt=""></p>
+<hr>
+<p><strong>参考文献</strong></p>
+<ol>
+<li><p><a href="https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/" target="_blank" rel="noopener">https://www.reddit.com/r/iOSProgramming/comments/3atu5w/does_swift_use_dynamic_method_dispatch_or_a/</a></p>
+</li>
+<li><p><a href="https://developer.apple.com/swift/blog/?id=27" target="_blank" rel="noopener">https://developer.apple.com/swift/blog/?id=27</a></p>
+</li>
+<li><p><a href="https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations" target="_blank" rel="noopener">https://github.com/apple/swift/blob/3ef6c79e3c591cf31b8a853b1357e1b8c5771252/docs/OptimizationTips.rst#whole-module-optimizations</a></p>
+</li>
+</ol>
 
         
         </div>
@@ -307,7 +288,7 @@
 
             
     
-        <a href="https://hparis.github.io/blog/2017/09/05/Shell-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Shell-Tip/">Comments</a>
+        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 2：final和private(fileprivate)/">Comments</a>
     
 
         </footer>
@@ -391,10 +372,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/blog/2017/09/05/RAC和内存管理/" class="thumbnail">
+                            <a href="/blog/2017/09/05/Auto-Update/" class="thumbnail">
     
     
-        <span style="background-image:url(https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3f799bed83db2959c476e69a3307d39e&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="RAC 和内存管理" class="thumbnail-image"></span>
+        <span class="thumbnail-image thumbnail-none"></span>
     
 </a>
 
@@ -402,7 +383,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2017/09/05/RAC和内存管理/" class="title">RAC 和内存管理</a></p>
+                            <p class="item-title"><a href="/blog/2017/09/05/Auto-Update/" class="title">Auto Update</a></p>
                             <p class="item-date"><time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time></p>
                         </div>
                     </li>
@@ -410,10 +391,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/" class="thumbnail">
+                            <a href="/blog/2017/09/05/Shell-Tip/" class="thumbnail">
     
     
-        <span style="background-image:url(https://images.unsplash.com/photo-1485988412941-77a35537dae4?ixlib=rb-0.3.5&amp;s=177fa5618e070b6d13cf5debd2034426&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Swift High-Performance Tip 1：Array 和 ContiguousArray" class="thumbnail-image"></span>
+        <span class="thumbnail-image thumbnail-none"></span>
     
 </a>
 
@@ -421,7 +402,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/" class="title">Swift High-Performance Tip 1：Array 和 ContiguousArray</a></p>
+                            <p class="item-title"><a href="/blog/2017/09/05/Shell-Tip/" class="title">Shell Tip</a></p>
                             <p class="item-date"><time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time></p>
                         </div>
                     </li>

@@ -1,6 +1,5 @@
 ---
 title: 如何在 iOS 上自定义 React Native Component
-subtitle: 最重要的就是后面三句话
 author: 帕帕
 date: 2018-03-19 17:22:09
 categories: 技术

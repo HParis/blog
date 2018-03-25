@@ -1,7 +1,5 @@
 ---
-layout: post 
 title: Swift High-Performance Tip 2：final 和 private(fileprivate)
-subtitle: 简单了解一下 Swift 权限控制对性能的影响 
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
 categories: 技术

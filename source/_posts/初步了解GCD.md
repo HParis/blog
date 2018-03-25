@@ -1,7 +1,5 @@
 ---
-layout: post 
 title: 初步了解 GCD
-subtitle: GCD(Grand Central Dispatch) 是苹果提供的一套多线程编程技术。
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
 categories: 技术 

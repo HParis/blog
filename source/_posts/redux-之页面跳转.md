@@ -1,7 +1,5 @@
 ---
-layout: post 
 title: redux 之页面跳转
-subtitle: 关于 React Native 的页面跳转逻辑的一点思考
 author: 帕帕
 date: 2018-02-26 17:48:56 +0800
 categories: 技术

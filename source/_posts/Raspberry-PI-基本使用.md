@@ -1,9 +1,7 @@
 ---
-layout: post 
 title: Raspberry PI 基本使用
-subtitle: 记录自己在 RaspberryPI 比较频繁使用的命令
-author: 帕帕
 date: 2018-03-05 22:04:56 +0800
+author: 帕帕
 categories: Raspberry PI
 tags: [Raspberry PI]
 thumbnail: https://images.unsplash.com/photo-1507289872412-523fc6b2db5f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=20ca9d0eba2016344894aec7bb453a2d&auto=format&fit=crop&w=160&q=100

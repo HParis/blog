@@ -1,7 +1,5 @@
 ---
-layout: post 
 title: include 和 import 的区别
-subtitle: 
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
 categories: 技术 

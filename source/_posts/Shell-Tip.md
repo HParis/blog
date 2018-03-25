@@ -1,12 +1,12 @@
 ---
-layout: post 
 title: Shell Tip
-subtitle: 记录日常中用到的一些 Bash 脚本，经常更新
 author: 帕帕
 date: 2017-09-05 15:30:56 +0800
 categories: 技术
 tags: [tip] 
 ---
+
+> 记录日常中用到的一些 Bash 脚本，经常更新
 
 ## Tip 1 : 修改文件里面的内容
 早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现

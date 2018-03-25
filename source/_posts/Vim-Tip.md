@@ -1,5 +1,4 @@
 ---
-layout: post 
 title: Vim Tip
 subtitle: 记录日常中使用的 Vim 命令，经常更新
 author: 帕帕

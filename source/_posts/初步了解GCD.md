@@ -42,7 +42,7 @@ public func dispatch_get_main_queue() -> dispatch_queue_t!
 
 总之，现在大家要知道的是我们可以把不同的 Block任务提交到调度队列，具体的细节和实现看看后面内容。
 
-### dispatch_sync和dispatch_async（同步和异步）
+### dispatch_sync 和 dispatch_async（同步和异步）
 
 ```Swift
 let queue = dispatch_queue_create("com.PS.Queue", DISPATCH_QUEUE_SERIAL)  // 创建调度队列
@@ -120,7 +120,7 @@ Execute Block Task2
 End Execute Block Task1
 ```
 
-被 DISPATCH_QUEUE_CONCURRENT 声明的并发调度队列就没有这种死锁的问题。并发调度队列里的任务是不会霸占资源不放的，每一个任务执行一个时间片段之后会把资源交出来给别的任务去执行。所以例2中的 Block1 虽然需要等待 Block2 执行完成之后才能继续执行，但是当 Block1 在等待的过程中，是可以把资源释放出来交给 Block2 去执行，Block2 执行完成之后 Block1 就可以继续执行了。所以，这个时候就不会造成死锁来。
+被 DISPATCH_QUEUE_CONCURRENT 声明的并行调度队列就没有这种死锁的问题。并行调度队列里的任务是不会霸占资源不放的，每一个任务执行一个时间片段之后会把资源交出来给别的任务去执行。所以例2中的 Block1 虽然需要等待 Block2 执行完成之后才能继续执行，但是当 Block1 在等待的过程中，是可以把资源释放出来交给 Block2 去执行，Block2 执行完成之后 Block1 就可以继续执行了。所以，这个时候就不会造成死锁来。
 
 再来看看下面的例子会不会造成死锁：
 
@@ -134,7 +134,7 @@ override func viewDidLoad() {
     
 答案是会的。给大家一点提示，主线程的默认调度队列是串行（DISPATCH_QUEUE_SERIAL）的，viewDidLoad() 是在主线程的调度队列 com.apple.main-thread (serial) 执行的。
 
-上面的例子主要是希望大家理解串行和并发的概念，同时要明白造成死锁的原因。而要解决死锁一般可以用 DISPATCH_QUEUE_CONCURRENT 或接下来我们要讲的 dispatch_async 来解决。
+上面的例子主要是希望大家理解串行和并行的概念，同时要明白造成死锁的原因。而要解决死锁一般可以用 DISPATCH_QUEUE_CONCURRENT 或接下来我们要讲的 dispatch_async 来解决。
 
 通过对 dispatch_sync 的了解，我们可以利用 dispatch_async 很快的写出异步代码：
 
@@ -242,13 +242,13 @@ dispatch_group_t 是用来做聚合同步的，它可以用来跟踪你提交的
 接下来我们来看看 dispatch group 的一些常见用法：
 
 ```Swift
-// 创建dispatch_group_t对象
+// 创建 dispatch_group_t 对象
 let group = dispatch_group_create()
 
 // 创建串行队列
 let serialQueue = dispatch_queue_create("Serial Queue", DISPATCH_QUEUE_SERIAL)
 
-// 提交两个Block任务到serialQueue，同时关联serialQueue和group的关系
+// 提交两个 Block 任务到 serialQueue，同时关联 serialQueue 和 group 的关系
 dispatch_group_async(group, serialQueue) {
     print("Execute Block1 within Serial Queue")
 }
@@ -256,12 +256,12 @@ dispatch_group_async(group, serialQueue) {
     print("Execute Block2 within Serial Queue")
 }
 
-// 创建并发队列，并提交Block任务，同时关联该并发队列和group的关系
+// 创建并行队列，并提交 Block 任务，同时关联该并行队列和 group 的关系
 dispatch_group_async(group, dispatch_queue_create("Concurrent Queue", DISPATCH_QUEUE_CONCURRENT)) {
     print("Execute Block within Concurrent Queue")
 }
 
-// 下面的代码只有当前面被关联到group的所有任务完成之后才会被触发
+// 下面的代码只有当前面被关联到 group 的所有任务完成之后才会被触发
 dispatch_group_notify(group, dispatch_queue_create("Finished")) {
     print("Finished")
 }
@@ -272,11 +272,11 @@ dispatch_group_notify(group, dispatch_queue_create("Finished")) {
 但是还有另外一种方法可以让我们关联一个普通的任务：
 
 ```Swift
-// 创建dispatch_group_t对象
+// 创建 dispatch_group_t 对象
 let group = dispatch_group_create()
 
-// 使用dispatch_group_enter和dispatch_group_leave的话，我们不需要调用
-// dispatch_group_async也能关联一个任务到group上
+// 使用 dispatch_group_enter 和 dispatch_group_leave 的话，我们不需要调用
+// dispatch_group_async 也能关联一个任务到 group 上
 dispatch_group_enter(group)
 self.executeTask {
     // 执行代码
@@ -284,7 +284,7 @@ self.executeTask {
     dispatch_group_leave(group)
 }
 
-// 下面的代码只有当前面被关联到group的所有任务完成之后才会被触发
+// 下面的代码只有当前面被关联到 group 的所有任务完成之后才会被触发
 dispatch_group_notify(group, dispatch_queue_create("Finished")) {
     print("Finished")
 }
@@ -338,7 +338,7 @@ let queue = dispatch_queue_create("Semaphore", DISPATCH_QUEUE_CONCURRENT)
 for index in 1...100 {
     // 这个方法会进行信号量减1的操作，并且如果信号量减1之后的结果小于0的话，该方法会造成线程的挂起直
     // 到该信号量进行加1操作才会恢复，所以在主线程要注意该方法的使用。
-    // 注意：这个方法要放在dispatch_async外面，否则系统依旧会创建超过2个线程同时来处理该调度队列
+    // 注意：这个方法要放在 dispatch_async 外面，否则系统依旧会创建超过2个线程同时来处理该调度队列
     // 的任务
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
     dispatch_async(queue) {

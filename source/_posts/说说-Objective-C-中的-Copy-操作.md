@@ -212,6 +212,16 @@ Xcode 直接奔溃了：
  
 这样，我们就可以愉快的使用 `[Person copy]` 了。当然，这里 Person 的 mArray 也只是`单层深复制`，如果想要实现`完全深复制`的话，我们可以用 NSKeyedArchiver 和 NSKeyedUnarchiver 来完成对 mArray 的`完全深复制`。
 
+## Block 和 Copy
+
+简单说一下，在 Objective-C 中，Block 的 copy 是一种特殊的操作。因为 Block 是一种结构体，它无法实现 NSCopying 或 NSMutableCopying 协议，但是它却可以调用 copy 方法。这是由 Block 的结构体决定的：
+
+![](http://www.devtalking.com/postImages/block-struct.jpg)
+
+Block 里面的 descriptor 有 copy 的函数指针，当对 Block 执行 copy 操作最后都会通过该函数指针进行真正的操作。这也是 Bloc看不需要实现 NSCopying 和 NSMutableCopying 就能调用 copy 方法的原因。
+
+
+
 参考资料：
 1. https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Articles/Copying.html
 2. https://www.zybuluo.com/MicroCai/note/50592

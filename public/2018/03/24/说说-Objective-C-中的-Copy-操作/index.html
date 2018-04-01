@@ -13,14 +13,12 @@
 <meta property="og:site_name" content="帕帕&#39;s Blog">
 <meta property="og:description" content="浅拷贝（Shallow copies）和深拷贝（Deep copies）我们都知道 Objective-C 中把 Copy 操作分成两种：浅拷贝（Shallow copies）和深拷贝（Deep copies）。学过 C 语言的同学应该知道区分这两种操作的区别其实很简单：  浅拷贝（Shallow copies）: 指针拷贝，指向的还是同一块内容的地址深拷贝（Deep copies）: 内容拷贝">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Art/CopyingCollections_2x.png">
-<meta property="og:image" content="https://i.imgur.com/svn3AbQ.png">
-<meta property="og:image" content="http://www.devtalking.com/postImages/block-struct.jpg">
-<meta property="og:updated_time" content="2018-03-27T02:53:43.923Z">
+<meta property="og:image" content="https://i.imgur.com/svn3AbQs.png">
+<meta property="og:updated_time" content="2018-04-01T14:12:54.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="说说 Objective-C 中的 Copy 操作">
 <meta name="twitter:description" content="浅拷贝（Shallow copies）和深拷贝（Deep copies）我们都知道 Objective-C 中把 Copy 操作分成两种：浅拷贝（Shallow copies）和深拷贝（Deep copies）。学过 C 语言的同学应该知道区分这两种操作的区别其实很简单：  浅拷贝（Shallow copies）: 指针拷贝，指向的还是同一块内容的地址深拷贝（Deep copies）: 内容拷贝">
-<meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Art/CopyingCollections_2x.png">
+<meta name="twitter:image" content="https://i.imgur.com/svn3AbQs.png">
     
 
     
@@ -305,7 +303,7 @@
 <p>输出结果：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x60000025d9a0</span><br><span class="line">bArray 的指针：0x60000002cf60</span><br><span class="line">aArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕</span><br><span class="line">bArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕</span><br></pre></td></tr></table></figure>
 <p>从 aArray 到 bArray 的 copy 操作之后，它们的指针地址发生了变化，按照我们之前的理解这是<code>深拷贝</code>。<code>深拷贝</code>会把 aArray 的元素都拷贝一份，那为什么改变 bArray 的元素的值会导致 aArray 的元素的值也发生了变化呢？</p>
-<p><img src="https://i.imgur.com/svn3AbQ.png" alt="Imgur"></p>
+<p><img src="https://i.imgur.com/svn3AbQ.png" alt="集合对象的深拷贝"></p>
 <h2 id="完全深复制"><a href="#完全深复制" class="headerlink" title="完全深复制"></a>完全深复制</h2><p>那我们要如何做到真正的深复制呢？我们可以简单的把上面的代码改一下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aString = [NSMutableString stringWithString:@&quot;Hello&quot;]</span><br><span class="line"></span><br><span class="line">NSMutableArray * aArray = [NSMutableArray arrayWithObjects:aString, nil];</span><br><span class="line"></span><br><span class="line">// 只需要改动这一行代码</span><br><span class="line">NSArray *bArray = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:aArray]];</span><br><span class="line"></span><br><span class="line">NSMutableString * bString = bArray[0];</span><br><span class="line">[bString appendString:@&quot; 帕帕&quot;];</span><br><span class="line">    </span><br><span class="line">NSLog(@&quot;aArray 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bArray 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;aArray 第一个元素的指针: %p，内容：%@&quot;, aArray[0], aArray[0]);</span><br><span class="line">NSLog(@&quot;bArray 第一个元素的指针: %p，内容：%@&quot;, bArray[0], bArray[0]);</span><br></pre></td></tr></table></figure>
 <p>输出结果：</p>
@@ -422,7 +420,7 @@
                             <a href="/blog/2018/03/24/说说-Objective-C-中的-Copy-操作/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(https://i.imgur.com/svn3AbQs.png)" alt="说说 Objective-C 中的 Copy 操作" class="thumbnail-image"></span>
     
 </a>
 

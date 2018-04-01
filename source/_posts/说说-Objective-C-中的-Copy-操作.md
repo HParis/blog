@@ -4,6 +4,7 @@ date: 2018-03-23 16:35:55 +0800
 author: 帕帕
 categories: 技术 
 tags: [iOS, Objective-C]
+thumbnail: https://i.imgur.com/svn3AbQs.png
 ---
 
 ## 浅拷贝（Shallow copies）和深拷贝（Deep copies）
@@ -104,7 +105,7 @@ bArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕
 
 从 aArray 到 bArray 的 copy 操作之后，它们的指针地址发生了变化，按照我们之前的理解这是`深拷贝`。`深拷贝`会把 aArray 的元素都拷贝一份，那为什么改变 bArray 的元素的值会导致 aArray 的元素的值也发生了变化呢？
 
-![Imgur](https://i.imgur.com/svn3AbQ.png)
+![集合对象的深拷贝](https://i.imgur.com/svn3AbQ.png)
 
 ## 完全深复制
 

@@ -120,7 +120,7 @@ Execute Block Task2
 End Execute Block Task1
 ```
 
-被 DISPATCH_QUEUE_CONCURRENT 声明的并行调度队列就没有这种死锁的问题。并行调度队列里的任务是不会霸占资源不放的，每一个任务执行一个时间片段之后会把资源交出来给别的任务去执行。所以例2中的 Block1 虽然需要等待 Block2 执行完成之后才能继续执行，但是当 Block1 在等待的过程中，是可以把资源释放出来交给 Block2 去执行，Block2 执行完成之后 Block1 就可以继续执行了。所以，这个时候就不会造成死锁来。
+被 DISPATCH_QUEUE_CONCURRENT 声明的并发调度队列就没有这种死锁的问题。并发调度队列里的任务是不会霸占资源不放的，每一个任务执行一个时间片段之后会把资源交出来给别的任务去执行。所以例2中的 Block1 虽然需要等待 Block2 执行完成之后才能继续执行，但是当 Block1 在等待的过程中，是可以把资源释放出来交给 Block2 去执行，Block2 执行完成之后 Block1 就可以继续执行了。所以，这个时候就不会造成死锁来。
 
 再来看看下面的例子会不会造成死锁：
 
@@ -134,7 +134,7 @@ override func viewDidLoad() {
     
 答案是会的。给大家一点提示，主线程的默认调度队列是串行（DISPATCH_QUEUE_SERIAL）的，viewDidLoad() 是在主线程的调度队列 com.apple.main-thread (serial) 执行的。
 
-上面的例子主要是希望大家理解串行和并行的概念，同时要明白造成死锁的原因。而要解决死锁一般可以用 DISPATCH_QUEUE_CONCURRENT 或接下来我们要讲的 dispatch_async 来解决。
+上面的例子主要是希望大家理解串行和并发的概念，同时要明白造成死锁的原因。而要解决死锁一般可以用 DISPATCH_QUEUE_CONCURRENT 或接下来我们要讲的 dispatch_async 来解决。
 
 通过对 dispatch_sync 的了解，我们可以利用 dispatch_async 很快的写出异步代码：
 
@@ -256,7 +256,7 @@ dispatch_group_async(group, serialQueue) {
     print("Execute Block2 within Serial Queue")
 }
 
-// 创建并行队列，并提交 Block 任务，同时关联该并行队列和 group 的关系
+// 创建并发队列，并提交 Block 任务，同时关联该并发队列和 group 的关系
 dispatch_group_async(group, dispatch_queue_create("Concurrent Queue", DISPATCH_QUEUE_CONCURRENT)) {
     print("Execute Block within Concurrent Queue")
 }

@@ -3,18 +3,22 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Category: Raspberry PI | 帕帕&#39;s Blog</title>
+    <title>如何用 Objective-C 实现一个死锁 | 帕帕&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="奋斗中的程序员。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="帕帕&#39;s Blog">
-<meta property="og:url" content="https://hparis.github.io/blog/categories/Raspberry-PI/index.html">
+    <meta name="description" content="当系统存在两个线程及以上的时候，双方都在等待对方停止执行，以获得系统资源，但是没有一方提前退出的时候就叫做死锁。  那在 Objective-C 里面如何实现死锁呢： 12345678910111213141516171819202122self.lock1 = [NSLock new];self.lock2 = [NSLock new];    dispatch_async(dispatch_">
+<meta name="keywords" content="iOS,GCD,Objective-C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何用 Objective-C 实现一个死锁">
+<meta property="og:url" content="https://hparis.github.io/blog/2018/04/02/如何用-Objective-C-实现一个死锁/index.html">
 <meta property="og:site_name" content="帕帕&#39;s Blog">
-<meta property="og:description" content="奋斗中的程序员。">
+<meta property="og:description" content="当系统存在两个线程及以上的时候，双方都在等待对方停止执行，以获得系统资源，但是没有一方提前退出的时候就叫做死锁。  那在 Objective-C 里面如何实现死锁呢： 12345678910111213141516171819202122self.lock1 = [NSLock new];self.lock2 = [NSLock new];    dispatch_async(dispatch_">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://images.unsplash.com/photo-1509655172625-03265ba919a1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=24b01fba0d86b9fa95814c692429379f&auto=format&fit=crop&w=160&q=100">
+<meta property="og:updated_time" content="2018-04-01T14:06:53.671Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="帕帕&#39;s Blog">
-<meta name="twitter:description" content="奋斗中的程序员。">
+<meta name="twitter:title" content="如何用 Objective-C 实现一个死锁">
+<meta name="twitter:description" content="当系统存在两个线程及以上的时候，双方都在等待对方停止执行，以获得系统资源，但是没有一方提前退出的时候就叫做死锁。  那在 Objective-C 里面如何实现死锁呢： 12345678910111213141516171819202122self.lock1 = [NSLock new];self.lock2 = [NSLock new];    dispatch_async(dispatch_">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1509655172625-03265ba919a1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=24b01fba0d86b9fa95814c692429379f&auto=format&fit=crop&w=160&q=100">
     
 
     
@@ -209,50 +213,121 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-folder"></i></span>
-        <h1 class="title">Raspberry PI</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-如何用-Objective-C-实现一个死锁" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/blog/2018/03/06/Raspberry-PI-基本使用/">Raspberry PI 基本使用</a>
+        <h1 class="article-title" itemprop="name">
+            如何用 Objective-C 实现一个死锁
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/blog/2018/03/06/Raspberry-PI-基本使用/">
-            <time datetime="2018-03-05T22:04:56.000Z" itemprop="datePublished">2018-03-05</time>
+        <a href="/blog/2018/04/02/如何用-Objective-C-实现一个死锁/">
+            <time datetime="2018-04-01T20:29:42.000Z" itemprop="datePublished">2018-04-01</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/Raspberry-PI/">Raspberry PI</a>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/Raspberry-PI/">Raspberry PI</a>
+        <a class="tag-link" href="/blog/tags/GCD/">GCD</a>, <a class="tag-link" href="/blog/tags/Objective-C/">Objective-C</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
     </div>
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>当系统存在两个线程及以上的时候，双方都在等待对方停止执行，以获得系统资源，但是没有一方提前退出的时候就叫做死锁。</p>
+</blockquote>
+<p>那在 Objective-C 里面如何实现死锁呢：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">self.lock1 = [NSLock new];</span><br><span class="line">self.lock2 = [NSLock new];</span><br><span class="line">    </span><br><span class="line">dispatch_async(dispatch_queue_create(&quot;com.papa.task1&quot;, DISPATCH_QUEUE_SERIAL), ^&#123;</span><br><span class="line">    [self.lock1 lock];</span><br><span class="line">    NSLog(@&quot;task1 获得 lock1&quot;);</span><br><span class="line">    sleep(2);</span><br><span class="line">    [self.lock2 lock];</span><br><span class="line">    NSLog(@&quot;task1 获得 lock2&quot;);</span><br><span class="line">    [self.lock2 unlock];</span><br><span class="line">    [self.lock1 unlock];</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(dispatch_queue_create(&quot;com.papa.task2&quot;, DISPATCH_QUEUE_SERIAL), ^&#123;</span><br><span class="line">    [self.lock2 lock];</span><br><span class="line">    NSLog(@&quot;task2 获得 lock2&quot;);</span><br><span class="line">    sleep(2);</span><br><span class="line">    [self.lock1 lock];</span><br><span class="line">    NSLog(@&quot;task2 获得 lock1&quot;);</span><br><span class="line">    [self.lock1 unlock];</span><br><span class="line">    [self.lock2 unlock];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们可以看到最后控制台输出的结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">task2 获得 lock2</span><br><span class="line">task1 获得 lock1</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">task2 获得 lock2</span><br><span class="line">task1 获得 lock1</span><br></pre></td></tr></table></figure>
+<p>为什么是两种结果呢，可以参考我的<a href="https://hparis.github.io/blog/2017/09/05/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3GCD/">「初步了解 GCD」</a>。</p>
+<p>但是不管如何，这两种结果都没有输出 <code>task1 获得 lock2</code> 或 <code>task2 获得 lock1</code>。我们来分析一下：</p>
+<pre><code>* task1 获得 lock1，然后沉睡 2s
+* task2 获得 lock2，然后沉睡 2s
+* task1 经过 2s 的沉睡之后想要去获取 lock2，此时发现 lock2 已经被使用，那就继续等待
+* task2 经过 2s 的沉睡之后想要去获取 lock1，此时发现 lock1 已经被使用，那就继续等待
+* task1 又被唤醒想要去获取 lock2，此时 lock2 依旧没有被 task2 释放，只能继续等待
+* task2 又被唤醒想要去获取 lock1，此时 lock1 依旧没有被 task1 释放，只能继续等待
+* ...
+* ...
+</code></pre><p>于是 task1 和 task2 都在等待对方释放资源，但是自己也不退出也不释放资源，最终导致死锁的产生。</p>
+<p>接下来，我们来讨论另外一个例子是不是死锁：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 某个按钮的点击事件</span><br><span class="line">- (void)onClick:(UIEvent *)event &#123;</span><br><span class="line">    dispatch_sync(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        ...    </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>相信大家都知道上面这个例子会导致主线程发生阻塞的现象，但是这是因为死锁造成的么？</p>
+<blockquote>
+<p>Submits a block to a dispatch queue for synchronous execution. Unlike dispatch_async, this function does not return until the block has finished. Calling this function and targeting the current queue results in deadlock.</p>
+</blockquote>
+<p>在官方文档里面明确的说了，这就是死锁。我们可以把上面的例子“翻译”一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 首先进入 onClick 的时候，我们可以认为此时是需要加锁的</span><br><span class="line">// 某个按钮的点击事件</span><br><span class="line">- (void)onClick:(UIEvent *)event &#123;</span><br><span class="line">    [self.lock1 lock];</span><br><span class="line">    </span><br><span class="line">    // 此时我们可以认为 dispatch_sync 是在获取 block 里面的 lock2 </span><br><span class="line">    &#123;</span><br><span class="line">        [self.lock2 lock];</span><br><span class="line">        </span><br><span class="line">        // 放在主线程执行，那么它也需要获得 lock1 </span><br><span class="line">        [self.lock1 lock];</span><br><span class="line">        [self.lock1 unlock];</span><br><span class="line">        </span><br><span class="line">        [self.lock2 unlock];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [self.lock1 unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到其实上面的情况就是两个任务都在同时竞争主线程的资源，并且谁都没有退出最终导致死锁的产生。但是这两个任务并不是普通的两个线程在竞争资源，而是都在主线程上，一个嵌套另外一个。而且这种特殊的情况，在运行的时候会直接导致奔溃，而不像我们一开始的例子一样只是在互相等待。但是既然苹果把这种情况也称为死锁，那我们就当做死锁来看待，毕竟他们都是在竞争系统资源。</p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2018/04/02/如何用-Objective-C-实现一个死锁/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2018/04/02/如何用-Objective-C-实现一个死锁/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/blog/2018/03/24/说说-Objective-C-中的-Copy-操作/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">说说 Objective-C 中的 Copy 操作</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
 </section>
             
                 
@@ -434,11 +509,13 @@
     <script>
     var disqus_config = function () {
         
-        this.page.identifier = '';
+            this.page.url = 'https://hparis.github.io/blog/2018/04/02/如何用-Objective-C-实现一个死锁/';
+        
+        this.page.identifier = '如何用-Objective-C-实现一个死锁';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'pariscode' + '.disqus.com/count.js';
+        s.src = '//' + 'pariscode' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();

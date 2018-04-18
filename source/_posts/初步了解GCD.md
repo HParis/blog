@@ -6,15 +6,15 @@ categories: 技术
 tags: [iOS, GCD]
 ---
 
-## GCD简介
+## GCD 简介
 
 GCD(Grand Central Dispatch) 是苹果提供的一套多线程编程技术。想象一下，如果让你编写一个可以高效的跑在不同计算机、不同内核的应用程序，你会怎么做呢？你要看看硬件是什么，看看有有多少个内核，想想用什么算法，想想在什么时候去切换线程...总之，你要做的东西多了去了。而 GCD 帮我们屏蔽了这些技术细节，但是如果要用好 GCD 的话，还是要多了解一些知识点。
 
-## Dispatch对象和内存管理
+## Dispatch 对象和内存管理
 
 在 Objective-C 里面，所有的 dispatch 对象都是 Objective-C 对象，所以他们同样适用引用技术的内存管理。如果你是使用 ARC 的话，dispatch 对象会向普通的 Objective-C 对象一样自动进行 retain 和 release 操作；如果你是使用 MRC，要记住使用 dispatch_retain 和 dispatch_release 来进行管理。
 
-## 常用API
+## 常用 API
 
 ### dispatch_queue_t（调度队列）
 

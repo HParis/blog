@@ -12,7 +12,7 @@ tags: [tip]
 早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现
 
 ```sh
-find . -name '*.html' -print0 | xargs -0 sed -i '' -e 's/<title>.*<\/title>/<title>黑米流量通<\/title>/g'
+$ find . -name '*.html' -print0 | xargs -0 sed -i '' -e 's/<title>.*<\/title>/<title>黑米流量通<\/title>/g'
 ```
 
 * `find`          查找命令，可以用 man find 查看更多的信息
@@ -31,26 +31,26 @@ find . -name '*.html' -print0 | xargs -0 sed -i '' -e 's/<title>.*<\/title>/<tit
 把匹配的文件内容的相关文件列出来
 
 ```sh
-find . -name '*.html' -print0 | xargs -0 grep 'PATTERN'
+$ find . -name '*.html' -print0 | xargs -0 grep 'PATTERN'
 ```
 
 ## Tip 3 : 解决 Homebrew 的权限问题
 查看 Homebrew 的所有权
 
 ```sh
-ls -al `which brew`
+$ ls -al `which brew`
 ```
 
 把 Homebrew 的用户和分组修改为 root 和 wheel
 
 ```sh
-sudo chown root:wheel `which brew`
+$ sudo chown root:wheel `which brew`
 ```
 
 最后还原 Homebrew 的权限（安全）
 
 ```sh
-sudo chown : `chown brew`
+$ sudo chown : `chown brew`
 ```
 
 ## Tip 4 : 利用 Shell 生成生成 ICON
@@ -91,7 +91,7 @@ done
 利用下面的命令可以暂时开启一个端口号为 8000 的 HTTP 服务，其他人只需要在浏览器输入 `http://ip-address:8000` 即可浏览共享目录下的文件
 
 ```sh
-python -m SimpleHTTPServer
+$ python -m SimpleHTTPServer
 ```
 
 
@@ -100,7 +100,7 @@ python -m SimpleHTTPServer
 * 加密
 
 ```sh
-tar czf - {SRC_DIR} | openssl des3 -salt -k "{KEY}" -out {DIST_PACKAGE}.tar.gz
+$ tar czf - {SRC_DIR} | openssl des3 -salt -k "{KEY}" -out {DIST_PACKAGE}.tar.gz
 ```
 
 示例：
@@ -108,7 +108,7 @@ tar czf - {SRC_DIR} | openssl des3 -salt -k "{KEY}" -out {DIST_PACKAGE}.tar.gz
 目录名 `paris_code`，秘钥 `meta#com`，输出包 `paris_code_20161008.tar.gz`
 
 ```sh
-tar czf - paris_code | openssl des3 -salt -k "meta#com" -out paris_code_20161008.tar.gz
+$ tar czf - paris_code | openssl des3 -salt -k "meta#com" -out paris_code_20161008.tar.gz
 ```
 
 * 解密
@@ -122,7 +122,7 @@ tar czf - paris_code | openssl des3 -salt -k "meta#com" -out paris_code_20161008
 在 Terminal 进入压缩文件包同级目录，输入以下命令：
 
 ```sh
-openssl des3 -d -k "meta#com" -salt -in paris_code_20161008.tar.gz | tar xzf -
+$ openssl des3 -d -k "meta#com" -salt -in paris_code_20161008.tar.gz | tar xzf -
 ```
 
 ## Tip7: iOS 打包命令
@@ -225,10 +225,10 @@ echo "Upload successfully!"
 
 ```Sh
 // 退出当前的所有模拟器
-osascript -e 'tell application "iOS Simulator" to quit'
-osascript -e 'tell application "Simulator" to quit'
+$ osascript -e 'tell application "iOS Simulator" to quit'
+$ osascript -e 'tell application "Simulator" to quit'
 
 // 清掉之前使用模拟器产生的所有内容
-xcrun simctl erase all
+$ xcrun simctl erase all
 ```
 

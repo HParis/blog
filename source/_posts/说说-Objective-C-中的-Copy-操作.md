@@ -146,11 +146,11 @@ bArray 第一个元素的指针: 0x604000452780，内容：Hello 帕帕
 
 ```Objective-C
 NSArray * aArray = [NSArray arrayWithObjects:@"帕帕", nil];
-NSLog(@"aArray 的指针：%p，引用计数：%ld", aName, CFGetRetainCount((__bridge CFTypeRef)(aArray)));
+NSLog(@"aArray 的指针：%p，引用计数：%ld", aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));
 NSArray * bArray = [aArray copy];
-NSLog(@"aArray 的指针：%p，引用计数：%ld", aName, CFGetRetainCount((__bridge CFTypeRef)(aArray)));
+NSLog(@"aArray 的指针：%p，引用计数：%ld", aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));
 NSMutableArray * cArray = [aArray mutableCopy];
-NSLog(@"aArray 的指针：%p，引用计数：%ld", aName, CFGetRetainCount((__bridge CFTypeRef)(aArray)));
+NSLog(@"aArray 的指针：%p，引用计数：%ld", aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));
 ```
 
 输出结果：

@@ -210,191 +210,6 @@
 
             
             <section id="main">
-    <article id="post-Shell-Tip" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Shell-Tip/">Shell Tip</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Shell-Tip/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/tip/">tip</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
-<p>记录日常中用到的一些 Bash 脚本，经常更新</p>
-</blockquote>
-<h2 id="Tip-1-修改文件里面的内容"><a href="#Tip-1-修改文件里面的内容" class="headerlink" title="Tip 1 : 修改文件里面的内容"></a>Tip 1 : 修改文件里面的内容</h2><p>早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name <span class="string">'*.html'</span> -print0 | xargs -0 sed -i <span class="string">''</span> -e <span class="string">'s/&lt;title&gt;.*&lt;\/title&gt;/&lt;title&gt;黑米流量通&lt;\/title&gt;/g'</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>find</code>          查找命令，可以用 man find 查看更多的信息</li>
-<li><code>.</code>             代表当前目录</li>
-<li><code>-name</code>         find 命令的参数，表示要查找的文件名</li>
-<li><code>-print0</code>       是一种不换行的输出格式，以 ASCII NUL 字符（也就是\0）作为分隔符。上面的例子可能是 <code>a.html\0b.html\0c.html</code></li>
-<li><code>|</code>             这是一个管道符，表示把前面命令的输出作为后面命令的输入</li>
-<li><code>xargs</code>         是用来构造输入参数，并且循环执行每一个参数</li>
-<li><code>-0</code>            表示让 xargs 使用 ASCII NUL 来分隔参数。上面的例子将被分隔成 <code>a.html</code> <code>b.html</code> <code>c.html</code> 三个参数依次执行</li>
-<li><code>sed</code>           这是一个流编辑器，如果传的是文件名会把文件内容读入内存，如果只是普通字符串就会把字符串读入内存</li>
-<li><code>-i</code>            表示要把原来的文件内容做一次备份，后面的 <code>&#39;&#39;</code> 是表示要备份的文件名字，如果没有文件名字就表示不需要备份</li>
-<li><code>-e</code>            表示后面的字符串是一个命令，需要被执行</li>
-<li><code>s/old/new/g</code>   这个是用来替换字符串的命令</li>
-</ul>
-<h2 id="Tip-2-查找文件的内容"><a href="#Tip-2-查找文件的内容" class="headerlink" title="Tip 2 : 查找文件的内容"></a>Tip 2 : 查找文件的内容</h2><p>把匹配的文件内容的相关文件列出来</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name <span class="string">'*.html'</span> -print0 | xargs -0 grep <span class="string">'PATTERN'</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip-3-解决-Homebrew-的权限问题"><a href="#Tip-3-解决-Homebrew-的权限问题" class="headerlink" title="Tip 3 : 解决 Homebrew 的权限问题"></a>Tip 3 : 解决 Homebrew 的权限问题</h2><p>查看 Homebrew 的所有权</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al `<span class="built_in">which</span> brew`</span><br></pre></td></tr></table></figure>
-<p>把 Homebrew 的用户和分组修改为 root 和 wheel</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown root:wheel `<span class="built_in">which</span> brew`</span><br></pre></td></tr></table></figure>
-<p>最后还原 Homebrew 的权限（安全）</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown : `chown brew`</span><br></pre></td></tr></table></figure>
-<h2 id="Tip-4-利用-Shell-生成生成-ICON"><a href="#Tip-4-利用-Shell-生成生成-ICON" class="headerlink" title="Tip 4 : 利用 Shell 生成生成 ICON"></a>Tip 4 : 利用 Shell 生成生成 ICON</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#此脚本是用来生成 iPhone 和 iPad 所需 icon 的不同尺寸的，最好是准备一张 1024x1024 的 Icon 图片</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filename=<span class="string">"icon.png"</span></span><br><span class="line"></span><br><span class="line">dirname=<span class="string">"icon"</span></span><br><span class="line"></span><br><span class="line">name_array=(<span class="string">"Icon-20.png"</span> <span class="string">"Icon-20@2x.png"</span> <span class="string">"Icon-20@3x.png"</span></span><br><span class="line"><span class="string">"Icon-29.png"</span> <span class="string">"Icon-29@2x.png"</span> <span class="string">"Icon-29@3x.png"</span></span><br><span class="line"><span class="string">"Icon-40.png"</span> <span class="string">"Icon-40@2x.png"</span> <span class="string">"Icon-40@3x.png"</span></span><br><span class="line"><span class="string">"Icon-60@2x.png"</span> <span class="string">"Icon-60@3x.png"</span></span><br><span class="line"><span class="string">"Icon-76.png"</span> <span class="string">"Icon-76@2x.png"</span></span><br><span class="line"><span class="string">"Icon-83.5@2x.png"</span>)</span><br><span class="line">size_array=(<span class="string">"20"</span> <span class="string">"40"</span> <span class="string">"80"</span></span><br><span class="line"><span class="string">"29"</span> <span class="string">"58"</span> <span class="string">"87"</span></span><br><span class="line"><span class="string">"40"</span> <span class="string">"80"</span> <span class="string">"120"</span></span><br><span class="line"><span class="string">"120"</span> <span class="string">"180"</span></span><br><span class="line"><span class="string">"76"</span> <span class="string">"152"</span></span><br><span class="line"><span class="string">"167"</span>)</span><br><span class="line"></span><br><span class="line">mkdir <span class="variable">$dirname</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ((i=0;i&lt;<span class="variable">$&#123;#name_array[@]&#125;</span>;++i)); <span class="keyword">do</span></span><br><span class="line">    m_dir=<span class="variable">$dirname</span>/<span class="variable">$&#123;name_array[i]&#125;</span></span><br><span class="line">    cp <span class="variable">$filename</span> <span class="variable">$m_dir</span></span><br><span class="line">    sips -Z <span class="variable">$&#123;size_array[i]&#125;</span> <span class="variable">$m_dir</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip5-使用-Python-共享当前目录"><a href="#Tip5-使用-Python-共享当前目录" class="headerlink" title="Tip5 : 使用 Python 共享当前目录"></a>Tip5 : 使用 Python 共享当前目录</h2><p>利用下面的命令可以暂时开启一个端口号为 8000 的 HTTP 服务，其他人只需要在浏览器输入 <code>http://ip-address:8000</code> 即可浏览共享目录下的文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m SimpleHTTPServer</span><br></pre></td></tr></table></figure>
-<h2 id="Tip6-加密和解密文件"><a href="#Tip6-加密和解密文件" class="headerlink" title="Tip6 : 加密和解密文件"></a>Tip6 : 加密和解密文件</h2><ul>
-<li>加密</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar czf - &#123;SRC_DIR&#125; | openssl des3 -salt -k <span class="string">"&#123;KEY&#125;"</span> -out &#123;DIST_PACKAGE&#125;.tar.gz</span><br></pre></td></tr></table></figure>
-<p>示例：</p>
-<p>目录名 <code>paris_code</code>，秘钥 <code>meta#com</code>，输出包 <code>paris_code_20161008.tar.gz</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar czf - paris_code | openssl des3 -salt -k <span class="string">"meta#com"</span> -out paris_code_20161008.tar.gz</span><br></pre></td></tr></table></figure>
-<ul>
-<li>解密</li>
-</ul>
-<p>第一步：获取代码压缩文件包</p>
-<p>下载地址 <code>http://XXXX.com/paris_code_20161008.tar.gz</code></p>
-<p>第二步：解密文件（OS X / Linux only）</p>
-<p>在 Terminal 进入压缩文件包同级目录，输入以下命令：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openssl des3 -d -k <span class="string">"meta#com"</span> -salt -<span class="keyword">in</span> paris_code_20161008.tar.gz | tar xzf -</span><br></pre></td></tr></table></figure>
-<h2 id="Tip7-iOS-打包命令"><a href="#Tip7-iOS-打包命令" class="headerlink" title="Tip7: iOS 打包命令"></a>Tip7: iOS 打包命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"----------------"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Begin Build!"</span></span><br><span class="line">PROJECT_NAME=<span class="string">"orbit"</span></span><br><span class="line">BUILD_DATE=<span class="string">"<span class="variable">$(date +'%Y%m%d')</span>"</span></span><br><span class="line">BUNDLE_ID=<span class="string">"com.meta.paris"</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;WORKSPACE&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#/usr/local/bin/npm install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/build"</span> ]; <span class="keyword">then</span> </span><br><span class="line">    <span class="keyword">if</span> ls <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.ipa 1&gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">        rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.ipa; </span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line">    <span class="keyword">if</span> ls <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.xcarchive 1&gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">        rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.xcarchive; </span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    mkdir <span class="variable">$&#123;WORKSPACE&#125;</span>/build; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"计算今天的 Build Version"</span></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_DATE&#125;</span>"</span> ]; <span class="keyword">then</span> </span><br><span class="line">   <span class="comment">#如果不加上面的 if, Jenkins 无法直接执行下面的命令❓</span></span><br><span class="line">	BUILD_DATE_COUNT=$(ls <span class="variable">$&#123;WORKSPACE&#125;</span>/build | grep <span class="string">"^<span class="variable">$&#123;BUILD_DATE&#125;</span>"</span> -c)</span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span> -lt 10 ]; <span class="keyword">then</span></span><br><span class="line">        BUILD_DATE_COUNT=<span class="string">"0<span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span>"</span></span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line">	BUILD_VERSION=<span class="string">"<span class="variable">$&#123;BUILD_DATE&#125;</span><span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span>"</span></span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">  	BUILD_VERSION=<span class="variable">$&#123;BUILD_DATE&#125;</span></span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"今天的 Build Version 是 <span class="variable">$&#123;BUILD_VERSION&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>"</span> ]; <span class="keyword">then</span> </span><br><span class="line">    rm -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line">mkdir <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">"<span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist"</span> ]; <span class="keyword">then</span></span><br><span class="line">    rm <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#http://www.matrixprojects.net/p/xcodebuild-export-options-plist/</span></span><br><span class="line">Enterprise=<span class="string">'&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></span><br><span class="line"><span class="string">&lt;plist version="1.0"&gt;</span></span><br><span class="line"><span class="string">&lt;dict&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;teamID&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;string&gt;&lt;/string&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;method&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;string&gt;app-store&lt;/string&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;uploadSymbols&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;true/&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;uploadBitcode&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;false/&gt;</span></span><br><span class="line"><span class="string">&lt;/dict&gt;</span></span><br><span class="line"><span class="string">&lt;/plist&gt;'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;Enterprise&#125;</span> &gt; <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">''</span> <span class="string">'s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g'</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcodeproj/project.pbxproj</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">''</span> <span class="string">'s/DEVELOPMENT_TEAM = .*;/DEVELOPMENT_TEAM = "";/g'</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcodeproj/project.pbxproj</span><br><span class="line"></span><br><span class="line"><span class="comment">#动态生成 Build Version</span></span><br><span class="line">sed -i <span class="string">''</span> <span class="string">"/&lt;key&gt;CFBundleVersion&lt;\/key&gt;/&#123;N;s/&lt;string&gt;.*&lt;\/string&gt;/&lt;string&gt;<span class="variable">$&#123;BUILD_VERSION&#125;</span>&lt;\/string&gt;/g;&#125;"</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>-Info.plist</span><br><span class="line"></span><br><span class="line">xcodebuild -workspace <span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcworkspace \</span><br><span class="line">-scheme <span class="variable">$&#123;PROJECT_NAME&#125;</span> -sdk iphoneos \</span><br><span class="line">build CODE_SIGN_IDENTITY=<span class="string">"iPhone Distribution: Beijing PS Technology Co., Ltd."</span> \</span><br><span class="line">PROVISIONING_PROFILE=<span class="string">""</span> \</span><br><span class="line">-configuration Release clean archive \</span><br><span class="line">-archivePath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcarchive</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive -exportOptionsPlist <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist \</span><br><span class="line">-archivePath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcarchive \</span><br><span class="line">-exportPath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"----------------"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Build successfully!"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Begin Upload to itunes..."</span></span><br><span class="line"><span class="comment">#Use [shenzhen](https://github.com/nomad/shenzhen) to upload the ipa file to itunes connect.</span></span><br><span class="line">/usr/<span class="built_in">local</span>/bin/ipa distribute:itunesconnect -f <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.ipa -a YourAppleID -p YourPassword -i <span class="variable">$&#123;BUNDLE_ID&#125;</span> --upload</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Upload successfully!"</span></span><br></pre></td></tr></table></figure>
-<h2 id="Tip8-重置-iOS-模拟器"><a href="#Tip8-重置-iOS-模拟器" class="headerlink" title="Tip8: 重置 iOS 模拟器"></a>Tip8: 重置 iOS 模拟器</h2><p>相信各位在做 iOS 开发的同学都会碰到模拟器上各种神奇的现象，通过重置 iOS 模拟器基本上可以解决大部分问题：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 退出当前的所有模拟器</span><br><span class="line">$ osascript -e <span class="string">'tell application "iOS Simulator" to quit'</span></span><br><span class="line">$ osascript -e <span class="string">'tell application "Simulator" to quit'</span></span><br><span class="line"></span><br><span class="line">// 清掉之前使用模拟器产生的所有内容</span><br><span class="line">$ xcrun simctl erase all</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Shell-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Shell-Tip/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Vim-Tip" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Vim-Tip/">Vim Tip</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Vim-Tip/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/tip/">tip</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="1、替换第n1行到第n2行的内容"><a href="#1、替换第n1行到第n2行的内容" class="headerlink" title="1、替换第n1行到第n2行的内容"></a>1、替换第n1行到第n2行的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2/origin/replace/g</span><br></pre></td></tr></table></figure>
-<h2 id="2、替换整个文件的内容"><a href="#2、替换整个文件的内容" class="headerlink" title="2、替换整个文件的内容"></a>2、替换整个文件的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/origin/replace/g</span><br></pre></td></tr></table></figure>
-<h2 id="3、移动n1-n2行-包括n1-n2-到n3行之下"><a href="#3、移动n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="3、移动n1-n2行(包括n1,n2)到n3行之下"></a>3、移动n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n1,n2 <span class="keyword">m</span> n3</span><br></pre></td></tr></table></figure>
-<h2 id="4、复制n1-n2行-包括n1-n2-到n3行之下"><a href="#4、复制n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="4、复制n1-n2行(包括n1,n2)到n3行之下"></a>4、复制n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2 <span class="keyword">co</span> n3</span><br></pre></td></tr></table></figure>
-<h2 id="5、删除文件的空行"><a href="#5、删除文件的空行" class="headerlink" title="5、删除文件的空行"></a>5、删除文件的空行</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:g/^$/d</span><br></pre></td></tr></table></figure>
-<h2 id="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"></a>6、在文本中插入一个1到100的序列（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:r!seq <span class="number">100</span></span><br></pre></td></tr></table></figure>
-<h2 id="7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="7、在当前的每一行文字前面增加“序号. ”（来自池老师《说，谁才是最帅的编程工具？》）"></a>7、在当前的每一行文字前面增加“序号. ”（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">let</span> i=<span class="number">1</span> | g /^/ s//\=i.<span class="string">". "</span>/ | <span class="keyword">let</span> i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h2 id="8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"></a>8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span></span><br><span class="line">:n **/*.java</span><br><span class="line">:<span class="keyword">argdo</span> %s/apache/eclipse/ge | <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Vim-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Vim-Tip/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <article id="post-初步了解GCD" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -520,6 +335,79 @@
             
     
         <a href="https://hparis.github.io/blog/2017/09/05/初步了解GCD/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/初步了解GCD/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-Vim-Tip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/Vim-Tip/">Vim Tip</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/Vim-Tip/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/tip/">tip</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="1、替换第n1行到第n2行的内容"><a href="#1、替换第n1行到第n2行的内容" class="headerlink" title="1、替换第n1行到第n2行的内容"></a>1、替换第n1行到第n2行的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2/origin/replace/g</span><br></pre></td></tr></table></figure>
+<h2 id="2、替换整个文件的内容"><a href="#2、替换整个文件的内容" class="headerlink" title="2、替换整个文件的内容"></a>2、替换整个文件的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/origin/replace/g</span><br></pre></td></tr></table></figure>
+<h2 id="3、移动n1-n2行-包括n1-n2-到n3行之下"><a href="#3、移动n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="3、移动n1-n2行(包括n1,n2)到n3行之下"></a>3、移动n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n1,n2 <span class="keyword">m</span> n3</span><br></pre></td></tr></table></figure>
+<h2 id="4、复制n1-n2行-包括n1-n2-到n3行之下"><a href="#4、复制n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="4、复制n1-n2行(包括n1,n2)到n3行之下"></a>4、复制n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2 <span class="keyword">co</span> n3</span><br></pre></td></tr></table></figure>
+<h2 id="5、删除文件的空行"><a href="#5、删除文件的空行" class="headerlink" title="5、删除文件的空行"></a>5、删除文件的空行</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:g/^$/d</span><br></pre></td></tr></table></figure>
+<h2 id="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"></a>6、在文本中插入一个1到100的序列（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:r!seq <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<h2 id="7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="7、在当前的每一行文字前面增加“序号. ”（来自池老师《说，谁才是最帅的编程工具？》）"></a>7、在当前的每一行文字前面增加“序号. ”（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">let</span> i=<span class="number">1</span> | g /^/ s//\=i.<span class="string">". "</span>/ | <span class="keyword">let</span> i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"></a>8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span></span><br><span class="line">:n **/*.java</span><br><span class="line">:<span class="keyword">argdo</span> %s/apache/eclipse/ge | <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/Vim-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Vim-Tip/">Comments</a>
     
 
         </footer>
@@ -679,6 +567,97 @@
 
 
 
+    <article id="post-RAC和内存管理" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/RAC和内存管理/">RAC 和内存管理</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/RAC和内存管理/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/RAC/">RAC</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。<br>在一开始接触 RAC 的时候，我们知道 RAC 对于 block 都是 copy 赋值的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">RACSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">RACSignal</span> *)createSignal:(<span class="type">RACDisposable</span> * (^)(id&lt;<span class="type">RACSubscriber</span>&gt; subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="type">RACDynamicSignal</span> createSignal:didSubscribe];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">RACDynamicSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">RACSignal</span> *)createSignal:(<span class="type">RACDisposable</span> * (^)(id&lt;<span class="type">RACSubscriber</span>&gt; subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="type">RACDynamicSignal</span> *signal = [[<span class="keyword">self</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    signal-&gt;_didSubscribe = [didSubscribe copy];</span><br><span class="line">    <span class="keyword">return</span> [signal setNameWithFormat:@<span class="string">"+createSignal:"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在创建 RACSingal 的时候会调用其子类 RACDynamicSignal 去创建，我们也看到 RACDynamicSignal 对 didSuscribe 这个 block 是进行了 copy。所以大家可能会被要求注意循环引用的问题，于是大家都用 @weakify(target) 和 @strongify(target) 来避免循环引用的问题。那是不是所有用到 RAC 的地方都需要使用这些宏来避免循环引用的问题，不尽然。比如下面这个：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景1</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>, title) subscribeNext:^(id x) &#123;</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">"%@"</span>, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>接下来，我们来对比以下的几种用法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@interface <span class="type">ViewController</span>()</span><br><span class="line">@property (strong, nonatomic) <span class="type">ViewModel</span> * viewModel;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">ViewController</span></span><br><span class="line"></span><br><span class="line">- (void)viewDidiLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.viewModel = [<span class="type">ViewModel</span> new];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景2</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.title = @<span class="string">"你好"</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景3</span></span><br><span class="line">    [<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景4</span></span><br><span class="line">    [<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title)     &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title;</span><br><span class="line">    &#125;]; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>场景2是我们平常都会用到的，而且我们也没有在这种场景下去考虑循环引用的问题，这是因为 dispatch 的 block 不是属于 self 的（至于这个 block 是属于谁的，回头我再查点资料或者请各位指教），所以即使你在 block 使用了 self 也不会有循环应用的问题。</p>
+<p>场景3很明显是有循环引用的问题：<strong>self-&gt;viewModel-&gt;titleSignal-&gt;block-&gt;self</strong>，这个时候如果我们不做处理的话，那么 self 就永远不会被释放。正确的做法应该是使用 @weakify(self) 和 @strongify(self)：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景3</span></span><br><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    @strongify(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>场景4在我们看来是没有问题的，因为这里看起来只有 <strong>singal-&gt;block-&gt;self</strong> 的引用，它们之间并没有造成循环引用的问题。我们先来看看 RACObserve 的实现：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#define <span class="type">RACObserve</span>(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) \</span><br><span class="line">(&#123; \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic push"</span>) \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic ignored \"-Wreceiver-is-weak\""</span>) \</span><br><span class="line">__weak id target_ = (<span class="type">TARGET</span>); \</span><br><span class="line">[target_ rac_valuesForKeyPath:@keypath(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) observer:<span class="keyword">self</span>]; \</span><br><span class="line">_Pragma(<span class="string">"clang diagnostic pop"</span>) \</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">- (<span class="type">RACSignal</span> *)rac_valuesForKeyPath:(<span class="type">NSString</span> *)keyPath observer:(__weak <span class="type">NSObject</span> *)observer;</span><br></pre></td></tr></table></figure>
+<p>其实，看到这里你会认为这里只是调用了一个方法创建了一个 Signal，而且这个 Signal 也并不属于任何对象。我们再来看看具体的实现是怎么样的？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">RACSignal</span> *)rac_valuesAndChangesForKeyPath:(<span class="type">NSString</span> *)keyPath options:(<span class="type">NSKeyValueObservingOptions</span>)options observer:(__weak <span class="type">NSObject</span> *)weakObserver &#123;</span><br><span class="line">    <span class="type">NSObject</span> *strongObserver = weakObserver;</span><br><span class="line">    keyPath = [keyPath copy];</span><br><span class="line"></span><br><span class="line">    <span class="type">NSRecursiveLock</span> *objectLock = [[<span class="type">NSRecursiveLock</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    objectLock.name = @<span class="string">"org.reactivecocoa.ReactiveCocoa.NSObjectRACPropertySubscribing"</span>;</span><br><span class="line"></span><br><span class="line">    __weak <span class="type">NSObject</span> *weakSelf = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">RACSignal</span> *deallocSignal = [[<span class="type">RACSignal</span> <span class="built_in">zip</span>:@[</span><br><span class="line">                            <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                            strongObserver.rac_willDeallocSignal ?: [<span class="type">RACSignal</span> never]</span><br><span class="line">    ]] doCompleted:^&#123;</span><br><span class="line">        <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">        <span class="comment">// being read on another thread.</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        @onExit &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [[[<span class="type">RACSignal</span> createSignal:^ <span class="type">RACDisposable</span> * (id&lt;<span class="type">RACSubscriber</span>&gt; subscriber) &#123;</span><br><span class="line">        <span class="comment">// Hold onto the lock the whole time we're setting up the KVO</span></span><br><span class="line">        <span class="comment">// observation, because any resurrection that might be caused by our</span></span><br><span class="line">        <span class="comment">// retaining below must be balanced out by the time -dealloc returns</span></span><br><span class="line">        <span class="comment">// (if another thread is waiting on the lock above).</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        @onExit &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">        __strong <span class="type">NSObject</span> *observer __attribute__((objc_precise_lifetime)) = weakObserver;</span><br><span class="line">        __strong <span class="type">NSObject</span> *<span class="keyword">self</span> __attribute__((objc_precise_lifetime)) = weakSelf;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span> == <span class="literal">nil</span>) &#123;</span><br><span class="line">            [subscriber sendCompleted];</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> [<span class="keyword">self</span> rac_observeKeyPath:keyPath options:options observer:observer block:^(id value, <span class="type">NSDictionary</span> *change, <span class="type">BOOL</span> causedByDealloc, <span class="type">BOOL</span> affectedOnlyLastComponent) &#123;</span><br><span class="line">                [subscriber sendNext:<span class="type">RACTuplePack</span>(value, change)];</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;] takeUntil:deallocSignal] setNameWithFormat:@<span class="string">"%@ -rac_valueAndChangesForKeyPath: %@ options: %lu observer: %@"</span>, <span class="keyword">self</span>.rac_description, keyPath, (unsigned long)options, strongObserver.rac_description];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重点观察 <strong>deallocSignal</strong> 和 <strong>[signal takeUntile:deallocSignal]</strong>，我们把 deallocSignal 单独拿出来看看：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RACSignal</span> *deallocSignal = [[<span class="type">RACSignal</span> <span class="built_in">zip</span>:@[</span><br><span class="line">                        <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                        strongObserver.rac_willDeallocSignal ?: [<span class="type">RACSignal</span> never]</span><br><span class="line">                        ]] doCompleted:^&#123;</span><br><span class="line">    <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">    <span class="comment">// being read on another thread.</span></span><br><span class="line">    [objectLock lock];</span><br><span class="line">    @onExit &#123;</span><br><span class="line">    [objectLock unlock];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>这里的 deallocSignal 是只有在 self 和 strongObserve 都将要发生 dealloc 的时候才会触发的。即用 RACObserve 创建的信号只有在其 target 和 observe 都发生 dealloc 的时候才会被 disposable (这个好像是 RAC 用来销毁自己资源的东西)。不明白的童鞋，我们回头来分析一下场景4的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>用 RACObserve 创建的信号看起来只要出了函数体其资源应该就会被回收，但是这个信号其实是只有在 self.viewModel.rac_willDeallocSignal 和 self.rac_willDeallocSignal 都发生的情况下才会被释放。所以场景4的引用关系看起来只有 signal-&gt;block-&gt;self，但是这个 signal 只有在 self.rac_willDeallocSignal 的时候才会被释放。所以这里如果不打断这种关系的话就会造成循环引用的问题，正确做法应该是：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">@weakify(<span class="keyword">self</span>);</span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:^(<span class="type">NSString</span> * title) &#123;</span><br><span class="line">    @strongify(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title = title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>最后，在说一个特别需要注意的，就是 UITableViewCell 和 UICollectionViewCell 复用和 RAC 的问题。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> *)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">UITableViewCell</span> *)tableView:(nonnull <span class="type">UITableView</span> *)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> * cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"TableViewCell"</span>];</span><br><span class="line"></span><br><span class="line">    @weakify(<span class="keyword">self</span>);</span><br><span class="line">    [<span class="type">RACObserve</span>(cell.textLabel, text) subscribeNext:^(id x) &#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看到这里的 RACObserve 创建的 Signal 和 self 之间已经去掉了循环引用的问题，所以应该是没有什么问题的。但是结合之前我们对 RACObserve 的理解再仔细分析一下，这里的 Signal 只要 self 没有被 dealloc 的话就不会被释放。虽然每次 UITableViewCell 都会被重用，但是每次重用过程中创建的信号确实无法被 disposable。那我们该怎么做呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> *)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">UITableViewCell</span> *)tableView:(nonnull <span class="type">UITableView</span> *)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> * cell = [tableView dequeueReusableCellWithIdentifier:@<span class="string">"TableViewCell"</span>];</span><br><span class="line"></span><br><span class="line">    @weakify(<span class="keyword">self</span>);</span><br><span class="line">    [[<span class="type">RACObserve</span>(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(id x) &#123;</span><br><span class="line">        @strongify(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"%@"</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，我们在cell里面创建的信号加上 takeUntil:cell.rac_prepareForReuseSignal，这个是让 cell 在每次重用的时候都去 disposable 创建的信号。</p>
+<p>以上所说的关于内存的东西我都用 Instrument 的 Allocations 验证过了，但是依旧建议大家自己也去试试。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/blog/">&laquo; Prev</a><a class="page-number" href="/blog/">1</a><span class="page-number current">2</span>
     </nav>
@@ -699,7 +678,7 @@
                             <a href="/blog/2018/04/19/self-在-block-中的引用计数变化/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(https://images.unsplash.com/photo-1462303966430-8a4708fd729e?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=c9dd0952e673c518403fb8d4c28f93b5&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=60)" alt="self 在 block 中的引用计数变化" class="thumbnail-image"></span>
     
 </a>
 
@@ -718,7 +697,7 @@
                             <a href="/blog/2018/04/09/常用工具/" class="thumbnail">
     
     
-        <span style="background-image:url(https://images.unsplash.com/photo-1509655172625-03265ba919a1?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=24b01fba0d86b9fa95814c692429379f&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=10)" alt="常用工具" class="thumbnail-image"></span>
+        <span style="background-image:url(https://images.unsplash.com/photo-1514443031610-8c063c7a9822?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=73d9a7ce5ba0ed22cb91bdc0506ac9d0&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=10)" alt="常用工具" class="thumbnail-image"></span>
     
 </a>
 

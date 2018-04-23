@@ -26,7 +26,7 @@ self.block = ^{
 NSLog(@"Before block：%ld", CFGetRetainCount((__bridge CFTypeRef)(self)));
 self.block = ^{
     self;
-     NSLog(@"Within block：%ld", CFGetRetainCount((__bridge CFTypeRef)(self)));
+    NSLog(@"Within block：%ld", CFGetRetainCount((__bridge CFTypeRef)(self)));
 };
 self.block();
 NSLog(@"After block：%ld", CFGetRetainCount((__bridge CFTypeRef)(self)));

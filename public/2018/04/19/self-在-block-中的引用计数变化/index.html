@@ -13,10 +13,12 @@
 <meta property="og:site_name" content="帕帕&#39;s Blog">
 <meta property="og:description" content="相信大家在 Objective-C 中都会通过 __waek 的修饰符来保证 block 和 self 不会互相引用，代码如下: 12345__weak typeof(self) weakSelf = self;self.block = ^&amp;#123;    __strong typeof(self) strongSelf = self;    ...&amp;#125; 但是你思考过 self 在这一段">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-04-20T03:39:45.544Z">
+<meta property="og:image" content="https://images.unsplash.com/photo-1462303966430-8a4708fd729e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c9dd0952e673c518403fb8d4c28f93b5&auto=format&fit=crop&w=160&q=60">
+<meta property="og:updated_time" content="2018-04-23T08:21:10.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="self 在 block 中的引用计数变化">
 <meta name="twitter:description" content="相信大家在 Objective-C 中都会通过 __waek 的修饰符来保证 block 和 self 不会互相引用，代码如下: 12345__weak typeof(self) weakSelf = self;self.block = ^&amp;#123;    __strong typeof(self) strongSelf = self;    ...&amp;#125; 但是你思考过 self 在这一段">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1462303966430-8a4708fd729e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c9dd0952e673c518403fb8d4c28f93b5&auto=format&fit=crop&w=160&q=60">
     
 
     
@@ -290,7 +292,7 @@
 <hr>
 <p>最后，说一下关于 _Block_object_assign 的猜想：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);</span><br></pre></td></tr></table></figure>
-<p>通过上面的例子，我们知道 Block 在构造的时候就会对捕获的变量进行内存管理（强引用和弱引用），所以当 Block 在做 Copy 操作的时候其实没有必要再做一遍内存管理了。这也应该是 Block 的 Copy 操作使用了 <code>_Block_object_assign</code> 这种不会导致引用计数发生变化的方式来实现。</p>
+<p>通过上面的例子，我们知道 Block 在构造的时候就会对捕获的变量进行内存管理（强引用和弱引用），所以当 Block 在做 Copy 操作的时候其实没有必要对它捕获的变量再做一遍内存管理了。这也应该是 Block 的 Copy 操作使用了 <code>_Block_object_assign</code> 这种不会导致引用计数发生变化的方式来实现的原因。</p>
 
         
         </div>
@@ -351,7 +353,7 @@
                             <a href="/blog/2018/04/19/self-在-block-中的引用计数变化/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(https://images.unsplash.com/photo-1462303966430-8a4708fd729e?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=c9dd0952e673c518403fb8d4c28f93b5&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=60)" alt="self 在 block 中的引用计数变化" class="thumbnail-image"></span>
     
 </a>
 
@@ -370,7 +372,7 @@
                             <a href="/blog/2018/04/09/常用工具/" class="thumbnail">
     
     
-        <span style="background-image:url(https://images.unsplash.com/photo-1509655172625-03265ba919a1?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=24b01fba0d86b9fa95814c692429379f&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=10)" alt="常用工具" class="thumbnail-image"></span>
+        <span style="background-image:url(https://images.unsplash.com/photo-1514443031610-8c063c7a9822?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=73d9a7ce5ba0ed22cb91bdc0506ac9d0&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=10)" alt="常用工具" class="thumbnail-image"></span>
     
 </a>
 

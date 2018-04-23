@@ -4,6 +4,7 @@ author: 帕帕
 date: 2018-04-19 11:34:51 +0800
 categories: 技术 
 tags: [iOS, Objective-C, Block]
+thumbnail: https://images.unsplash.com/photo-1462303966430-8a4708fd729e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c9dd0952e673c518403fb8d4c28f93b5&auto=format&fit=crop&w=160&q=60
 ---
 
 
@@ -227,7 +228,7 @@ static void _I_BlockTest_test(BlockTest * self, SEL _cmd) {
 _Block_object_assign((void*)&dst->weakSelf, (void*)src->weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);
 ```
 
-通过上面的例子，我们知道 Block 在构造的时候就会对捕获的变量进行内存管理（强引用和弱引用），所以当 Block 在做 Copy 操作的时候其实没有必要再做一遍内存管理了。这也应该是 Block 的 Copy 操作使用了 `_Block_object_assign` 这种不会导致引用计数发生变化的方式来实现。
+通过上面的例子，我们知道 Block 在构造的时候就会对捕获的变量进行内存管理（强引用和弱引用），所以当 Block 在做 Copy 操作的时候其实没有必要对它捕获的变量再做一遍内存管理了。这也应该是 Block 的 Copy 操作使用了 `_Block_object_assign` 这种不会导致引用计数发生变化的方式来实现的原因。
 
 
 

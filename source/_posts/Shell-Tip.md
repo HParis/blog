@@ -70,7 +70,7 @@ name_array=("Icon-20.png" "Icon-20@2x.png" "Icon-20@3x.png"
 "Icon-60@2x.png" "Icon-60@3x.png"
 "Icon-76.png" "Icon-76@2x.png"
 "Icon-83.5@2x.png")
-size_array=("20" "40" "80"
+size_array=("20" "40" "60"
 "29" "58" "87"
 "40" "80" "120"
 "120" "180"
@@ -83,6 +83,8 @@ for ((i=0;i<${#name_array[@]};++i)); do
     m_dir=$dirname/${name_array[i]}
     cp $filename $m_dir
     sips -Z ${size_array[i]} $m_dir
+# 如果图片是 sRGB 的话，使用下面的命令
+#    sips --matchTo '/System/Library/ColorSync/Profiles/sRGB Profile.icc' -Z ${size_array[i]} $m_dir 
 done
 ```
 

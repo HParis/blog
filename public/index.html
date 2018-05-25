@@ -210,7 +210,7 @@
 
             
             <section id="main">
-    <article id="post-Swift-High-Performance-Tip 3： @objc-和-dynamic" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Swift-High-Performance-Tip 3：@objc-和-dynamic" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -218,7 +218,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/blog/2018/05/25/Swift-High-Performance-Tip 3： @objc-和-dynamic/">Swift High-Performance Tip 3：@objc 和 dynamic</a>
+            <a class="article-title" href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/">Swift High-Performance Tip 3：@objc 和 dynamic</a>
         </h1>
     
 
@@ -227,7 +227,7 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/blog/2018/05/25/Swift-High-Performance-Tip 3： @objc-和-dynamic/">
+        <a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/">
             <time datetime="2018-05-24T18:48:01.000Z" itemprop="datePublished">2018-05-24</time>
         </a>
     </div>
@@ -262,7 +262,7 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="https://swiftunboxed.com/images/native-objc-dynamic.png" alt="此图出自 https://swiftunboxed.com/interop/objc-dynamic/"></p>
 <p>通过上图我们知道：</p>
 <blockquote>
-<p>除非明确的知道会在 Objective-C 中调用这段代码，否则别使用 @objc<br>除非明确的知道该方法需要被 Objective-C 的 runtime 动态调用，否则别使用 @objc dynamic</p>
+<p>除非明确的知道会在 Objective-C 中调用这段代码，否则别使用 @objc；<br>除非明确的知道该方法需要被 Objective-C 的 runtime 动态调用，否则别使用 @objc dynamic。</p>
 </blockquote>
 <hr>
 <p><strong>参考文献</strong></p>
@@ -284,7 +284,7 @@
 
             
     
-        <a href="https://hparis.github.io/blog/2018/05/25/Swift-High-Performance-Tip 3： @objc-和-dynamic/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2018/05/25/Swift-High-Performance-Tip 3： @objc-和-dynamic/">Comments</a>
+        <a href="https://hparis.github.io/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/">Comments</a>
     
 
         </footer>
@@ -973,6 +973,79 @@
 
 
 
+    <article id="post-Vim-Tip" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/Vim-Tip/">Vim Tip</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/Vim-Tip/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/tip/">tip</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="1、替换第n1行到第n2行的内容"><a href="#1、替换第n1行到第n2行的内容" class="headerlink" title="1、替换第n1行到第n2行的内容"></a>1、替换第n1行到第n2行的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2/origin/replace/g</span><br></pre></td></tr></table></figure>
+<h2 id="2、替换整个文件的内容"><a href="#2、替换整个文件的内容" class="headerlink" title="2、替换整个文件的内容"></a>2、替换整个文件的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/origin/replace/g</span><br></pre></td></tr></table></figure>
+<h2 id="3、移动n1-n2行-包括n1-n2-到n3行之下"><a href="#3、移动n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="3、移动n1-n2行(包括n1,n2)到n3行之下"></a>3、移动n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n1,n2 <span class="keyword">m</span> n3</span><br></pre></td></tr></table></figure>
+<h2 id="4、复制n1-n2行-包括n1-n2-到n3行之下"><a href="#4、复制n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="4、复制n1-n2行(包括n1,n2)到n3行之下"></a>4、复制n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2 <span class="keyword">co</span> n3</span><br></pre></td></tr></table></figure>
+<h2 id="5、删除文件的空行"><a href="#5、删除文件的空行" class="headerlink" title="5、删除文件的空行"></a>5、删除文件的空行</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:g/^$/d</span><br></pre></td></tr></table></figure>
+<h2 id="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"></a>6、在文本中插入一个1到100的序列（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:r!seq <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<h2 id="7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="7、在当前的每一行文字前面增加“序号. ”（来自池老师《说，谁才是最帅的编程工具？》）"></a>7、在当前的每一行文字前面增加“序号. ”（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">let</span> i=<span class="number">1</span> | g /^/ s//\=i.<span class="string">". "</span>/ | <span class="keyword">let</span> i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"></a>8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span></span><br><span class="line">:n **/*.java</span><br><span class="line">:<span class="keyword">argdo</span> %s/apache/eclipse/ge | <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/Vim-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Vim-Tip/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Swift-High-Performance-Tip 2：final和private(fileprivate)" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1061,79 +1134,6 @@
 
 
 
-    <article id="post-Vim-Tip" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Vim-Tip/">Vim Tip</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Vim-Tip/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/tip/">tip</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="1、替换第n1行到第n2行的内容"><a href="#1、替换第n1行到第n2行的内容" class="headerlink" title="1、替换第n1行到第n2行的内容"></a>1、替换第n1行到第n2行的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2/origin/replace/g</span><br></pre></td></tr></table></figure>
-<h2 id="2、替换整个文件的内容"><a href="#2、替换整个文件的内容" class="headerlink" title="2、替换整个文件的内容"></a>2、替换整个文件的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/origin/replace/g</span><br></pre></td></tr></table></figure>
-<h2 id="3、移动n1-n2行-包括n1-n2-到n3行之下"><a href="#3、移动n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="3、移动n1-n2行(包括n1,n2)到n3行之下"></a>3、移动n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n1,n2 <span class="keyword">m</span> n3</span><br></pre></td></tr></table></figure>
-<h2 id="4、复制n1-n2行-包括n1-n2-到n3行之下"><a href="#4、复制n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="4、复制n1-n2行(包括n1,n2)到n3行之下"></a>4、复制n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2 <span class="keyword">co</span> n3</span><br></pre></td></tr></table></figure>
-<h2 id="5、删除文件的空行"><a href="#5、删除文件的空行" class="headerlink" title="5、删除文件的空行"></a>5、删除文件的空行</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:g/^$/d</span><br></pre></td></tr></table></figure>
-<h2 id="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"></a>6、在文本中插入一个1到100的序列（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:r!seq <span class="number">100</span></span><br></pre></td></tr></table></figure>
-<h2 id="7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="7、在当前的每一行文字前面增加“序号. ”（来自池老师《说，谁才是最帅的编程工具？》）"></a>7、在当前的每一行文字前面增加“序号. ”（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">let</span> i=<span class="number">1</span> | g /^/ s//\=i.<span class="string">". "</span>/ | <span class="keyword">let</span> i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h2 id="8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"></a>8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span></span><br><span class="line">:n **/*.java</span><br><span class="line">:<span class="keyword">argdo</span> %s/apache/eclipse/ge | <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Vim-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Vim-Tip/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/blog/page/2/">2</a><a class="extend next" rel="next" href="/blog/page/2/">Next &raquo;</a>
     </nav>
@@ -1151,10 +1151,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/blog/2018/05/25/Swift-High-Performance-Tip 3： @objc-和-dynamic/" class="thumbnail">
+                            <a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(https://images.unsplash.com/photo-1507358522600-9f71e620c44e?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=9606de2cffd6c619093871ef2d1c0e6f&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Swift High-Performance Tip 3：@objc 和 dynamic" class="thumbnail-image"></span>
     
 </a>
 
@@ -1162,7 +1162,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2018/05/25/Swift-High-Performance-Tip 3： @objc-和-dynamic/" class="title">Swift High-Performance Tip 3：@objc 和 dynamic</a></p>
+                            <p class="item-title"><a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/" class="title">Swift High-Performance Tip 3：@objc 和 dynamic</a></p>
                             <p class="item-date"><time datetime="2018-05-24T18:48:01.000Z" itemprop="datePublished">2018-05-24</time></p>
                         </div>
                     </li>

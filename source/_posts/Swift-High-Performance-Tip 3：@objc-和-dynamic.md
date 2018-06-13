@@ -19,7 +19,7 @@ thumbnail: https://images.unsplash.com/photo-1507358522600-9f71e620c44e?ixlib=rb
 
 Swift 的方法是通过 vtable 来调用的，使用 vtable 的要比 Objective-C 的 runtime 更高效。
 
-而使用 dynamic 来修饰的方法，代表这个方法是可以被动态调用的。而由于目前 Swfit 还没有时间自己的 runtime 机制，所以动态调用只能够在 Objective-C 去调用。在  Swift4 使用 dynamic 修饰一个方法的时候，编译器会要求你还需要使用 @objc 去修饰。这是为了明确的告诉编译器这个方法是由 Objective-C 的 runtime 来调用的，同时也是为了兼容以后可能会出现的 Swift runtime 机制。
+而使用 dynamic 来修饰的方法，代表这个方法是可以被动态调用的。而由于目前 Swfit 还没有实现自己的 runtime 机制，所以动态调用只能够在 Objective-C 去调用。在  Swift4 使用 dynamic 修饰一个方法的时候，编译器会要求你还需要使用 @objc 去修饰。这是为了明确的告诉编译器这个方法是由 Objective-C 的 runtime 来调用的，同时也是为了兼容以后可能会出现的 Swift runtime 机制。
 
 由于目前使用 @objc dynamic 修饰的方法并不在 Swift 实例对象的 vtable 里面，所以 Swift 来调用该方法的时候依旧需要通过 thunk 代码来调用。
 

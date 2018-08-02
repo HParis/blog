@@ -6,7 +6,7 @@
     <title>如何用 Objective-C 实现一个死锁 | 帕帕&#39;s Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="当系统存在两个线程及以上的时候，双方都在等待对方停止执行，以获得系统资源，但是没有一方提前退出的时候就叫做死锁。  那在 Objective-C 里面如何实现死锁呢： 12345678910111213141516171819202122self.lock1 = [NSLock new];self.lock2 = [NSLock new];    dispatch_async(dispatch_">
-<meta name="keywords" content="iOS,Objective-C,GCD">
+<meta name="keywords" content="iOS,GCD,Objective-C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何用 Objective-C 实现一个死锁">
 <meta property="og:url" content="https://hparis.github.io/blog/2018/04/02/如何用-Objective-C-实现一个死锁/index.html">

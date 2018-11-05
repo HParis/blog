@@ -344,6 +344,87 @@
 
 
 
+    <article id="post-Swift-High-Performance-Tip 1：Array和ContiguousArray" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/Swift/">Swift</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>Array 是随机存储的（random-access）集合类型。</p>
+</blockquote>
+<blockquote>
+<p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
+</blockquote>
+<p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray = <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
+<p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
+<blockquote>
+<p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
+</blockquote>
+<p>但是 <a href="https://twitter.com/twostraws" target="_blank" rel="noopener">@Paul Hudson</a> 在他的<a href="https://gumroad.com/l/proswift" target="_blank" rel="noopener">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 = <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"><span class="keyword">var</span> end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line">end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
+<p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
+<p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-RAC和内存管理" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -426,79 +507,6 @@
             
     
         <a href="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/RAC和内存管理/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Vim-Tip" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Vim-Tip/">Vim Tip</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Vim-Tip/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/tip/">tip</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="1、替换第n1行到第n2行的内容"><a href="#1、替换第n1行到第n2行的内容" class="headerlink" title="1、替换第n1行到第n2行的内容"></a>1、替换第n1行到第n2行的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2/origin/replace/g</span><br></pre></td></tr></table></figure>
-<h2 id="2、替换整个文件的内容"><a href="#2、替换整个文件的内容" class="headerlink" title="2、替换整个文件的内容"></a>2、替换整个文件的内容</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/origin/replace/g</span><br></pre></td></tr></table></figure>
-<h2 id="3、移动n1-n2行-包括n1-n2-到n3行之下"><a href="#3、移动n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="3、移动n1-n2行(包括n1,n2)到n3行之下"></a>3、移动n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n1,n2 <span class="keyword">m</span> n3</span><br></pre></td></tr></table></figure>
-<h2 id="4、复制n1-n2行-包括n1-n2-到n3行之下"><a href="#4、复制n1-n2行-包括n1-n2-到n3行之下" class="headerlink" title="4、复制n1-n2行(包括n1,n2)到n3行之下"></a>4、复制n1-n2行(包括n1,n2)到n3行之下</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:n1,n2 <span class="keyword">co</span> n3</span><br></pre></td></tr></table></figure>
-<h2 id="5、删除文件的空行"><a href="#5、删除文件的空行" class="headerlink" title="5、删除文件的空行"></a>5、删除文件的空行</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:g/^$/d</span><br></pre></td></tr></table></figure>
-<h2 id="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="6、在文本中插入一个1到100的序列（来自池老师《说，谁才是最帅的编程工具？》）"></a>6、在文本中插入一个1到100的序列（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:r!seq <span class="number">100</span></span><br></pre></td></tr></table></figure>
-<h2 id="7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#7、在当前的每一行文字前面增加“序号-”（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="7、在当前的每一行文字前面增加“序号. ”（来自池老师《说，谁才是最帅的编程工具？》）"></a>7、在当前的每一行文字前面增加“序号. ”（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">let</span> i=<span class="number">1</span> | g /^/ s//\=i.<span class="string">". "</span>/ | <span class="keyword">let</span> i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h2 id="8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"><a href="#8、当前目录下（包括子文件夹）所有后缀为-java-的文件中的-apache-替换成-eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）" class="headerlink" title="8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师《说，谁才是最帅的编程工具？》）"></a>8、当前目录下（包括子文件夹）所有后缀为 java 的文件中的 apache 替换成 eclipse，那么在当前目录下依次执行如下命令：（来自池老师<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODQ2MDIyMA==&amp;mid=2650712546&amp;idx=1&amp;sn=c4db99547b75d6001b3cfaa6cbc0e715&amp;scene=1&amp;srcid=0805j7ny3Ua1WufWDEpnhwOG#rd" target="_blank" rel="noopener">《说，谁才是最帅的编程工具？》</a>）</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span></span><br><span class="line">:n **/*.java</span><br><span class="line">:<span class="keyword">argdo</span> %s/apache/eclipse/ge | <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Vim-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Vim-Tip/">Comments</a>
     
 
         </footer>
@@ -675,10 +683,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/blog/2018/11/06/Notification 的一些知识点/" class="thumbnail">
+                            <a href="/blog/2018/11/06/Notification-的一些知识点/" class="thumbnail">
     
     
-        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="NSNotification 的一些知识点" class="thumbnail-image"></span>
+        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Notification 的一些知识点" class="thumbnail-image"></span>
     
 </a>
 
@@ -686,8 +694,8 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2018/11/06/Notification 的一些知识点/" class="title">NSNotification 的一些知识点</a></p>
-                            <p class="item-date"><time datetime="2018-11-05T17:38:56.000Z" itemprop="datePublished">2018-11-05</time></p>
+                            <p class="item-title"><a href="/blog/2018/11/06/Notification-的一些知识点/" class="title">Notification 的一些知识点</a></p>
+                            <p class="item-date"><time datetime="2018-11-05T17:55:26.000Z" itemprop="datePublished">2018-11-05</time></p>
                         </div>
                     </li>
                 

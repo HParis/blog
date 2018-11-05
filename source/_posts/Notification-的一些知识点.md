@@ -1,7 +1,7 @@
 ---
-title: NSNotification 的一些知识点
+title: Notification 的一些知识点
+date: 2018-11-05 17:55:26 +0800
 author: 帕帕
-date: 2018-11-05 17:38:56 +0800
 categories: 技术
 tags: [iOS]
 thumbnail: https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3749c47dd7beec20102c6b32fc19833a&auto=format&fit=crop&w=160&q=100
@@ -121,5 +121,3 @@ print("相差：\(end.timeIntervalSince(start))")
 ```
 
 我们可以看到最后相差时间大概是 `3s` ，通过上面的代码我们就知道单 NotificationCenter 去 post 一个通知的时候，它会等待观察者处理完改通知之后才会继续往后执行。所以平常使用过程中我们要注意 post 有可能会阻塞当前线程，特别是在主线程中。
-
-

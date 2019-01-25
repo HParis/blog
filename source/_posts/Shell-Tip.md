@@ -234,3 +234,17 @@ $ osascript -e 'tell application "Simulator" to quit'
 $ xcrun simctl erase all
 ```
 
+## Tip9: 模拟器截图
+
+下面的命令会默认截取第一个启动的模拟器：
+
+```Sh
+xcrun simctl io booted screenshot screenshot.png
+```
+
+当你同时启动了多个模拟器的情况下，需要先查看当前启动的模拟器 ID，然后指定 ID 截图：
+
+```Sh
+xcrun simctl list
+xcrun simctl io B5EEDDC0-CDA3-46A9-A2B6-FA940D693DFC screenshot screenshot.png
+```

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>UIScrollView 的偏移问题 | 帕帕&#39;s Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="被控制的 UIScrollView在 UIViewController 中有个属性：automaticallyAdjustsScrollViewInsets，这个属性是用来控制 UIScrollView 的偏移行为的。          The default value of this property is true, which lets container view controllers">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIScrollView 的偏移问题">
+<meta property="og:url" content="https://hparis.github.io/blog/2019/09/28/UIScrollView-的偏移问题/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="被控制的 UIScrollView在 UIViewController 中有个属性：automaticallyAdjustsScrollViewInsets，这个属性是用来控制 UIScrollView 的偏移行为的。          The default value of this property is true, which lets container view controllers">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3749c47dd7beec20102c6b32fc19833a&auto=format&fit=crop&w=160&q=100">
+<meta property="og:updated_time" content="2019-10-11T06:18:39.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIScrollView 的偏移问题">
+<meta name="twitter:description" content="被控制的 UIScrollView在 UIViewController 中有个属性：automaticallyAdjustsScrollViewInsets，这个属性是用来控制 UIScrollView 的偏移行为的。          The default value of this property is true, which lets container view controllers">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3749c47dd7beec20102c6b32fc19833a&auto=format&fit=crop&w=160&q=100">
+    
+
+    
+        <link rel="alternate" href="/" title="帕帕&#39;s Blog" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/blog/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/blog/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/blog/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/blog/css/style.css">
+
+    <script src="/blog/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/blog/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/blog/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/blog/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">帕帕&#39;s Blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/blog/.">Home</a>
+                
+                    <a class="main-nav-link" href="/blog/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/blog/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/blog/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/blog/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/blog/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/blog/',
+        CONTENT_URL: '/blog/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/blog/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/blog/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/blog/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/blog/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/blog/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/blog/css/images/avatar.png" />
+            <h2 id="name">帕帕</h2>
+            <h3 id="title">iOS Developer &amp; RN</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/HParis">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                19
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                11
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/HParis" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://twitter.com/Paris_Htj" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://www.facebook.com/profile.php?id=100006030375941" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/blog/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/blog/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-UIScrollView-的偏移问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            UIScrollView 的偏移问题
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2019/09/28/UIScrollView-的偏移问题/">
+            <time datetime="2019-09-27T17:40:01.000Z" itemprop="datePublished">2019-09-27</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="被控制的-UIScrollView"><a href="#被控制的-UIScrollView" class="headerlink" title="被控制的 UIScrollView"></a>被控制的 UIScrollView</h2><p>在 UIViewController 中有个属性：<code>automaticallyAdjustsScrollViewInsets</code>，这个属性是用来控制 UIScrollView 的偏移行为的。</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The default value of this property is <code>true</code>, which lets container view controllers know that they should adjust the scroll view insets of this view controller’s view to account for screen areas consumed by a status bar, search bar, navigation bar, toolbar, or tab bar. Set this property to <code>false</code> if your view controller implementation manages its own scroll view inset adjustments.</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>官方文档的意思当在 UIViewController 上添加  UIScrollView 的时候，会根据当前页面的 status bar、 search bar、navigation bar、toolbar 或 tab bar 来修改 UIScrollView 的内容区域。但是这个阶段的 UIViewController 比较蠢，不管任何情况下都会修改 UIScrollView 的偏移量。</p>
+<p>比如我们现在有个 UINavigationController，然后添加一个 UIScrollView，然后在 UIScrollView 上面添加一个红色的方块，代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> scrollView = <span class="type">UIScrollView</span>()</span><br><span class="line">scrollView.backgroundColor = .blue</span><br><span class="line">scrollView.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></span><br><span class="line"><span class="comment">// 这里强制设置 contentSize 只是为了让 scrollView 能滚动起来</span></span><br><span class="line">scrollView.contentSize = <span class="type">CGSize</span>.<span class="keyword">init</span>(width: view.frame.size.width, height: <span class="number">1000</span>)</span><br><span class="line">view.addSubview(scrollView)</span><br><span class="line"><span class="comment">// ⚠️ 这里是直接跟 view 的 topAnchor 产生约束</span></span><br><span class="line">scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = <span class="literal">true</span></span><br><span class="line">scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = <span class="literal">true</span></span><br><span class="line">scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = <span class="literal">true</span></span><br><span class="line">scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> redView = <span class="type">UIView</span>()</span><br><span class="line">redView.backgroundColor = .red</span><br><span class="line">redView.translatesAutoresizingMaskIntoConstraints = <span class="literal">false</span></span><br><span class="line">scrollView.addSubview(redView)</span><br><span class="line">redView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = <span class="literal">true</span></span><br><span class="line">redView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = <span class="literal">true</span></span><br><span class="line">redView.widthAnchor.constraint(equalToConstant: <span class="number">100</span>).isActive = <span class="literal">true</span></span><br><span class="line">redView.heightAnchor.constraint(equalToConstant: <span class="number">100</span>).isActive = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/OnQDx7E.png" alt="图一：iOS 10 模拟器效果" style="zoom:50%;"></p>
+<p>当我们把 UIScrollView 的 topAnchor 修改为跟 UIViewController 的 topLayoutGuide 发生约束：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/dwklB0X.png" alt="图二：iOS 10 模拟器效果" style="zoom:50%;"></p>
+<p>我们发现最终的效果是 UIScrollView 也发生了偏移，而且这个偏移是根据你顶部的 status bar 和 navigation bar 的高度来决定的。所以在 iOS 10 及以下的版本的时候，添加到 UIViewController 的 UIScrollView 总是会发生偏移。但是你可以通过把刚才说的那个属性 <code>automaticallyAdjustsScrollViewInsets</code>设置成 false，UIViewController 就不会让你的 UIScrollView 发生偏移。但是这个属性会影响到所有添加到 UIViewController 上的 UIScrollView，如果有些想要发生偏移，有些不想发生偏移的时候就需要把 <code>automaticallyAdjustsScrollViewInsets</code>设置成 false，然后通过代码单独去为每个 UIScrollView 设置不同的 contentInset。</p>
+<p>这种被控制的生活很不是滋味，于是随着 iOS 系统来到 11 之后，UIScrollView 终于夺回了自己的偏移控制权。UIViewController 的<code>automaticallyAdjustsScrollViewInsets</code>终于被废弃了，取而代之的是 UIScrollView 自己的<code>contentInsetAdjustmentBehavior</code>。</p>
+<h2 id="自由的-UIScrollView"><a href="#自由的-UIScrollView" class="headerlink" title="自由的 UIScrollView"></a>自由的 UIScrollView</h2><blockquote>
+<p>This property specifies how the safe area insets are used to modify the content area of the scroll view. The default value of this property is <a href="apple-reference-documentation://hs7dxiWRRh" target="_blank" rel="noopener">UIScrollView.ContentInsetAdjustmentBehavior.automatic</a>.</p>
+</blockquote>
+<p>UIScrollView 的<code>contentInsetAdjustmentBehavior</code>的默认行为是<code>automatic</code>，这和 iOS 10 默认行为的最大区别就是它会判断 UIScrollView 是被添加到哪个位置，然后根据这个位置来判断是否需要修改 UIScrollView 的偏移量。</p>
+<p>还是拿上面图二的情况来讲，在 iOS 11 及 iOS 11 之后，我们还是照样只修改  UIScrollView 的 topAnchor：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/co1D7xr.png" alt="图三：iOS 12 模拟器效果" style="zoom:50%;"></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2019/09/28/UIScrollView-的偏移问题/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2019/09/28/UIScrollView-的偏移问题/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/blog/2019/03/05/浅谈-iOS-架构/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">浅谈 iOS 架构</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/blog/2019/09/28/UIScrollView-的偏移问题/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="UIScrollView 的偏移问题" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
+                            <p class="item-title"><a href="/blog/2019/09/28/UIScrollView-的偏移问题/" class="title">UIScrollView 的偏移问题</a></p>
+                            <p class="item-date"><time datetime="2019-09-27T17:40:01.000Z" itemprop="datePublished">2019-09-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/blog/2019/03/05/浅谈-iOS-架构/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="浅谈 iOS 架构" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
+                            <p class="item-title"><a href="/blog/2019/03/05/浅谈-iOS-架构/" class="title">浅谈 iOS 架构</a></p>
+                            <p class="item-date"><time datetime="2019-03-04T16:58:32.000Z" itemprop="datePublished">2019-03-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/blog/2018/11/06/Notification-的一些知识点/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Notification 的一些知识点" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
+                            <p class="item-title"><a href="/blog/2018/11/06/Notification-的一些知识点/" class="title">Notification 的一些知识点</a></p>
+                            <p class="item-date"><time datetime="2018-11-05T17:55:26.000Z" itemprop="datePublished">2018-11-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/blog/2018/08/02/字典的存储结构/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3f799bed83db2959c476e69a3307d39e&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="字典的存储结构" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
+                            <p class="item-title"><a href="/blog/2018/08/02/字典的存储结构/" class="title">字典的存储结构</a></p>
+                            <p class="item-date"><time datetime="2018-08-02T15:41:10.000Z" itemprop="datePublished">2018-08-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://images.unsplash.com/photo-1507358522600-9f71e620c44e?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=9606de2cffd6c619093871ef2d1c0e6f&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Swift High-Performance Tip 3：@objc 和 dynamic" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
+                            <p class="item-title"><a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/" class="title">Swift High-Performance Tip 3：@objc 和 dynamic</a></p>
+                            <p class="item-date"><time datetime="2018-05-24T18:48:01.000Z" itemprop="datePublished">2018-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/Raspberry-PI/">Raspberry PI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/技术/">技术</a><span class="category-list-count">18</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/04/">April 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/03/">March 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2017/09/">September 2017</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Block/">Block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/GCD/">GCD</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Objective-C/">Objective-C</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RAC/">RAC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RN/">RN</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Raspberry-PI/">Raspberry PI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Swift/">Swift</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/iOS/">iOS</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/redux/">redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tip/">tip</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/其他/">其他</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/blog/tags/Block/" style="font-size: 10px;">Block</a> <a href="/blog/tags/GCD/" style="font-size: 12.5px;">GCD</a> <a href="/blog/tags/Objective-C/" style="font-size: 15px;">Objective-C</a> <a href="/blog/tags/RAC/" style="font-size: 10px;">RAC</a> <a href="/blog/tags/RN/" style="font-size: 12.5px;">RN</a> <a href="/blog/tags/Raspberry-PI/" style="font-size: 10px;">Raspberry PI</a> <a href="/blog/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/blog/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/blog/tags/redux/" style="font-size: 10px;">redux</a> <a href="/blog/tags/tip/" style="font-size: 12.5px;">tip</a> <a href="/blog/tags/其他/" style="font-size: 10px;">其他</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2019 帕帕<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://hparis.github.io/blog/2019/09/28/UIScrollView-的偏移问题/';
+        
+        this.page.identifier = 'UIScrollView-的偏移问题';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'pariscode' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/blog/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/blog/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/blog/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/blog/js/main.js"></script>
+
+    </div>
+</body>
+</html>

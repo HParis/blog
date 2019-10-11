@@ -210,7 +210,7 @@ Xcode 直接奔溃了：
 }
 @end
 ```
- 
+
 这样，我们就可以愉快的使用 `[Person copy]` 了。当然，这里 Person 的 mArray 也只是`单层深复制`，如果想要实现`完全深复制`的话，我们可以用 NSKeyedArchiver 和 NSKeyedUnarchiver 来完成对 mArray 的`完全深复制`。
 
 ## Block 和 Copy

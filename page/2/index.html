@@ -360,6 +360,87 @@
 
 
 
+    <article id="post-Swift-High-Performance-Tip 1：Array和ContiguousArray" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">
+            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/blog/tags/Swift/">Swift</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>Array 是随机存储的（random-access）集合类型。</p>
+</blockquote>
+<blockquote>
+<p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
+</blockquote>
+<p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray = <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
+<p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
+<blockquote>
+<p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
+</blockquote>
+<p>但是 <a href="https://twitter.com/twostraws" target="_blank" rel="noopener">@Paul Hudson</a> 在他的<a href="https://gumroad.com/l/proswift" target="_blank" rel="noopener">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 = <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"><span class="keyword">var</span> end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line">end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
+<p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
+<p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+            
+    
+        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-初步了解GCD" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -600,87 +681,6 @@
             
     
         <a href="https://hparis.github.io/blog/2017/09/05/Shell-Tip/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Shell-Tip/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Swift-High-Performance-Tip 1：Array和ContiguousArray" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/Swift/">Swift</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
-<p>Array 是随机存储的（random-access）集合类型。</p>
-</blockquote>
-<blockquote>
-<p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
-</blockquote>
-<p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray = <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
-<p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
-<blockquote>
-<p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
-</blockquote>
-<p>但是 <a href="https://twitter.com/twostraws" target="_blank" rel="noopener">@Paul Hudson</a> 在他的<a href="https://gumroad.com/l/proswift" target="_blank" rel="noopener">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 = <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"><span class="keyword">var</span> end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line">end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
-<p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
-<p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Comments</a>
     
 
         </footer>

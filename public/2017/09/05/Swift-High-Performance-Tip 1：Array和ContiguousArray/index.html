@@ -1,546 +1,434 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    
-    <title>Swift High-Performance Tip 1：Array 和 ContiguousArray | 帕帕&#39;s Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Array 是随机存储的（random-access）集合类型。   ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。  当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是">
-<meta name="keywords" content="iOS,Swift">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"hparis.github.io","root":"/blog/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Array 是随机存储的（random-access）集合类型。   ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。  当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift High-Performance Tip 1：Array 和 ContiguousArray">
-<meta property="og:url" content="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/index.html">
+<meta property="og:url" content="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip%201%EF%BC%9AArray%E5%92%8CContiguousArray/index.html">
 <meta property="og:site_name" content="帕帕&#39;s Blog">
 <meta property="og:description" content="Array 是随机存储的（random-access）集合类型。   ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。  当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是">
-<meta property="og:locale" content="en">
-<meta property="og:image" content="https://images.unsplash.com/photo-1485988412941-77a35537dae4?ixlib=rb-0.3.5&s=177fa5618e070b6d13cf5debd2034426&auto=format&fit=crop&w=160&q=100">
-<meta property="og:updated_time" content="2018-03-23T08:42:53.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-09-05T15:30:56.000Z">
+<meta property="article:modified_time" content="2022-04-20T07:08:33.124Z">
+<meta property="article:author" content="帕帕">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Swift">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift High-Performance Tip 1：Array 和 ContiguousArray">
-<meta name="twitter:description" content="Array 是随机存储的（random-access）集合类型。   ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。  当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是">
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1485988412941-77a35537dae4?ixlib=rb-0.3.5&s=177fa5618e070b6d13cf5debd2034426&auto=format&fit=crop&w=160&q=100">
-    
 
-    
-        <link rel="alternate" href="/" title="帕帕&#39;s Blog" type="application/atom+xml" />
-    
+<link rel="canonical" href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip%201%EF%BC%9AArray%E5%92%8CContiguousArray/">
 
-    
 
-    <link rel="stylesheet" href="/blog/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/blog/libs/open-sans/styles.css">
-    <link rel="stylesheet" href="/blog/libs/source-code-pro/styles.css">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-    <link rel="stylesheet" href="/blog/css/style.css">
+  <title>Swift High-Performance Tip 1：Array 和 ContiguousArray | 帕帕's Blog</title>
+  
 
-    <script src="/blog/libs/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/blog/libs/lightgallery/css/lightgallery.min.css">
-    
-    
-        <link rel="stylesheet" href="/blog/libs/justified-gallery/justifiedGallery.min.css">
-    
-    
-    
-    
 
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/blog/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">帕帕&#39;s Blog</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/blog/.">Home</a>
-                
-                    <a class="main-nav-link" href="/blog/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/blog/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/blog/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/blog/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="/blog/css/images/avatar.png" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">帕帕's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/blog/',
-        CONTENT_URL: '/blog/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/blog/js/insight.js"></script>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
 
 </div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/blog/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/blog/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/blog/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/blog/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/blog/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
-    </div>
+    </header>
 
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="/blog/css/images/avatar.png" />
-            <h2 id="name">帕帕</h2>
-            <h3 id="title">iOS Developer &amp; RN</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
-            <a id="follow" target="_blank" href="https://github.com/HParis">FOLLOW</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                15
-                <span>posts</span>
-            </div>
-            <div class="article-info-block">
-                9
-                <span>tags</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    
-                    <td>
-                        <a href="https://github.com/HParis" target="_blank" title="github" class=tooltip>
-                            <i class="fa fa-github"></i>
-                        </a>
-                    </td>
-                    
-                    <td>
-                        <a href="https://twitter.com/Paris_Htj" target="_blank" title="twitter" class=tooltip>
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </td>
-                    
-                    <td>
-                        <a href="https://www.facebook.com/profile.php?id=100006030375941" target="_blank" title="facebook" class=tooltip>
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                    </td>
-                    
-                    <td>
-                        <a href="/blog/" target="_blank" title="dribbble" class=tooltip>
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </td>
-                    
-                    <td>
-                        <a href="/blog/" target="_blank" title="rss" class=tooltip>
-                            <i class="fa fa-rss"></i>
-                        </a>
-                    </td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-Swift-High-Performance-Tip 1：Array和ContiguousArray" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
     
-        <h1 class="article-title" itemprop="name">
-            Swift High-Performance Tip 1：Array 和 ContiguousArray
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip%201%EF%BC%9AArray%E5%92%8CContiguousArray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift High-Performance Tip 1：Array 和 ContiguousArray
         </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-09-05 15:30:56" itemprop="dateCreated datePublished" datetime="2017-09-05T15:30:56Z">2017-09-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-20 07:08:33" itemprop="dateModified" datetime="2022-04-20T07:08:33Z">2022-04-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
     
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">
-            <time datetime="2017-09-05T15:30:56.000Z" itemprop="datePublished">2017-09-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/blog/categories/技术/">技术</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/blog/tags/Swift/">Swift</a>, <a class="tag-link" href="/blog/tags/iOS/">iOS</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <blockquote>
+      
+        <blockquote>
 <p>Array 是随机存储的（random-access）集合类型。</p>
 </blockquote>
 <blockquote>
 <p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
 </blockquote>
 <p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray = <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray <span class="operator">=</span> <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
+
 <p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
 <blockquote>
 <p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
 </blockquote>
-<p>但是 <a href="https://twitter.com/twostraws" target="_blank" rel="noopener">@Paul Hudson</a> 在他的<a href="https://gumroad.com/l/proswift" target="_blank" rel="noopener">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 = <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 = <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span>...<span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line"><span class="keyword">var</span> end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.<span class="built_in">reduce</span>(<span class="number">0</span>, combine: +)</span><br><span class="line">end = <span class="type">CFAbsoluteTimeGetCurrent</span>() - start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Took <span class="subst">\(end)</span> seconds"</span>)</span><br></pre></td></tr></table></figure>
+<p>但是 <a target="_blank" rel="noopener" href="https://twitter.com/twostraws">@Paul Hudson</a> 在他的<a target="_blank" rel="noopener" href="https://gumroad.com/l/proswift">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 <span class="operator">=</span> <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span><span class="operator">...</span><span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 <span class="operator">=</span> <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span><span class="operator">...</span><span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.reduce(<span class="number">0</span>, combine: <span class="operator">+</span>)</span><br><span class="line"><span class="keyword">var</span> end <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>() <span class="operator">-</span> start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Took <span class="subst">\(end)</span> seconds&quot;</span>)</span><br><span class="line"></span><br><span class="line">start <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.reduce(<span class="number">0</span>, combine: <span class="operator">+</span>)</span><br><span class="line">end <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>() <span class="operator">-</span> start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Took <span class="subst">\(end)</span> seconds&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
 <p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
 
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-            
-    
-        <a href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/blog/2017/09/05/include和import的区别/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    include 和 import 的区别
-                
-            </div>
-        </a>
-    
-    
-        <a href="/blog/2017/09/05/初步了解GCD/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">初步了解 GCD</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    
-        <section id="comments">
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-</section>
-    
-
-</section>
-            
-                
-<aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/blog/2019/09/28/UIScrollView-的偏移问题/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="UIScrollView 的偏移问题" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2019/09/28/UIScrollView-的偏移问题/" class="title">UIScrollView 的偏移问题</a></p>
-                            <p class="item-date"><time datetime="2019-09-27T17:40:01.000Z" itemprop="datePublished">2019-09-27</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/blog/2018/11/06/Notification-的一些知识点/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://images.unsplash.com/photo-1514464750060-00e6e34c8b8c?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=3749c47dd7beec20102c6b32fc19833a&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Notification 的一些知识点" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2018/11/06/Notification-的一些知识点/" class="title">Notification 的一些知识点</a></p>
-                            <p class="item-date"><time datetime="2018-11-05T17:55:26.000Z" itemprop="datePublished">2018-11-05</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://images.unsplash.com/photo-1507358522600-9f71e620c44e?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=9606de2cffd6c619093871ef2d1c0e6f&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="Swift High-Performance Tip 3：@objc 和 dynamic" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2018/05/25/Swift-High-Performance-Tip 3：@objc-和-dynamic/" class="title">Swift High-Performance Tip 3：@objc 和 dynamic</a></p>
-                            <p class="item-date"><time datetime="2018-05-24T18:48:01.000Z" itemprop="datePublished">2018-05-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/blog/2018/04/19/self-在-block-中的引用计数变化/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://images.unsplash.com/photo-1462303966430-8a4708fd729e?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=c9dd0952e673c518403fb8d4c28f93b5&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=60)" alt="self 在 block 中的引用计数变化" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2018/04/19/self-在-block-中的引用计数变化/" class="title">self 在 block 中的引用计数变化</a></p>
-                            <p class="item-date"><time datetime="2018-04-19T11:34:51.000Z" itemprop="datePublished">2018-04-19</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/blog/2018/04/02/如何用-Objective-C-实现一个死锁/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://images.unsplash.com/photo-1509655172625-03265ba919a1?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=24b01fba0d86b9fa95814c692429379f&amp;auto=format&amp;fit=crop&amp;w=160&amp;q=100)" alt="如何用 Objective-C 实现一个死锁" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/blog/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/blog/2018/04/02/如何用-Objective-C-实现一个死锁/" class="title">如何用 Objective-C 实现一个死锁</a></p>
-                            <p class="item-date"><time datetime="2018-04-01T20:29:42.000Z" itemprop="datePublished">2018-04-01</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
     </div>
 
     
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">categories</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/技术/">技术</a><span class="category-list-count">15</span></li></ul>
-        </div>
-    </div>
-
     
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">archives</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/05/">May 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2017/09/">September 2017</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div>
-
     
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/blog/tags/Swift/" rel="tag"># Swift</a>
+          </div>
+
         
-    <div class="widget-wrap">
-        <h3 class="widget-title">tags</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Block/">Block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/GCD/">GCD</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Objective-C/">Objective-C</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RAC/">RAC</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/RN/">RN</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/Swift/">Swift</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/iOS/">iOS</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/redux/">redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/blog/tags/tip/">tip</a><span class="tag-list-count">2</span></li></ul>
-        </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2017/09/05/Swift-High-Performance-Tip%202%EF%BC%9Afinal%E5%92%8Cprivate(fileprivate)/" rel="prev" title="Swift High-Performance Tip 2：final 和 private(fileprivate)">
+      <i class="fa fa-chevron-left"></i> Swift High-Performance Tip 2：final 和 private(fileprivate)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/blog/2017/09/05/Shell-Tip/" rel="next" title="Shell Tip">
+      Shell Tip <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-
+      </footer>
     
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">tag cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/blog/tags/Block/" style="font-size: 10px;">Block</a> <a href="/blog/tags/GCD/" style="font-size: 13.33px;">GCD</a> <a href="/blog/tags/Objective-C/" style="font-size: 16.67px;">Objective-C</a> <a href="/blog/tags/RAC/" style="font-size: 10px;">RAC</a> <a href="/blog/tags/RN/" style="font-size: 13.33px;">RN</a> <a href="/blog/tags/Swift/" style="font-size: 16.67px;">Swift</a> <a href="/blog/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/blog/tags/redux/" style="font-size: 10px;">redux</a> <a href="/blog/tags/tip/" style="font-size: 13.33px;">tip</a>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
+  </article>
+  
+  
+  
 
 
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
 
-            
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2019 帕帕<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-        </div>
-    </div>
-</footer>
-        
-    
-    <script>
-    var disqus_config = function () {
-        
-            this.page.url = 'https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip 1：Array和ContiguousArray/';
-        
-        this.page.identifier = 'Swift-High-Performance-Tip 1：Array和ContiguousArray';
-    };
-    (function() { 
-        var d = document, s = d.createElement('script');  
-        s.src = '//' + 'pariscode' + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
 
 
 
-    
-        <script src="/blog/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/blog/libs/lightgallery/js/lg-video.min.js"></script>
-    
-    
-        <script src="/blog/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-    
-    
-
-
-
-<!-- Custom Scripts -->
-<script src="/blog/js/main.js"></script>
+      </div>
 
     </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/muse.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>

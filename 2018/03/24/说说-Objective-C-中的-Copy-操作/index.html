@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hparis.github.io","root":"/blog/","images":"/blog/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"style":null,"show_result":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="浅拷贝（Shallow copies）和深拷贝（Deep copies）我们都知道 Objective-C 中把 Copy 操作分成两种：浅拷贝（Shallow copies）和深拷贝（Deep copies）。学过 C 语言的同学应该知道区分这两种操作的区别其实很简单：  浅拷贝（Shallow copies）: 指针拷贝，指向的还是同一块内容的地址深拷贝（Deep copies）: 内容拷贝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="说说 Objective-C 中的 Copy 操作">
+<meta property="og:url" content="https://hparis.github.io/blog/2018/03/24/%E8%AF%B4%E8%AF%B4-Objective-C-%E4%B8%AD%E7%9A%84-Copy-%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="浅拷贝（Shallow copies）和深拷贝（Deep copies）我们都知道 Objective-C 中把 Copy 操作分成两种：浅拷贝（Shallow copies）和深拷贝（Deep copies）。学过 C 语言的同学应该知道区分这两种操作的区别其实很简单：  浅拷贝（Shallow copies）: 指针拷贝，指向的还是同一块内容的地址深拷贝（Deep copies）: 内容拷贝">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Art/CopyingCollections_2x.png">
+<meta property="og:image" content="https://i.imgur.com/svn3AbQ.png">
+<meta property="og:image" content="http://www.devtalking.com/postImages/block-struct.jpg">
+<meta property="article:published_time" content="2018-03-23T16:35:55.000Z">
+<meta property="article:modified_time" content="2023-01-07T05:42:02.485Z">
+<meta property="article:author" content="帕帕">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Objective-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Art/CopyingCollections_2x.png">
+
+
+<link rel="canonical" href="https://hparis.github.io/blog/2018/03/24/%E8%AF%B4%E8%AF%B4-Objective-C-%E4%B8%AD%E7%9A%84-Copy-%E6%93%8D%E4%BD%9C/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://hparis.github.io/blog/2018/03/24/%E8%AF%B4%E8%AF%B4-Objective-C-%E4%B8%AD%E7%9A%84-Copy-%E6%93%8D%E4%BD%9C/","path":"2018/03/24/说说-Objective-C-中的-Copy-操作/","title":"说说 Objective-C 中的 Copy 操作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>说说 Objective-C 中的 Copy 操作 | 帕帕's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帕帕's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%85%E6%8B%B7%E8%B4%9D%EF%BC%88Shallow-copies%EF%BC%89%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%88Deep-copies%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">浅拷贝（Shallow copies）和深拷贝（Deep copies）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#immutable-%E5%92%8C-mutable-%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.</span> <span class="nav-text">immutable 和 mutable 对象的拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E5%B1%82%E6%B7%B1%E5%A4%8D%E5%88%B6%EF%BC%88one-level-deep%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">单层深复制（one-level-deep）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E6%B7%B1%E5%A4%8D%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">完全深复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copy-%E5%92%8C-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">Copy 和 内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSCopying-%E5%92%8C-NSMutableCopying"><span class="nav-number">6.</span> <span class="nav-text">NSCopying 和 NSMutableCopying</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block-%E5%92%8C-Copy"><span class="nav-number">7.</span> <span class="nav-text">Block 和 Copy</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/03/24/%E8%AF%B4%E8%AF%B4-Objective-C-%E4%B8%AD%E7%9A%84-Copy-%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="说说 Objective-C 中的 Copy 操作 | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          说说 Objective-C 中的 Copy 操作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-03-23 16:35:55" itemprop="dateCreated datePublished" datetime="2018-03-23T16:35:55Z">2018-03-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="浅拷贝（Shallow-copies）和深拷贝（Deep-copies）"><a href="#浅拷贝（Shallow-copies）和深拷贝（Deep-copies）" class="headerlink" title="浅拷贝（Shallow copies）和深拷贝（Deep copies）"></a>浅拷贝（Shallow copies）和深拷贝（Deep copies）</h2><p>我们都知道 Objective-C 中把 Copy 操作分成两种：<code>浅拷贝（Shallow copies）</code>和<code>深拷贝（Deep copies）</code>。学过 C 语言的同学应该知道区分这两种操作的区别其实很简单：</p>
+<blockquote>
+<p>浅拷贝（Shallow copies）: 指针拷贝，指向的还是同一块内容的地址<br>深拷贝（Deep copies）: 内容拷贝</p>
+</blockquote>
+<p>但是在 Objective-C 里面对于 Copy 的实现还是跟 C 语言的有点差别。我们先来看看 Apple 的官方文档给出的一张图：</p>
+<p><img src="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Art/CopyingCollections_2x.png" alt="Collections Programming Topics"></p>
+<p>通过上图可以看出<code>浅拷贝</code>过后，Array 1 和 Array 2 的元素都是相同的指针地址，指向相同的内容；<code>深拷贝</code>过后，内容被拷贝一份新的出来，Array 2 的元素的指针地址都和 Array 1 不一样，因为 Array2 的元素的指针地址都指向新的内容。</p>
+<h2 id="immutable-和-mutable-对象的拷贝"><a href="#immutable-和-mutable-对象的拷贝" class="headerlink" title="immutable 和 mutable 对象的拷贝"></a>immutable 和 mutable 对象的拷贝</h2><p>在 Objective-C 中一般会用 copy 或 mutableCopy 进行拷贝操作，我们可以通过观察指针变化来确定这两种拷贝操作是<code>浅复制</code>还是<code>深复制</code>。</p>
+<ul>
+<li><p>immutable 对象的复制操作</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSString * aName = @&quot;帕帕&quot;;</span><br><span class="line">NSString * bName = [aName copy];</span><br><span class="line">NSMutableString * cName = [aName mutableCopy];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;aName 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bName 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;cName 的指针：%p&quot;, cName);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>  输出的结果：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aName 的指针：0x103d34070</span><br><span class="line">bName 的指针：0x103d34070</span><br><span class="line">cName 的指针：0x600000250dd0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mutable 对象的复制操作</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aName = [NSMutableString stringWithString:@&quot;帕帕&quot;];</span><br><span class="line">NSString * bName = [aName copy];</span><br><span class="line">NSMutableString * cName = [aName mutableCopy];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;aName 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bName 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;cName 的指针：%p&quot;, cName);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>  输出的结果：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aName 的指针：0x60000025e150</span><br><span class="line">bName 的指针：0x600000222900</span><br><span class="line">cName 的指针：0x60000025e450</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>通过上面两个例子以及它们的输出结果，我们可以得出下面这个表格：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">imutable 对象</th>
+<th align="center">mutable 对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">copy</td>
+<td align="center">浅复制</td>
+<td align="center">深复制</td>
+</tr>
+<tr>
+<td align="center">mutableCopy</td>
+<td align="center">深复制</td>
+<td align="center">深复制</td>
+</tr>
+</tbody></table>
+<p>上面的规则对集合对象也是一样的：NSArray 和 NSMutableArray，NSDictionary 和 NSMutableDictionary，NSSet 和 NSMutableSet</p>
+<h2 id="单层深复制（one-level-deep）"><a href="#单层深复制（one-level-deep）" class="headerlink" title="单层深复制（one-level-deep）"></a>单层深复制（one-level-deep）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aString = [NSMutableString stringWithString:@&quot;Hello&quot;]</span><br><span class="line"></span><br><span class="line">NSMutableArray * aArray = [NSMutableArray arrayWithObjects:aString, nil];</span><br><span class="line">NSArray * bArray = [aArray copy];</span><br><span class="line"></span><br><span class="line">NSMutableString * bString = bArray[0];</span><br><span class="line">[bString appendString:@&quot; 帕帕&quot;];</span><br><span class="line">    </span><br><span class="line">NSLog(@&quot;aArray 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bArray 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;aArray 第一个元素的指针: %p，内容：%@&quot;, aArray[0], aArray[0]);</span><br><span class="line">NSLog(@&quot;bArray 第一个元素的指针: %p，内容：%@&quot;, bArray[0], bArray[0]);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x60000025d9a0</span><br><span class="line">bArray 的指针：0x60000002cf60</span><br><span class="line">aArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕</span><br><span class="line">bArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕</span><br></pre></td></tr></table></figure>
+
+<p>从 aArray 到 bArray 的 copy 操作之后，它们的指针地址发生了变化，按照我们之前的理解这是<code>深拷贝</code>。<code>深拷贝</code>会把 aArray 的元素都拷贝一份，那为什么改变 bArray 的元素的值会导致 aArray 的元素的值也发生了变化呢？</p>
+<p><img src="https://i.imgur.com/svn3AbQ.png" alt="集合对象的深拷贝"></p>
+<h2 id="完全深复制"><a href="#完全深复制" class="headerlink" title="完全深复制"></a>完全深复制</h2><p>那我们要如何做到真正的深复制呢？我们可以简单的把上面的代码改一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aString = [NSMutableString stringWithString:@&quot;Hello&quot;]</span><br><span class="line"></span><br><span class="line">NSMutableArray * aArray = [NSMutableArray arrayWithObjects:aString, nil];</span><br><span class="line"></span><br><span class="line">// 只需要改动这一行代码</span><br><span class="line">NSArray *bArray = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:aArray]];</span><br><span class="line"></span><br><span class="line">NSMutableString * bString = bArray[0];</span><br><span class="line">[bString appendString:@&quot; 帕帕&quot;];</span><br><span class="line">    </span><br><span class="line">NSLog(@&quot;aArray 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bArray 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;aArray 第一个元素的指针: %p，内容：%@&quot;, aArray[0], aArray[0]);</span><br><span class="line">NSLog(@&quot;bArray 第一个元素的指针: %p，内容：%@&quot;, bArray[0], bArray[0]);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x600000259cb0</span><br><span class="line">bArray 的指针：0x600000030ac0</span><br><span class="line">aArray 第一个元素的指针: 0x604000452120，内容：Hello</span><br><span class="line">bArray 第一个元素的指针: 0x604000452780，内容：Hello 帕帕</span><br></pre></td></tr></table></figure>
+
+<p>只要先对集合对象分别用 NSKeyedArchiver 和 NSKeyedUnarchiver 就可以真正完成对一个集合对象的深复制。</p>
+<h2 id="Copy-和-内存管理"><a href="#Copy-和-内存管理" class="headerlink" title="Copy 和 内存管理"></a>Copy 和 内存管理</h2><p>之前我们说过 Objective-C 里面对于 Copy 的实现还是跟 C 语言的有点差别，那差别在什么地方呢？<br>内存中做复制操作是很耗费资源的，而我们都知道 Objective-C 高效的一个原因在于它的内存管理机制是<code>引用计数</code>。我们前面分析的<code>深拷贝</code>是对内容的拷贝，这一点跟 C 语言的一样。C 语言的<code>浅拷贝</code>是指针的拷贝，它依旧做了一次复制操作。而在 Objective-C 中，<code>浅拷贝</code>其实只是引用计数的增加，不信的话，我们可以看看下面的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSArray * aArray = [NSArray arrayWithObjects:@&quot;帕帕&quot;, nil];</span><br><span class="line">NSLog(@&quot;aArray 的指针：%p，引用计数：%ld&quot;, aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));</span><br><span class="line">NSArray * bArray = [aArray copy];</span><br><span class="line">NSLog(@&quot;aArray 的指针：%p，引用计数：%ld&quot;, aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));</span><br><span class="line">NSMutableArray * cArray = [aArray mutableCopy];</span><br><span class="line">NSLog(@&quot;aArray 的指针：%p，引用计数：%ld&quot;, aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x604000443ba0，引用计数：2</span><br><span class="line">aArray 的指针：0x604000443ba0，引用计数：3</span><br><span class="line">aArray 的指针：0x604000443ba0，引用计数：3</span><br></pre></td></tr></table></figure>
+
+<p>为什么 aArray 刚出来的时候的引用计数是 2？因为 <code>[NSArray arrayWithObjects:@&quot;帕帕&quot;, nil]</code> 本身就是一个对象，它的引用计数就是 1；然后我们又定义了 aArray 来引用这个对象，此时它的引用计数就增加了 1，变成了 2；之后我们对 aArray 进行了 copy 操作，发现它的引用计数变成了 3，所以这里的 copy 操作其实相当于 retaion；最后我们对 aArray 进行了 mutableCopy 操作，此时它的引用计数还是 3，没有发生变化，因为这个时候进行了内容复制。</p>
+<p>所以在 Objective-C 中对一个 imutable 对象进行的 copy（浅复制）操作，其实都只会引起引用计数的变化，而不会在内存中做出任何拷贝操作，包括指针拷贝。</p>
+<h2 id="NSCopying-和-NSMutableCopying"><a href="#NSCopying-和-NSMutableCopying" class="headerlink" title="NSCopying 和 NSMutableCopying"></a>NSCopying 和 NSMutableCopying</h2><p>如果我们有一个自定义的对象，并且对其进行 copy 操作的话，会发生什么：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Person</span><br><span class="line">@interface Person: NSObject</span><br><span class="line">@property (nonatomic, copy) NSString * name;</span><br><span class="line">@end</span><br><span class="line">@implementation Person</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">Person * aPerson = [Person new];</span><br><span class="line">Person * bPerson = [aPerson copy];</span><br></pre></td></tr></table></figure>
+
+<p>Xcode 直接奔溃了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 崩溃</span><br><span class="line">*** Terminating app due to uncaught exception &#x27;NSInvalidArgumentException&#x27;, reason: &#x27;-[Person copyWithZone:]: unrecognized selector sent to instance 0x60000000d5f0&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>为什么我们对一个 Person 对象使用了 copy，Xcode 确报的是找不到 <code>copyWithZone:</code> 这个 selector 的错误。</p>
+<p>这是因为 Objective-C 中规定，一个对象如果想要使用 copy 或 mutableCopy 的操作，必须要实现 <code>NSCopying</code> 或 <code>NSMutableCopying</code> 这两个协议。这两个协议规定了对象需要实现 <code>copyWithZone:</code> 或 <code>mutableCopyWithZone:</code> 这两个方法，因为对一个对象做 copy 或 mutableCopy 最后都会去调用这两个方法来做最终的实现。<br>上面例子中的集合对象能够使用 copy 和 mutableCopy 操作是也因为它们都实现了 NSCopying 和 NSMutableCopying 协议。</p>
+<p>我们来看看如何对一个普通的对象实现 NSCopying 协议：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@interface Person: NSObject &lt;NSCopying&gt;</span><br><span class="line">@property (nonatomic, copy) NSString * name;</span><br><span class="line">@property (nonatomic, strong) NSMutableArray * mArray;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation Person</span><br><span class="line">- (instancetype)copyWithZone:(NSZone *)zone &#123;</span><br><span class="line">    Person * person = [[self class] new];</span><br><span class="line">    person.name = [self.name copy];</span><br><span class="line">    person.mArray = [self.mArray mutableCopy];</span><br><span class="line">    return person;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们就可以愉快的使用 <code>[Person copy]</code> 了。当然，这里 Person 的 mArray 也只是<code>单层深复制</code>，如果想要实现<code>完全深复制</code>的话，我们可以用 NSKeyedArchiver 和 NSKeyedUnarchiver 来完成对 mArray 的<code>完全深复制</code>。</p>
+<h2 id="Block-和-Copy"><a href="#Block-和-Copy" class="headerlink" title="Block 和 Copy"></a>Block 和 Copy</h2><p>简单说一下，在 Objective-C 中，Block 的 copy 是一种特殊的操作。因为 Block 是一种结构体，它无法实现 NSCopying 或 NSMutableCopying 协议，但是它却可以调用 copy 方法。这是由 Block 的结构体决定的：</p>
+<p><img src="http://www.devtalking.com/postImages/block-struct.jpg"></p>
+<p>Block 里面的 descriptor 有 copy 的函数指针，当对 Block 执行 copy 操作最后都会通过该函数指针进行真正的操作。这也是 Bloc看不需要实现 NSCopying 和 NSMutableCopying 就能调用 copy 方法的原因。</p>
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Articles/Copying.html">https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Articles/Copying.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zybuluo.com/MicroCai/note/50592">https://www.zybuluo.com/MicroCai/note/50592</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/blog/tags/Objective-C/" rel="tag"># Objective-C</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/2018/03/20/%E5%A6%82%E4%BD%95%E5%9C%A8-iOS-%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89-React-Native-Component/" rel="prev" title="如何在 iOS 上自定义 React Native Component">
+                  <i class="fa fa-chevron-left"></i> 如何在 iOS 上自定义 React Native Component
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/2018/04/02/%E5%A6%82%E4%BD%95%E7%94%A8-Objective-C-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%AD%BB%E9%94%81/" rel="next" title="如何用 Objective-C 实现一个死锁">
+                  如何用 Objective-C 实现一个死锁 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/schemes/muse.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

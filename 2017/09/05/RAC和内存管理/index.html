@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hparis.github.io","root":"/blog/","images":"/blog/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"style":null,"show_result":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。在一开始接触 RAC 的时候，我们知道 RAC 对于 block 都是 copy 赋值的。 1234567@implementation RACSignal#pragma mark Lifecycle+ (RACSignal *)createSignal:(RACDisposable * (^)(id">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAC 和内存管理">
+<meta property="og:url" content="https://hparis.github.io/blog/2017/09/05/RAC%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。在一开始接触 RAC 的时候，我们知道 RAC 对于 block 都是 copy 赋值的。 1234567@implementation RACSignal#pragma mark Lifecycle+ (RACSignal *)createSignal:(RACDisposable * (^)(id">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-09-05T15:30:56.000Z">
+<meta property="article:modified_time" content="2023-01-07T05:42:02.483Z">
+<meta property="article:author" content="帕帕">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="RAC">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hparis.github.io/blog/2017/09/05/RAC%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://hparis.github.io/blog/2017/09/05/RAC%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/","path":"2017/09/05/RAC和内存管理/","title":"RAC 和内存管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>RAC 和内存管理 | 帕帕's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帕帕's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2017/09/05/RAC%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="RAC 和内存管理 | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RAC 和内存管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-05 15:30:56" itemprop="dateCreated datePublished" datetime="2017-09-05T15:30:56Z">2017-09-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>最近在用 RAC 的时候发现自己对内存管理还是有些困惑，于是自己写了一些代码来验证自己的一些理解。<br>在一开始接触 RAC 的时候，我们知道 RAC 对于 block 都是 copy 赋值的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@implementation</span> <span class="type">RACSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line"><span class="operator">+</span> (<span class="type">RACSignal</span> <span class="operator">*</span>)createSignal:(<span class="type">RACDisposable</span> <span class="operator">*</span> (<span class="operator">^</span>)(id<span class="operator">&lt;</span><span class="type">RACSubscriber</span><span class="operator">&gt;</span> subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="type">RACDynamicSignal</span> createSignal:didSubscribe];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@implementation</span> <span class="type">RACDynamicSignal</span></span><br><span class="line"></span><br><span class="line">#pragma mark <span class="type">Lifecycle</span></span><br><span class="line"></span><br><span class="line"><span class="operator">+</span> (<span class="type">RACSignal</span> <span class="operator">*</span>)createSignal:(<span class="type">RACDisposable</span> <span class="operator">*</span> (<span class="operator">^</span>)(id<span class="operator">&lt;</span><span class="type">RACSubscriber</span><span class="operator">&gt;</span> subscriber))didSubscribe &#123;</span><br><span class="line">    <span class="type">RACDynamicSignal</span> <span class="operator">*</span>signal <span class="operator">=</span> [[<span class="keyword">self</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    signal-&gt;_didSubscribe <span class="operator">=</span> [didSubscribe copy];</span><br><span class="line">    <span class="keyword">return</span> [signal setNameWithFormat:@<span class="string">&quot;+createSignal:&quot;</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在创建 RACSingal 的时候会调用其子类 RACDynamicSignal 去创建，我们也看到 RACDynamicSignal 对 didSuscribe 这个 block 是进行了 copy。所以大家可能会被要求注意循环引用的问题，于是大家都用 @weakify(target) 和 @strongify(target) 来避免循环引用的问题。那是不是所有用到 RAC 的地方都需要使用这些宏来避免循环引用的问题，不尽然。比如下面这个：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景1</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>, title) subscribeNext:<span class="operator">^</span>(id x) &#123;</span><br><span class="line">    <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>, x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>接下来，我们来对比以下的几种用法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@interface</span> <span class="type">ViewController</span>()</span><br><span class="line"><span class="meta">@property</span> (strong, nonatomic) <span class="type">ViewModel</span> <span class="operator">*</span> viewModel;</span><br><span class="line"><span class="meta">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> <span class="type">ViewController</span></span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (void)viewDidiLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.viewModel <span class="operator">=</span> [<span class="type">ViewModel</span> new];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景2</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), <span class="operator">^</span>&#123;</span><br><span class="line">        <span class="keyword">self</span>.title <span class="operator">=</span> @<span class="string">&quot;你好&quot;</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景3</span></span><br><span class="line">    [<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:<span class="operator">^</span>(<span class="type">NSString</span> <span class="operator">*</span> title) &#123;</span><br><span class="line">        <span class="keyword">self</span>.title <span class="operator">=</span> title;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 场景4</span></span><br><span class="line">    [<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:<span class="operator">^</span>(<span class="type">NSString</span> <span class="operator">*</span> title)     &#123;</span><br><span class="line">        <span class="keyword">self</span>.title <span class="operator">=</span> title;</span><br><span class="line">    &#125;]; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>场景2是我们平常都会用到的，而且我们也没有在这种场景下去考虑循环引用的问题，这是因为 dispatch 的 block 不是属于 self 的（至于这个 block 是属于谁的，回头我再查点资料或者请各位指教），所以即使你在 block 使用了 self 也不会有循环应用的问题。</p>
+<p>场景3很明显是有循环引用的问题：<strong>self-&gt;viewModel-&gt;titleSignal-&gt;block-&gt;self</strong>，这个时候如果我们不做处理的话，那么 self 就永远不会被释放。正确的做法应该是使用 @weakify(self) 和 @strongify(self)：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景3</span></span><br><span class="line"><span class="meta">@weakify</span>(<span class="keyword">self</span>);</span><br><span class="line">[<span class="keyword">self</span>.viewModel.titleSignal subscribeNext:<span class="operator">^</span>(<span class="type">NSString</span> <span class="operator">*</span> title) &#123;</span><br><span class="line">    <span class="meta">@strongify</span>(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title <span class="operator">=</span> title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>场景4在我们看来是没有问题的，因为这里看起来只有 <strong>singal-&gt;block-&gt;self</strong> 的引用，它们之间并没有造成循环引用的问题。我们先来看看 RACObserve 的实现：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#define <span class="type">RACObserve</span>(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) \</span><br><span class="line">(&#123; \</span><br><span class="line">_Pragma(<span class="string">&quot;clang diagnostic push&quot;</span>) \</span><br><span class="line">_Pragma(<span class="string">&quot;clang diagnostic ignored <span class="subst">\&quot;</span>-Wreceiver-is-weak<span class="subst">\&quot;</span>&quot;</span>) \</span><br><span class="line">__weak id target_ <span class="operator">=</span> (<span class="type">TARGET</span>); \</span><br><span class="line">[target_ rac_valuesForKeyPath:<span class="meta">@keypath</span>(<span class="type">TARGET</span>, <span class="type">KEYPATH</span>) observer:<span class="keyword">self</span>]; \</span><br><span class="line">_Pragma(<span class="string">&quot;clang diagnostic pop&quot;</span>) \</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">RACSignal</span> <span class="operator">*</span>)rac_valuesForKeyPath:(<span class="type">NSString</span> <span class="operator">*</span>)keyPath observer:(__weak <span class="type">NSObject</span> <span class="operator">*</span>)observer;</span><br></pre></td></tr></table></figure>
+
+<p>其实，看到这里你会认为这里只是调用了一个方法创建了一个 Signal，而且这个 Signal 也并不属于任何对象。我们再来看看具体的实现是怎么样的？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">RACSignal</span> <span class="operator">*</span>)rac_valuesAndChangesForKeyPath:(<span class="type">NSString</span> <span class="operator">*</span>)keyPath options:(<span class="type">NSKeyValueObservingOptions</span>)options observer:(__weak <span class="type">NSObject</span> <span class="operator">*</span>)weakObserver &#123;</span><br><span class="line">    <span class="type">NSObject</span> <span class="operator">*</span>strongObserver <span class="operator">=</span> weakObserver;</span><br><span class="line">    keyPath <span class="operator">=</span> [keyPath copy];</span><br><span class="line"></span><br><span class="line">    <span class="type">NSRecursiveLock</span> <span class="operator">*</span>objectLock <span class="operator">=</span> [[<span class="type">NSRecursiveLock</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">    objectLock.name <span class="operator">=</span> @<span class="string">&quot;org.reactivecocoa.ReactiveCocoa.NSObjectRACPropertySubscribing&quot;</span>;</span><br><span class="line"></span><br><span class="line">    __weak <span class="type">NSObject</span> <span class="operator">*</span>weakSelf <span class="operator">=</span> <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">RACSignal</span> <span class="operator">*</span>deallocSignal <span class="operator">=</span> [[<span class="type">RACSignal</span> zip:@[</span><br><span class="line">                            <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                            strongObserver.rac_willDeallocSignal <span class="operator">?</span>: [<span class="type">RACSignal</span> never]</span><br><span class="line">    ]] doCompleted:<span class="operator">^</span>&#123;</span><br><span class="line">        <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">        <span class="comment">// being read on another thread.</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        <span class="meta">@onExit</span> &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [[[<span class="type">RACSignal</span> createSignal:<span class="operator">^</span> <span class="type">RACDisposable</span> <span class="operator">*</span> (id<span class="operator">&lt;</span><span class="type">RACSubscriber</span><span class="operator">&gt;</span> subscriber) &#123;</span><br><span class="line">        <span class="comment">// Hold onto the lock the whole time we&#x27;re setting up the KVO</span></span><br><span class="line">        <span class="comment">// observation, because any resurrection that might be caused by our</span></span><br><span class="line">        <span class="comment">// retaining below must be balanced out by the time -dealloc returns</span></span><br><span class="line">        <span class="comment">// (if another thread is waiting on the lock above).</span></span><br><span class="line">        [objectLock lock];</span><br><span class="line">        <span class="meta">@onExit</span> &#123;</span><br><span class="line">            [objectLock unlock];</span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">        __strong <span class="type">NSObject</span> <span class="operator">*</span>observer __attribute__((objc_precise_lifetime)) <span class="operator">=</span> weakObserver;</span><br><span class="line">        __strong <span class="type">NSObject</span> <span class="operator">*</span><span class="keyword">self</span> __attribute__((objc_precise_lifetime)) <span class="operator">=</span> weakSelf;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span> <span class="operator">==</span> <span class="literal">nil</span>) &#123;</span><br><span class="line">            [subscriber sendCompleted];</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> [<span class="keyword">self</span> rac_observeKeyPath:keyPath options:options observer:observer block:<span class="operator">^</span>(id value, <span class="type">NSDictionary</span> <span class="operator">*</span>change, <span class="type">BOOL</span> causedByDealloc, <span class="type">BOOL</span> affectedOnlyLastComponent) &#123;</span><br><span class="line">                [subscriber sendNext:<span class="type">RACTuplePack</span>(value, change)];</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;] takeUntil:deallocSignal] setNameWithFormat:@<span class="string">&quot;%@ -rac_valueAndChangesForKeyPath: %@ options: %lu observer: %@&quot;</span>, <span class="keyword">self</span>.rac_description, keyPath, (unsigned long)options, strongObserver.rac_description];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重点观察 <strong>deallocSignal</strong> 和 **[signal takeUntile:deallocSignal]**，我们把 deallocSignal 单独拿出来看看：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RACSignal</span> <span class="operator">*</span>deallocSignal <span class="operator">=</span> [[<span class="type">RACSignal</span> zip:@[</span><br><span class="line">                        <span class="keyword">self</span>.rac_willDeallocSignal,</span><br><span class="line">                        strongObserver.rac_willDeallocSignal <span class="operator">?</span>: [<span class="type">RACSignal</span> never]</span><br><span class="line">                        ]] doCompleted:<span class="operator">^</span>&#123;</span><br><span class="line">    <span class="comment">// Forces deallocation to wait if the object variables are currently</span></span><br><span class="line">    <span class="comment">// being read on another thread.</span></span><br><span class="line">    [objectLock lock];</span><br><span class="line">    <span class="meta">@onExit</span> &#123;</span><br><span class="line">    [objectLock unlock];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>这里的 deallocSignal 是只有在 self 和 strongObserve 都将要发生 dealloc 的时候才会触发的。即用 RACObserve 创建的信号只有在其 target 和 observe 都发生 dealloc 的时候才会被 disposable (这个好像是 RAC 用来销毁自己资源的东西)。不明白的童鞋，我们回头来分析一下场景4的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:<span class="operator">^</span>(<span class="type">NSString</span> <span class="operator">*</span> title) &#123;</span><br><span class="line">    <span class="keyword">self</span>.title <span class="operator">=</span> title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>用 RACObserve 创建的信号看起来只要出了函数体其资源应该就会被回收，但是这个信号其实是只有在 self.viewModel.rac_willDeallocSignal 和 self.rac_willDeallocSignal 都发生的情况下才会被释放。所以场景4的引用关系看起来只有 signal-&gt;block-&gt;self，但是这个 signal 只有在 self.rac_willDeallocSignal 的时候才会被释放。所以这里如果不打断这种关系的话就会造成循环引用的问题，正确做法应该是：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 场景4</span></span><br><span class="line"><span class="meta">@weakify</span>(<span class="keyword">self</span>);</span><br><span class="line">[<span class="type">RACObserve</span>(<span class="keyword">self</span>.viewModel, title) subscribeNext:<span class="operator">^</span>(<span class="type">NSString</span> <span class="operator">*</span> title) &#123;</span><br><span class="line">    <span class="meta">@strongify</span>(<span class="keyword">self</span>);</span><br><span class="line">    <span class="keyword">self</span>.title <span class="operator">=</span> title;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>最后，在说一个特别需要注意的，就是 UITableViewCell 和 UICollectionViewCell 复用和 RAC 的问题。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> <span class="operator">*</span>)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">UITableViewCell</span> <span class="operator">*</span>)tableView:(nonnull <span class="type">UITableView</span> <span class="operator">*</span>)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> <span class="operator">*</span>)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> <span class="operator">*</span> cell <span class="operator">=</span> [tableView dequeueReusableCellWithIdentifier:@<span class="string">&quot;TableViewCell&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="meta">@weakify</span>(<span class="keyword">self</span>);</span><br><span class="line">    [<span class="type">RACObserve</span>(cell.textLabel, text) subscribeNext:<span class="operator">^</span>(id x) &#123;</span><br><span class="line">        <span class="meta">@strongify</span>(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看到这里的 RACObserve 创建的 Signal 和 self 之间已经去掉了循环引用的问题，所以应该是没有什么问题的。但是结合之前我们对 RACObserve 的理解再仔细分析一下，这里的 Signal 只要 self 没有被 dealloc 的话就不会被释放。虽然每次 UITableViewCell 都会被重用，但是每次重用过程中创建的信号确实无法被 disposable。那我们该怎么做呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span> (<span class="type">NSInteger</span>)tableView:(nonnull <span class="type">UITableView</span> <span class="operator">*</span>)tableView numberOfRowsInSection:(<span class="type">NSInteger</span>)section &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="operator">-</span> (<span class="type">UITableViewCell</span> <span class="operator">*</span>)tableView:(nonnull <span class="type">UITableView</span> <span class="operator">*</span>)tableView cellForRowAtIndexPath:(nonnull <span class="type">NSIndexPath</span> <span class="operator">*</span>)indexPath &#123;</span><br><span class="line">    <span class="type">UITableViewCell</span> <span class="operator">*</span> cell <span class="operator">=</span> [tableView dequeueReusableCellWithIdentifier:@<span class="string">&quot;TableViewCell&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="meta">@weakify</span>(<span class="keyword">self</span>);</span><br><span class="line">    [[<span class="type">RACObserve</span>(cell.textLabel, text) takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:<span class="operator">^</span>(id x) &#123;</span><br><span class="line">        <span class="meta">@strongify</span>(<span class="keyword">self</span>);</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">&quot;%@&quot;</span>, <span class="keyword">self</span>);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，我们在cell里面创建的信号加上 takeUntil:cell.rac_prepareForReuseSignal，这个是让 cell 在每次重用的时候都去 disposable 创建的信号。</p>
+<p>以上所说的关于内存的东西我都用 Instrument 的 Allocations 验证过了，但是依旧建议大家自己也去试试。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/blog/tags/RAC/" rel="tag"># RAC</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/2017/09/05/Swift-High-Performance-Tip%202%EF%BC%9Afinal%E5%92%8Cprivate(fileprivate)/" rel="prev" title="Swift High-Performance Tip 2：final 和 private(fileprivate)">
+                  <i class="fa fa-chevron-left"></i> Swift High-Performance Tip 2：final 和 private(fileprivate)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/2017/09/05/Swift-High-Performance-Tip%201%EF%BC%9AArray%E5%92%8CContiguousArray/" rel="next" title="Swift High-Performance Tip 1：Array 和 ContiguousArray">
+                  Swift High-Performance Tip 1：Array 和 ContiguousArray <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/schemes/muse.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

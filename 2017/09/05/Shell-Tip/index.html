@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hparis.github.io","root":"/blog/","images":"/blog/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"style":null,"show_result":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="记录日常中用到的一些 Bash 脚本，经常更新  Tip 1 : 修改文件里面的内容早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现 1$ find . -name &amp;#x27;*.html&amp;#x27; -print0 | xargs -0 sed -i &amp;#x27;&amp;#x27; -e &amp;#x27;s&#x2F;&lt;title&gt;.*&lt;\&#x2F;title&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell Tip">
+<meta property="og:url" content="https://hparis.github.io/blog/2017/09/05/Shell-Tip/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="记录日常中用到的一些 Bash 脚本，经常更新  Tip 1 : 修改文件里面的内容早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现 1$ find . -name &amp;#x27;*.html&amp;#x27; -print0 | xargs -0 sed -i &amp;#x27;&amp;#x27; -e &amp;#x27;s&#x2F;&lt;title&gt;.*&lt;\&#x2F;title&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-09-05T15:30:56.000Z">
+<meta property="article:modified_time" content="2023-01-07T05:42:02.483Z">
+<meta property="article:author" content="帕帕">
+<meta property="article:tag" content="tip">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hparis.github.io/blog/2017/09/05/Shell-Tip/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://hparis.github.io/blog/2017/09/05/Shell-Tip/","path":"2017/09/05/Shell-Tip/","title":"Shell Tip"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Shell Tip | 帕帕's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帕帕's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip-1-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E9%87%8C%E9%9D%A2%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">1.</span> <span class="nav-text">Tip 1 : 修改文件里面的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip-2-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">Tip 2 : 查找文件的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip-3-%E8%A7%A3%E5%86%B3-Homebrew-%E7%9A%84%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">Tip 3 : 解决 Homebrew 的权限问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip-4-%E5%88%A9%E7%94%A8-Shell-%E7%94%9F%E6%88%90%E7%94%9F%E6%88%90-ICON"><span class="nav-number">4.</span> <span class="nav-text">Tip 4 : 利用 Shell 生成生成 ICON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip5-%E4%BD%BF%E7%94%A8-Python-%E5%85%B1%E4%BA%AB%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95"><span class="nav-number">5.</span> <span class="nav-text">Tip5 : 使用 Python 共享当前目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip6-%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86%E6%96%87%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">Tip6 : 加密和解密文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip7-iOS-%E6%89%93%E5%8C%85%E5%91%BD%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">Tip7: iOS 打包命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip8-%E9%87%8D%E7%BD%AE-iOS-%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="nav-number">8.</span> <span class="nav-text">Tip8: 重置 iOS 模拟器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip9-%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%88%AA%E5%9B%BE"><span class="nav-number">9.</span> <span class="nav-text">Tip9: 模拟器截图</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2017/09/05/Shell-Tip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Shell Tip | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shell Tip
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-05 15:30:56" itemprop="dateCreated datePublished" datetime="2017-09-05T15:30:56Z">2017-09-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <blockquote>
+<p>记录日常中用到的一些 Bash 脚本，经常更新</p>
+</blockquote>
+<h2 id="Tip-1-修改文件里面的内容"><a href="#Tip-1-修改文件里面的内容" class="headerlink" title="Tip 1 : 修改文件里面的内容"></a>Tip 1 : 修改文件里面的内容</h2><p>早上产品有一个小需求就是把工程中的所有网页的标题修改为黑米流量通，可以使用以下命令来实现</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name <span class="string">&#x27;*.html&#x27;</span> -print0 | xargs -0 sed -i <span class="string">&#x27;&#x27;</span> -e <span class="string">&#x27;s/&lt;title&gt;.*&lt;\/title&gt;/&lt;title&gt;黑米流量通&lt;\/title&gt;/g&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>find</code>          查找命令，可以用 man find 查看更多的信息</li>
+<li><code>.</code>             代表当前目录</li>
+<li><code>-name</code>         find 命令的参数，表示要查找的文件名</li>
+<li><code>-print0</code>       是一种不换行的输出格式，以 ASCII NUL 字符（也就是\0）作为分隔符。上面的例子可能是 <code>a.html\0b.html\0c.html</code></li>
+<li><code>|</code>             这是一个管道符，表示把前面命令的输出作为后面命令的输入</li>
+<li><code>xargs</code>         是用来构造输入参数，并且循环执行每一个参数</li>
+<li><code>-0</code>            表示让 xargs 使用 ASCII NUL 来分隔参数。上面的例子将被分隔成 <code>a.html</code> <code>b.html</code> <code>c.html</code> 三个参数依次执行</li>
+<li><code>sed</code>           这是一个流编辑器，如果传的是文件名会把文件内容读入内存，如果只是普通字符串就会把字符串读入内存</li>
+<li><code>-i</code>            表示要把原来的文件内容做一次备份，后面的 <code>&#39;&#39;</code> 是表示要备份的文件名字，如果没有文件名字就表示不需要备份</li>
+<li><code>-e</code>            表示后面的字符串是一个命令，需要被执行</li>
+<li><code>s/old/new/g</code>   这个是用来替换字符串的命令</li>
+</ul>
+<h2 id="Tip-2-查找文件的内容"><a href="#Tip-2-查找文件的内容" class="headerlink" title="Tip 2 : 查找文件的内容"></a>Tip 2 : 查找文件的内容</h2><p>把匹配的文件内容的相关文件列出来</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find . -name <span class="string">&#x27;*.html&#x27;</span> -print0 | xargs -0 grep <span class="string">&#x27;PATTERN&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Tip-3-解决-Homebrew-的权限问题"><a href="#Tip-3-解决-Homebrew-的权限问题" class="headerlink" title="Tip 3 : 解决 Homebrew 的权限问题"></a>Tip 3 : 解决 Homebrew 的权限问题</h2><p>查看 Homebrew 的所有权</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -al `<span class="built_in">which</span> brew`</span><br></pre></td></tr></table></figure>
+
+<p>把 Homebrew 的用户和分组修改为 root 和 wheel</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">chown</span> root:wheel `<span class="built_in">which</span> brew`</span><br></pre></td></tr></table></figure>
+
+<p>最后还原 Homebrew 的权限（安全）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">chown</span> : `<span class="built_in">chown</span> brew`</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tip-4-利用-Shell-生成生成-ICON"><a href="#Tip-4-利用-Shell-生成生成-ICON" class="headerlink" title="Tip 4 : 利用 Shell 生成生成 ICON"></a>Tip 4 : 利用 Shell 生成生成 ICON</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="comment">#此脚本是用来生成 iPhone 和 iPad 所需 icon 的不同尺寸的，最好是准备一张 1024x1024 的 Icon 图片</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">filename=<span class="string">&quot;icon.png&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">dirname</span>=<span class="string">&quot;icon&quot;</span></span><br><span class="line"></span><br><span class="line">name_array=(<span class="string">&quot;Icon-20.png&quot;</span> <span class="string">&quot;Icon-20@2x.png&quot;</span> <span class="string">&quot;Icon-20@3x.png&quot;</span></span><br><span class="line"><span class="string">&quot;Icon-29.png&quot;</span> <span class="string">&quot;Icon-29@2x.png&quot;</span> <span class="string">&quot;Icon-29@3x.png&quot;</span></span><br><span class="line"><span class="string">&quot;Icon-40.png&quot;</span> <span class="string">&quot;Icon-40@2x.png&quot;</span> <span class="string">&quot;Icon-40@3x.png&quot;</span></span><br><span class="line"><span class="string">&quot;Icon-60@2x.png&quot;</span> <span class="string">&quot;Icon-60@3x.png&quot;</span></span><br><span class="line"><span class="string">&quot;Icon-76.png&quot;</span> <span class="string">&quot;Icon-76@2x.png&quot;</span></span><br><span class="line"><span class="string">&quot;Icon-83.5@2x.png&quot;</span>)</span><br><span class="line">size_array=(<span class="string">&quot;20&quot;</span> <span class="string">&quot;40&quot;</span> <span class="string">&quot;60&quot;</span></span><br><span class="line"><span class="string">&quot;29&quot;</span> <span class="string">&quot;58&quot;</span> <span class="string">&quot;87&quot;</span></span><br><span class="line"><span class="string">&quot;40&quot;</span> <span class="string">&quot;80&quot;</span> <span class="string">&quot;120&quot;</span></span><br><span class="line"><span class="string">&quot;120&quot;</span> <span class="string">&quot;180&quot;</span></span><br><span class="line"><span class="string">&quot;76&quot;</span> <span class="string">&quot;152&quot;</span></span><br><span class="line"><span class="string">&quot;167&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> <span class="variable">$dirname</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ((i=<span class="number">0</span>;i&lt;<span class="variable">$&#123;#name_array[@]&#125;</span>;++i)); <span class="keyword">do</span></span><br><span class="line">    m_dir=<span class="variable">$dirname</span>/<span class="variable">$&#123;name_array[i]&#125;</span></span><br><span class="line">    <span class="built_in">cp</span> <span class="variable">$filename</span> <span class="variable">$m_dir</span></span><br><span class="line">    sips -Z <span class="variable">$&#123;size_array[i]&#125;</span> <span class="variable">$m_dir</span></span><br><span class="line"><span class="comment"># 如果图片是 sRGB 的话，使用下面的命令</span></span><br><span class="line"><span class="comment">#    sips --matchTo &#x27;/System/Library/ColorSync/Profiles/sRGB Profile.icc&#x27; -Z $&#123;size_array[i]&#125; $m_dir </span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Tip5-使用-Python-共享当前目录"><a href="#Tip5-使用-Python-共享当前目录" class="headerlink" title="Tip5 : 使用 Python 共享当前目录"></a>Tip5 : 使用 Python 共享当前目录</h2><p>利用下面的命令可以暂时开启一个端口号为 8000 的 HTTP 服务，其他人只需要在浏览器输入 <code>http://ip-address:8000</code> 即可浏览共享目录下的文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m SimpleHTTPServer</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Tip6-加密和解密文件"><a href="#Tip6-加密和解密文件" class="headerlink" title="Tip6 : 加密和解密文件"></a>Tip6 : 加密和解密文件</h2><ul>
+<li>加密</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar czf - &#123;SRC_DIR&#125; | openssl des3 -salt -k <span class="string">&quot;&#123;KEY&#125;&quot;</span> -out &#123;DIST_PACKAGE&#125;.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>目录名 <code>paris_code</code>，秘钥 <code>meta#com</code>，输出包 <code>paris_code_20161008.tar.gz</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar czf - paris_code | openssl des3 -salt -k <span class="string">&quot;meta#com&quot;</span> -out paris_code_20161008.tar.gz</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>解密</li>
+</ul>
+<p>第一步：获取代码压缩文件包</p>
+<p>下载地址 <code>http://XXXX.com/paris_code_20161008.tar.gz</code></p>
+<p>第二步：解密文件（OS X &#x2F; Linux only）</p>
+<p>在 Terminal 进入压缩文件包同级目录，输入以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openssl des3 -d -k <span class="string">&quot;meta#com&quot;</span> -salt -<span class="keyword">in</span> paris_code_20161008.tar.gz | tar xzf -</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tip7-iOS-打包命令"><a href="#Tip7-iOS-打包命令" class="headerlink" title="Tip7: iOS 打包命令"></a>Tip7: iOS 打包命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;----------------&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Begin Build!&quot;</span></span><br><span class="line">PROJECT_NAME=<span class="string">&quot;orbit&quot;</span></span><br><span class="line">BUILD_DATE=<span class="string">&quot;<span class="subst">$(date +&#x27;%Y%m%d&#x27;)</span>&quot;</span></span><br><span class="line">BUNDLE_ID=<span class="string">&quot;com.meta.paris&quot;</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$&#123;WORKSPACE&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#/usr/local/bin/npm install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">&quot;<span class="variable">$&#123;WORKSPACE&#125;</span>/build&quot;</span> ]; <span class="keyword">then</span> </span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">ls</span> <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.ipa 1&gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">rm</span> -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.ipa; </span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">ls</span> <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.xcarchive 1&gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">rm</span> -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/**/*.xcarchive; </span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">    <span class="built_in">mkdir</span> <span class="variable">$&#123;WORKSPACE&#125;</span>/build; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;计算今天的 Build Version&quot;</span></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">&quot;<span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_DATE&#125;</span>&quot;</span> ]; <span class="keyword">then</span> </span><br><span class="line">   <span class="comment">#如果不加上面的 if, Jenkins 无法直接执行下面的命令❓</span></span><br><span class="line">	BUILD_DATE_COUNT=$(<span class="built_in">ls</span> <span class="variable">$&#123;WORKSPACE&#125;</span>/build | grep <span class="string">&quot;^<span class="variable">$&#123;BUILD_DATE&#125;</span>&quot;</span> -c)</span><br><span class="line">    <span class="keyword">if</span> [ <span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span> -lt 10 ]; <span class="keyword">then</span></span><br><span class="line">        BUILD_DATE_COUNT=<span class="string">&quot;0<span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span>;</span><br><span class="line">	BUILD_VERSION=<span class="string">&quot;<span class="variable">$&#123;BUILD_DATE&#125;</span><span class="variable">$&#123;BUILD_DATE_COUNT&#125;</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">  	BUILD_VERSION=<span class="variable">$&#123;BUILD_DATE&#125;</span></span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;今天的 Build Version 是 <span class="variable">$&#123;BUILD_VERSION&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">&quot;<span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>&quot;</span> ]; <span class="keyword">then</span> </span><br><span class="line">    <span class="built_in">rm</span> -rf <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"><span class="built_in">mkdir</span> <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -d <span class="string">&quot;<span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">rm</span> <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist; </span><br><span class="line"><span class="keyword">fi</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#http://www.matrixprojects.net/p/xcodebuild-export-options-plist/</span></span><br><span class="line">Enterprise=<span class="string">&#x27;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span></span><br><span class="line"><span class="string">&lt;plist version=&quot;1.0&quot;&gt;</span></span><br><span class="line"><span class="string">&lt;dict&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;teamID&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;string&gt;&lt;/string&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;method&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;string&gt;app-store&lt;/string&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;uploadSymbols&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;true/&gt;</span></span><br><span class="line"><span class="string">        &lt;key&gt;uploadBitcode&lt;/key&gt;</span></span><br><span class="line"><span class="string">        &lt;false/&gt;</span></span><br><span class="line"><span class="string">&lt;/dict&gt;</span></span><br><span class="line"><span class="string">&lt;/plist&gt;&#x27;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;Enterprise&#125;</span> &gt; <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&#x27;&#x27;</span> <span class="string">&#x27;s/ProvisioningStyle = Automatic;/ProvisioningStyle = Manual;/g&#x27;</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcodeproj/project.pbxproj</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&#x27;&#x27;</span> <span class="string">&#x27;s/DEVELOPMENT_TEAM = .*;/DEVELOPMENT_TEAM = &quot;&quot;;/g&#x27;</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcodeproj/project.pbxproj</span><br><span class="line"></span><br><span class="line"><span class="comment">#动态生成 Build Version</span></span><br><span class="line">sed -i <span class="string">&#x27;&#x27;</span> <span class="string">&quot;/&lt;key&gt;CFBundleVersion&lt;\/key&gt;/&#123;N;s/&lt;string&gt;.*&lt;\/string&gt;/&lt;string&gt;<span class="variable">$&#123;BUILD_VERSION&#125;</span>&lt;\/string&gt;/g;&#125;&quot;</span> \</span><br><span class="line"><span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>-Info.plist</span><br><span class="line"></span><br><span class="line">xcodebuild -workspace <span class="variable">$&#123;WORKSPACE&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcworkspace \</span><br><span class="line">-scheme <span class="variable">$&#123;PROJECT_NAME&#125;</span> -sdk iphoneos \</span><br><span class="line">build CODE_SIGN_IDENTITY=<span class="string">&quot;iPhone Distribution: Beijing PS Technology Co., Ltd.&quot;</span> \</span><br><span class="line">PROVISIONING_PROFILE=<span class="string">&quot;&quot;</span> \</span><br><span class="line">-configuration Release clean archive \</span><br><span class="line">-archivePath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcarchive</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive -exportOptionsPlist <span class="variable">$&#123;WORKSPACE&#125;</span>/Enterprise.plist \</span><br><span class="line">-archivePath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.xcarchive \</span><br><span class="line">-exportPath <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;----------------&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Build successfully!&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Begin Upload to itunes...&quot;</span></span><br><span class="line"><span class="comment">#Use [shenzhen](https://github.com/nomad/shenzhen) to upload the ipa file to itunes connect.</span></span><br><span class="line">/usr/local/bin/ipa distribute:itunesconnect -f <span class="variable">$&#123;WORKSPACE&#125;</span>/build/<span class="variable">$&#123;BUILD_VERSION&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.ipa -a YourAppleID -p YourPassword -i <span class="variable">$&#123;BUNDLE_ID&#125;</span> --upload</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Upload successfully!&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Tip8-重置-iOS-模拟器"><a href="#Tip8-重置-iOS-模拟器" class="headerlink" title="Tip8: 重置 iOS 模拟器"></a>Tip8: 重置 iOS 模拟器</h2><p>相信各位在做 iOS 开发的同学都会碰到模拟器上各种神奇的现象，通过重置 iOS 模拟器基本上可以解决大部分问题：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 退出当前的所有模拟器</span><br><span class="line">$ osascript -e <span class="string">&#x27;tell application &quot;iOS Simulator&quot; to quit&#x27;</span></span><br><span class="line">$ osascript -e <span class="string">&#x27;tell application &quot;Simulator&quot; to quit&#x27;</span></span><br><span class="line"></span><br><span class="line">// 清掉之前使用模拟器产生的所有内容</span><br><span class="line">$ xcrun simctl erase all</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tip9-模拟器截图"><a href="#Tip9-模拟器截图" class="headerlink" title="Tip9: 模拟器截图"></a>Tip9: 模拟器截图</h2><p>下面的命令会默认截取第一个启动的模拟器：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcrun simctl io booted screenshot screenshot.png</span><br></pre></td></tr></table></figure>
+
+<p>当你同时启动了多个模拟器的情况下，需要先查看当前启动的模拟器 ID，然后指定 ID 截图：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xcrun simctl list</span><br><span class="line">xcrun simctl io B5EEDDC0-CDA3-46A9-A2B6-FA940D693DFC screenshot screenshot.png</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/tip/" rel="tag"># tip</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/2017/09/05/Vim-Tip/" rel="prev" title="Vim Tip">
+                  <i class="fa fa-chevron-left"></i> Vim Tip
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/2017/09/05/Swift-High-Performance-Tip%202%EF%BC%9Afinal%E5%92%8Cprivate(fileprivate)/" rel="next" title="Swift High-Performance Tip 2：final 和 private(fileprivate)">
+                  Swift High-Performance Tip 2：final 和 private(fileprivate) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/schemes/muse.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

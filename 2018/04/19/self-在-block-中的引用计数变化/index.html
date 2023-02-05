@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hparis.github.io","root":"/blog/","images":"/blog/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"style":null,"show_result":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="相信大家在 Objective-C 中都会通过 __waek 的修饰符来保证 block 和 self 不会互相引用，代码如下: 12345__weak typeof(self) weakSelf &#x3D; self;self.block &#x3D; ^&amp;#123;    __strong typeof(self) strongSelf &#x3D; self;    ...&amp;#125;  但是你思考过 self 在这一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="self 在 block 中的引用计数变化">
+<meta property="og:url" content="https://hparis.github.io/blog/2018/04/19/self-%E5%9C%A8-block-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="相信大家在 Objective-C 中都会通过 __waek 的修饰符来保证 block 和 self 不会互相引用，代码如下: 12345__weak typeof(self) weakSelf &#x3D; self;self.block &#x3D; ^&amp;#123;    __strong typeof(self) strongSelf &#x3D; self;    ...&amp;#125;  但是你思考过 self 在这一">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-19T11:34:51.000Z">
+<meta property="article:modified_time" content="2023-01-07T05:42:02.484Z">
+<meta property="article:author" content="帕帕">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content="Block">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hparis.github.io/blog/2018/04/19/self-%E5%9C%A8-block-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://hparis.github.io/blog/2018/04/19/self-%E5%9C%A8-block-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96/","path":"2018/04/19/self-在-block-中的引用计数变化/","title":"self 在 block 中的引用计数变化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>self 在 block 中的引用计数变化 | 帕帕's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帕帕's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/04/19/self-%E5%9C%A8-block-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="self 在 block 中的引用计数变化 | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          self 在 block 中的引用计数变化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-19 11:34:51" itemprop="dateCreated datePublished" datetime="2018-04-19T11:34:51Z">2018-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>相信大家在 Objective-C 中都会通过 <code>__waek</code> 的修饰符来保证 block 和 self 不会互相引用，代码如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong typeof(self) strongSelf = self;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是你思考过 self 在这一段旅程中的引用计数变化么，接下来我会通过三个例子来展示这一段旅程是怎样的？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 🌰1</span><br><span class="line">NSLog(@&quot;Before block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    self;</span><br><span class="line">    NSLog(@&quot;Within block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">&#125;;</span><br><span class="line">self.block();</span><br><span class="line">NSLog(@&quot;After block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 🌰2</span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">NSLog(@&quot;Before block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    weakSelf;</span><br><span class="line">    NSLog(@&quot;Within block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(weakSelf)));</span><br><span class="line">&#125;;</span><br><span class="line">self.block();</span><br><span class="line">NSLog(@&quot;After block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 🌰3</span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">NSLog(@&quot;Before block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong typeof(self) strongSelf = weakSelf;</span><br><span class="line">    NSLog(@&quot;Within block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(weakSelf)));</span><br><span class="line">&#125;;</span><br><span class="line">self.block();</span><br><span class="line">NSLog(@&quot;After block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过 Clang 对上面的三个例子做一下编译，通过编译后的 C 代码（接下来所展示代码都是经过简化），我们可以推导出 self 的引用计数变化。</p>
+<hr>
+<p>🌰1 的 C 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// Block 结构体。这个大家可以通过其他的资料去看看，我们今天主要是来探寻一下 self 的旅程，这里就不对 Block 本身做更详细的介绍</span><br><span class="line">struct __block_impl &#123;</span><br><span class="line">  void *isa;</span><br><span class="line">  int Flags;</span><br><span class="line">  int Reserved;</span><br><span class="line">  void *FuncPtr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// ^&#123;&#125; 的实现</span><br><span class="line">struct __BlockTest__test_block_impl_0 &#123;</span><br><span class="line">    struct __block_impl impl;</span><br><span class="line">    struct __BlockTest__test_block_desc_0* Desc;</span><br><span class="line">    BlockTest *const __strong self;</span><br><span class="line">    __BlockTest__test_block_impl_0(void *fp, struct __BlockTest__test_block_desc_0 *desc, BlockTest *const __strong _self, int flags=0) : self(_self) &#123;</span><br><span class="line">        impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">        impl.Flags = flags;</span><br><span class="line">        impl.FuncPtr = fp;</span><br><span class="line">        Desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// Block 方法</span><br><span class="line">static void __BlockTest__test_block_func_0(struct __BlockTest__test_block_impl_0 *__cself) &#123;</span><br><span class="line">    BlockTest *const __strong self = __cself-&gt;self; // bound by copy</span><br><span class="line">    self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 copy 操作</span><br><span class="line">static void __BlockTest__test_block_copy_0(struct __BlockTest__test_block_impl_0*dst, struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;self, (void*)src-&gt;self, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 dispose 操作</span><br><span class="line">static void __BlockTest__test_block_dispose_0(struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;self, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// 描述 Block 的 copy 和 dispose</span><br><span class="line">static struct __BlockTest__test_block_desc_0 &#123;</span><br><span class="line">    size_t reserved;</span><br><span class="line">    size_t Block_size;</span><br><span class="line">    void (*copy)(struct __BlockTest__test_block_impl_0*, struct __BlockTest__test_block_impl_0*);</span><br><span class="line">    void (*dispose)(struct __BlockTest__test_block_impl_0*);</span><br><span class="line">&#125; __BlockTest__test_block_desc_0_DATA = &#123; 0, sizeof(struct __BlockTest__test_block_impl_0), __BlockTest__test_block_copy_0, __BlockTest__test_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line">// 方法主体</span><br><span class="line">static void _I_BlockTest_test(BlockTest * self, SEL _cmd) &#123;</span><br><span class="line">    ((void (*)(id, SEL, void (*)()))(void *)objc_msgSend)((id)self, sel_registerName(&quot;setBlock:&quot;), ((void (*)())&amp;__BlockTest__test_block_impl_0((void *)__BlockTest__test_block_func_0, &amp;__BlockTest__test_block_desc_0_DATA, self, 570425344)));</span><br><span class="line">    ((void (*(*)(id, SEL))())(void *)objc_msgSend)((id)self, sel_registerName(&quot;block&quot;))();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在方法主体里面首先会构造一个 <code>__BlockTest__test_block_impl_0</code> 的结构体，该结构体捕获了 self；</li>
+<li><code>__BlockTest__test_block_impl_0</code> 的构造函数中使用了 <code>__strong</code> 来捕获 self，所以我们知道在构造的时候默认是使用 <code>__strong</code> 来捕获外部的对象变量，此时 self 的引用计数应该要 +1；</li>
+<li>Block 被构造出来之后需要被赋值给 self，我们知道在 ARC 模式下此时的 Block 会执行 Copy 操作，从 <code>_NSConcreteStackBlock</code> 变成 <code>_NSMallocBlock</code>；</li>
+<li>Block 通过 <code>__BlockTest__test_block_desc_0_DATA</code> 找到 Copy 方法的具体实现 <code>__BlockTest__test_block_copy_0</code>，从上面的代码中我们知道该方法的实现是通过 <code>_Block_object_assign</code> 来实现的（对于这个方法的实现细节暂时还没有找到更相信的资料，有知道的可以麻烦告诉一下），通过名字我们可以猜测出该方法只是把捕获的变量地址直接拷贝一份到堆内存中，但是不会引起引用计数的变化；</li>
+<li>当 Block 被真正执行的时候会通过 <code>__block_impl</code> 的 <code>FuncPtr</code> 找到真正的实现代码 <code>__BlockTest__test_block_func_0</code>，我们观察到在这个方法里面有这样一句代码 <code>BlockTest *const __strong self = __cself-&gt;self</code>，很明显此时 self 的引用计数会 +1，当该 <code>__BlockTest__test_block_func_0</code> 执行完毕之后还是会释放 self 的，此时引用计数会 -1；</li>
+</ol>
+<p>从上面的分析过程中，我们知道由于 Block 在构造的时候默认就对捕获的 self 进行了强引用，导致 self 的引用计数 +1；而又由于 self 持有了 Block，所以这里就造成了循环引用的问题。</p>
+<p>我们来看 🌰2 能不能解决这个问题？</p>
+<hr>
+<p>🌰2 的 C 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// ^&#123;&#125; 结构体</span><br><span class="line">struct __BlockTest__test_block_impl_0 &#123;</span><br><span class="line">    struct __block_impl impl;</span><br><span class="line">    struct __BlockTest__test_block_desc_0* Desc;</span><br><span class="line">    BlockTest *const __weak weakSelf;</span><br><span class="line">    __BlockTest__test_block_impl_0(void *fp, struct __BlockTest__test_block_desc_0 *desc, BlockTest *const __weak _weakSelf, int flags=0) : weakSelf(_weakSelf) &#123;</span><br><span class="line">        impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">        impl.Flags = flags;</span><br><span class="line">        impl.FuncPtr = fp;</span><br><span class="line">        Desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// Block 方法</span><br><span class="line">static void __BlockTest__test_block_func_0(struct __BlockTest__test_block_impl_0 *__cself) &#123;</span><br><span class="line">    BlockTest *const __weak weakSelf = __cself-&gt;weakSelf; // bound by copy</span><br><span class="line">    weakSelf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 copy 操作</span><br><span class="line">static void __BlockTest__test_block_copy_0(struct __BlockTest__test_block_impl_0*dst, struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 dispose 操作</span><br><span class="line">static void __BlockTest__test_block_dispose_0(struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// 描述 Block 的 copy 和 dispose</span><br><span class="line">static struct __BlockTest__test_block_desc_0 &#123;</span><br><span class="line">    size_t reserved;</span><br><span class="line">    size_t Block_size;</span><br><span class="line">    void (*copy)(struct __BlockTest__test_block_impl_0*, struct __BlockTest__test_block_impl_0*);</span><br><span class="line">    void (*dispose)(struct __BlockTest__test_block_impl_0*);</span><br><span class="line">&#125; __BlockTest__test_block_desc_0_DATA = &#123; 0, sizeof(struct __BlockTest__test_block_impl_0), __BlockTest__test_block_copy_0, __BlockTest__test_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line">// 方法主体</span><br><span class="line">static void _I_BlockTest_test(BlockTest * self, SEL _cmd) &#123;</span><br><span class="line">    __attribute__((objc_ownership(weak))) typeof(self) weakSelf = self;</span><br><span class="line">    ((void (*)(id, SEL, void (*)()))(void *)objc_msgSend)((id)self, sel_registerName(&quot;setBlock:&quot;), ((void (*)())&amp;__BlockTest__test_block_impl_0((void *)__BlockTest__test_block_func_0, &amp;__BlockTest__test_block_desc_0_DATA, weakSelf, 570425344)));</span><br><span class="line">    ((void (*(*)(id, SEL))())(void *)objc_msgSend)((id)self, sel_registerName(&quot;block&quot;))();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>方法主体会先用 <code>__weak</code> 初始化一个 weakSelf，此时 self 的引用计数是不会发生变化的；之后会构造一个<code>__BlockTest__test_block_impl_0</code> 的结构体，该结构体捕获了 weakSelf；</li>
+<li><code>__BlockTest__test_block_impl_0</code> 的构造函数中使用了 <code>__weak</code> 来捕获 weakSelf，所以我们知道此时 self 的引用计数应该要也是不会发生变化的；</li>
+<li>然后把该结构体赋值给 self.block，block 结构体被从栈复制到堆的时候使用了 <code>_Block_object_assign</code>，所以此时 self 的引用计数不会发生变化</li>
+<li>然后 block 在被执行的时候做了一下 <code>__weak</code> 的操作 <code>BlockTest *const __weak weakSelf = __cself-&gt;weakSelf</code>，这时候 self 的引用计数也不会发生变化</li>
+<li>由于 block 对 weakSelf 没有强引用，所以在 block 执行完成之后也不需要做释放 weakSelf 的工作</li>
+</ol>
+<p>所以，在该例子中 block 无法强引用 weakSelf，weakSelf 的引用计数没有发生任何变化。由于 self 没有被 block 强应用，所以当 self 要被释放的时候，block 也会被释放，这就解决了我们 🌰1 中的循环引用的问题。但是在 block 方法执行的过程中，self 对象有可能已经被释放了，此时如果你还去使用 weakSelf 就有可能造成奔溃的情况。</p>
+<hr>
+<p>🌰3 的 C 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">struct __BlockTest__test_block_impl_0 &#123;</span><br><span class="line">    struct __block_impl impl;</span><br><span class="line">    struct __BlockTest__test_block_desc_0* Desc;</span><br><span class="line">    BlockTest *const __weak weakSelf;</span><br><span class="line">    __BlockTest__test_block_impl_0(void *fp, struct __BlockTest__test_block_desc_0 *desc, BlockTest *const __weak _weakSelf, int flags=0) : weakSelf(_weakSelf) &#123;</span><br><span class="line">        impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">        impl.Flags = flags;</span><br><span class="line">        impl.FuncPtr = fp;</span><br><span class="line">        Desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static void __BlockTest__test_block_func_0(struct __BlockTest__test_block_impl_0 *__cself) &#123;</span><br><span class="line">    BlockTest *const __weak weakSelf = __cself-&gt;weakSelf; // bound by copy</span><br><span class="line">    __attribute__((objc_ownership(strong))) typeof(self) strongSelf = weakSelf;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __BlockTest__test_block_copy_0(struct __BlockTest__test_block_impl_0*dst, struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">static void __BlockTest__test_block_dispose_0(struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">static struct __BlockTest__test_block_desc_0 &#123;</span><br><span class="line">    size_t reserved;</span><br><span class="line">    size_t Block_size;</span><br><span class="line">    void (*copy)(struct __BlockTest__test_block_impl_0*, struct __BlockTest__test_block_impl_0*);</span><br><span class="line">    void (*dispose)(struct __BlockTest__test_block_impl_0*);</span><br><span class="line">&#125; __BlockTest__test_block_desc_0_DATA = &#123; 0, sizeof(struct __BlockTest__test_block_impl_0), __BlockTest__test_block_copy_0, __BlockTest__test_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line">static void _I_BlockTest_test(BlockTest * self, SEL _cmd) &#123;</span><br><span class="line">    __attribute__((objc_ownership(weak))) typeof(self) weakSelf = self;</span><br><span class="line">    ((void (*)(id, SEL, void (*)()))(void *)objc_msgSend)((id)self, sel_registerName(&quot;setBlock:&quot;), ((void (*)())&amp;__BlockTest__test_block_impl_0((void *)__BlockTest__test_block_func_0, &amp;__BlockTest__test_block_desc_0_DATA, weakSelf, 570425344)));</span><br><span class="line">    ((void (*(*)(id, SEL))())(void *)objc_msgSend)((id)self, sel_registerName(&quot;block&quot;))();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>前面的步骤都跟 🌰2 中的一样，关键是在 Block 的方法实现里面有点不一样。我们来看看 <code>__BlockTest__test_block_func_0</code>，它首先调用了 <code>BlockTest *const __weak weakSelf = __cself-&gt;weakSelf</code>， 所以它此时的引用计数不会发生变化；但是接下来又用 <code>objc_ownership(strong)</code> 来强引用 weakSelf，所以此时 self 的引用计数 +1。这就保证了在函数执行的过程中，Block 会一直持有 self，知道 Block 执行完毕之后会释放 weakSelf。</p>
+<p>所以 🌰3 完美的解决了循环应用和直接使用 <code>__weak</code> 可能导致奔溃的问题。</p>
+<hr>
+<p>最后，说一下关于 _Block_object_assign 的猜想：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的例子，我们知道 Block 在构造的时候就会对捕获的变量进行内存管理（强引用和弱引用），所以当 Block 在做 Copy 操作的时候其实没有必要对它捕获的变量再做一遍内存管理了。这也应该是 Block 的 Copy 操作使用了 <code>_Block_object_assign</code> 这种不会导致引用计数发生变化的方式来实现的原因。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/blog/tags/Objective-C/" rel="tag"># Objective-C</a>
+              <a href="/blog/tags/Block/" rel="tag"># Block</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/2018/04/02/%E5%A6%82%E4%BD%95%E7%94%A8-Objective-C-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%AD%BB%E9%94%81/" rel="prev" title="如何用 Objective-C 实现一个死锁">
+                  <i class="fa fa-chevron-left"></i> 如何用 Objective-C 实现一个死锁
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/blog/2018/05/25/Swift-High-Performance-Tip%203%EF%BC%9A@objc-%E5%92%8C-dynamic/" rel="next" title="Swift High-Performance Tip 3：@objc 和 dynamic">
+                  Swift High-Performance Tip 3：@objc 和 dynamic <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/schemes/muse.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

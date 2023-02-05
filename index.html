@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hparis.github.io","root":"/blog/","images":"/blog/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"style":null,"show_result":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="奋斗中的程序员。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="帕帕&#39;s Blog">
+<meta property="og:url" content="https://hparis.github.io/blog/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="奋斗中的程序员。">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="帕帕">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://hparis.github.io/blog/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>帕帕's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">帕帕's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2023/01/07/%E7%BA%BF%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7%E5%8F%8D%E8%BD%AC%E5%92%8C%E8%87%AA%E6%97%8B%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2023/01/07/%E7%BA%BF%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7%E5%8F%8D%E8%BD%AC%E5%92%8C%E8%87%AA%E6%97%8B%E9%94%81/" class="post-title-link" itemprop="url">线程优先级反转和自旋锁</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-01-07 14:17:56" itemprop="dateCreated datePublished" datetime="2023-01-07T14:17:56Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-02-05 03:22:41" itemprop="dateModified" datetime="2023-02-05T03:22:41Z">2023-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近在面试的过程中让我突然线程优先级反转和自旋锁的关系有了一个新的认识。</p>
+<h2 id="优先级反转"><a href="#优先级反转" class="headerlink" title="优先级反转"></a>优先级反转</h2><p>线程优先级反转问题（Priority Inversion）即当一个高优先级任务通过信号量机制访问共享资源时，该信号量已被一低优先级任务占有，而这个低优先级任务在访问共享资源时可能又被其它一些中等优先级任务抢先，因此造成高优先级任务被许多具有较低优先级任务阻塞，实时性难以得到保证。</p>
+<p>关于线程优先级反转可以参考【<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/146132061">优先级反转那点事儿</a>】。</p>
+<p>优先级反转的问题一般可以通过调整线程的优先级得到解决：</p>
+<ul>
+<li>优先级天花板（Priority Ceiling）</li>
+<li>优先级继承（Priority Inheritance）</li>
+</ul>
+<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p>自旋锁是一种线程同步机制，在等待锁的过程中，线程会不断地轮询锁的状态（<code>忙等待</code>），直到获得锁为止。</p>
+<p>自旋锁的优点是可以避免线程的阻塞和唤醒，从而减少了线程上下文切换的开销。但是自旋锁不能很好地应对长时间占用锁的情况，可能会导致其他线程无法及时获得 CPU 时间片，影响系统的并发性，并且在高竞争的情况下可能会导致 CPU 占用率过高，影响系统的性能。</p>
+<p>自旋锁一般都是针对比较轻量的任务使用的，在 iOS 中一般就是对属性的 atomic 修饰，weak 的实现等这些轻量的任务使用自旋锁。</p>
+<p>自旋锁不安全的原因是由于 iOS 的线程调度器和 QOS 的原因可能会导致低优先级的线程最终不会被执行。线程调度器总是优先考虑给 QOS 中较高等级中可运行的线程，而不是低等级的线程。由于在自旋锁上旋转的线程总是可运行的，这意味着如果有足够多的高 QOS 线程在等待一个由低 QOS 线程持有的锁，拥有该锁的线程将永远不会执行。</p>
+<h2 id="优先级反转和自旋锁的关系"><a href="#优先级反转和自旋锁的关系" class="headerlink" title="优先级反转和自旋锁的关系"></a>优先级反转和自旋锁的关系</h2><p>其实我们可以发现优先级反转其实跟自旋锁没有关系，但是为什么在 iOS 面试中总是会把自旋锁和优先级反转放在一起来说呢？这是因为一旦出现优先级反转问题，自旋锁会让优先级反转问题不容易解决，甚至造成更严重的线程等待问题</p>
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/146132061">https://zhuanlan.zhihu.com/p/146132061</a></li>
+<li><a target="_blank" rel="noopener" href="https://forums.swift.org/t/thread-safety-of-weak-properties/422/12">https://forums.swift.org/t/thread-safety-of-weak-properties/422/12</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2019/09/28/UIScrollView-%E7%9A%84%E5%81%8F%E7%A7%BB%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2019/09/28/UIScrollView-%E7%9A%84%E5%81%8F%E7%A7%BB%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">UIScrollView 的偏移问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-09-27 17:40:01" itemprop="dateCreated datePublished" datetime="2019-09-27T17:40:01Z">2019-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="被控制的-UIScrollView"><a href="#被控制的-UIScrollView" class="headerlink" title="被控制的 UIScrollView"></a>被控制的 UIScrollView</h2><p>在 UIViewController 中有个属性：<code>automaticallyAdjustsScrollViewInsets</code>，这个属性是用来控制 UIScrollView 的偏移行为的。</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>The default value of this property is <code>true</code>, which lets container view controllers know that they should adjust the scroll view insets of this view controller’s view to account for screen areas consumed by a status bar, search bar, navigation bar, toolbar, or tab bar. Set this property to <code>false</code> if your view controller implementation manages its own scroll view inset adjustments.</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>官方文档的意思当在 UIViewController 上添加  UIScrollView 的时候，会根据当前页面的 status bar、 search bar、navigation bar、toolbar 或 tab bar 来修改 UIScrollView 的内容区域。但是这个阶段的 UIViewController 比较蠢，不管任何情况下都会修改 UIScrollView 的偏移量。</p>
+<p>比如我们现在有个 UINavigationController，然后添加一个 UIScrollView，然后在 UIScrollView 上面添加一个红色的方块，代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> scrollView <span class="operator">=</span> <span class="type">UIScrollView</span>()</span><br><span class="line">scrollView.backgroundColor <span class="operator">=</span> .blue</span><br><span class="line">scrollView.translatesAutoresizingMaskIntoConstraints <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line"><span class="comment">// 这里强制设置 contentSize 只是为了让 scrollView 能滚动起来</span></span><br><span class="line">scrollView.contentSize <span class="operator">=</span> <span class="type">CGSize</span>.<span class="keyword">init</span>(width: view.frame.size.width, height: <span class="number">1000</span>)</span><br><span class="line">view.addSubview(scrollView)</span><br><span class="line"><span class="comment">// ⚠️ 这里是直接跟 view 的 topAnchor 产生约束</span></span><br><span class="line">scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> redView <span class="operator">=</span> <span class="type">UIView</span>()</span><br><span class="line">redView.backgroundColor <span class="operator">=</span> .red</span><br><span class="line">redView.translatesAutoresizingMaskIntoConstraints <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">scrollView.addSubview(redView)</span><br><span class="line">redView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">redView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">redView.widthAnchor.constraint(equalToConstant: <span class="number">100</span>).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">redView.heightAnchor.constraint(equalToConstant: <span class="number">100</span>).isActive <span class="operator">=</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<img src="https://i.imgur.com/OnQDx7E.png" alt="图一：iOS 10 模拟器效果" style="zoom:50%;" />
+
+
+
+<p>当我们把 UIScrollView 的 topAnchor 修改为跟 UIViewController 的 topLayoutGuide 发生约束：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<img src="https://i.imgur.com/dwklB0X.png" alt="图二：iOS 10 模拟器效果" style="zoom:50%;" />
+
+<p>我们发现最终的效果是 UIScrollView 也发生了偏移，而且这个偏移是根据你顶部的 status bar 和 navigation bar 的高度来决定的。所以在 iOS 10 及以下的版本的时候，添加到 UIViewController 的 UIScrollView 总是会发生偏移。但是你可以通过把刚才说的那个属性 <code>automaticallyAdjustsScrollViewInsets</code>设置成 false，UIViewController 就不会让你的 UIScrollView 发生偏移。但是这个属性会影响到所有添加到 UIViewController 上的 UIScrollView，如果有些想要发生偏移，有些不想发生偏移的时候就需要把 <code>automaticallyAdjustsScrollViewInsets</code>设置成 false，然后通过代码单独去为每个 UIScrollView 设置不同的 contentInset。</p>
+<p>这种被控制的生活很不是滋味，于是随着 iOS 系统来到 11 之后，UIScrollView 终于夺回了自己的偏移控制权。UIViewController 的<code>automaticallyAdjustsScrollViewInsets</code>终于被废弃了，取而代之的是 UIScrollView 自己的<code>contentInsetAdjustmentBehavior</code>。</p>
+<h2 id="自由的-UIScrollView"><a href="#自由的-UIScrollView" class="headerlink" title="自由的 UIScrollView"></a>自由的 UIScrollView</h2><blockquote>
+<p>This property specifies how the safe area insets are used to modify the content area of the scroll view. The default value of this property is <a href="apple-reference-documentation://hs7dxiWRRh">UIScrollView.ContentInsetAdjustmentBehavior.automatic</a>.</p>
+</blockquote>
+<p>UIScrollView 的<code>contentInsetAdjustmentBehavior</code>的默认行为是<code>automatic</code>，这和 iOS 10 默认行为的最大区别就是它会判断 UIScrollView 是被添加到哪个位置，然后根据这个位置来判断是否需要修改 UIScrollView 的偏移量。</p>
+<p>还是拿上面图二的情况来讲，在 iOS 11 及 iOS 11 之后，我们还是照样只修改  UIScrollView 的 topAnchor：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<img src="https://i.imgur.com/co1D7xr.png" alt="图三：iOS 12 模拟器效果" style="zoom:50%;" />
+
+<p>此时我们发现 UIScrollView 并没有发生偏移，这也是因为 iOS 11 之后引入来 safeArea 的概念之后带来的 UI 方面的优化。</p>
+<p><code>contentInsetAdjustmentBehavior</code>还有两个值，其中<code>always</code>对应了<code>automaticallyAdjustsScrollViewInsets</code>的<code>true</code>,<code>never</code>对应了<code>automaticallyAdjustsScrollViewInsets</code>的<code>false</code>。</p>
+<p>至于<code>scrollableAxes</code>，它其实就是根据 UIScrollView 的滚动方向来决定在哪个轴上使用 sa feArea。</p>
+<p>通过<code>contentInsetAdjustmentBehavior</code>我们就可以为 UIViewController 上的每一个 UIScrollView 定制它们的偏移行为。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/11/06/Notification-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/11/06/Notification-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%82%B9/" class="post-title-link" itemprop="url">Notification 的一些知识点</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-11-05 17:55:26" itemprop="dateCreated datePublished" datetime="2018-11-05T17:55:26Z">2018-11-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="重复添加相同观察者"><a href="#重复添加相同观察者" class="headerlink" title="重复添加相同观察者"></a>重复添加相同观察者</h2><p>我们先来看看日常开发中我们对 NSNotification 的正常用法，如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义通知</span></span><br><span class="line"><span class="keyword">let</span> <span class="type">TestNotification</span> <span class="operator">=</span> <span class="type">NSNotification</span>.<span class="type">Name</span>.<span class="keyword">init</span>(<span class="string">&quot;com.papa.test&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="type">NotificationCenter</span>.default.addObserver(<span class="keyword">self</span>, selector: <span class="keyword">#selector</span>(<span class="type">Test</span>.test(notification:)), name: <span class="type">TestNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意</span></span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="type">NotificationCenter</span>.default.removeObserver(<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">func</span> <span class="title function_">test</span>(<span class="params">notification</span>: <span class="type">Notification</span>) &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Test&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是如果我们在刚才代码中的 <code>init</code> 方法里面对同一个通知多次添加同一个观察者的话，会发生什么？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">init</span>() &#123;</span><br><span class="line">    <span class="type">NotificationCenter</span>.default.addObserver(<span class="keyword">self</span>, selector: <span class="keyword">#selector</span>(<span class="type">Test</span>.test(notification:)), name: <span class="type">TestNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">    <span class="type">NotificationCenter</span>.default.addObserver(<span class="keyword">self</span>, selector: <span class="keyword">#selector</span>(<span class="type">Test</span>.test(notification:)), name: <span class="type">TestNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送 TestNotification 通知</span></span><br><span class="line"><span class="type">NotificationCenter</span>.default.post(name: <span class="type">TestNotification</span>, object: <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+
+<p>答案是会输出：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Test</span></span><br><span class="line"><span class="type">Test</span></span><br></pre></td></tr></table></figure>
+
+<p>所以我们要尽量避免重复添加观察者，因为这有可能会造成一些未知现象的发生。</p>
+<h2 id="通知中的线程问题"><a href="#通知中的线程问题" class="headerlink" title="通知中的线程问题"></a>通知中的线程问题</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义通知</span></span><br><span class="line"><span class="keyword">let</span> <span class="type">ThreadNotification</span> <span class="operator">=</span> <span class="type">NSNotification</span>.<span class="type">Name</span>.<span class="keyword">init</span>(<span class="string">&quot;com.papa.thread&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Add Observer: <span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line">        <span class="type">NotificationCenter</span>.default.addObserver(<span class="keyword">self</span>, selector: <span class="keyword">#selector</span>(<span class="type">Test</span>.test(notification:)), name: <span class="type">ThreadNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意</span></span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="type">NotificationCenter</span>.default.removeObserver(<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">func</span> <span class="title function_">test</span>(<span class="params">notification</span>: <span class="type">Notification</span>) &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Receive: <span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">DispatchQueue</span>.<span class="keyword">init</span>(label: <span class="string">&quot;com.ps.test.queue&quot;</span>).async &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Post: <span class="subst">\(Thread.current)</span>&quot;</span>)</span><br><span class="line">    <span class="type">NotificationCenter</span>.default.post(name: <span class="type">ThreadNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们来看看观察者是在什么线程上接受到通知的:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Add</span> <span class="type">Observer</span>: <span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x60000147d1c0</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">1</span>, name <span class="operator">=</span> main&#125;</span><br><span class="line"><span class="type">Post</span>: <span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x600001462640</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">3</span>, name <span class="operator">=</span> (null)&#125;</span><br><span class="line"><span class="type">Receive</span>: <span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x600001462640</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">3</span>, name <span class="operator">=</span> (null)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然我们是在主线程中去添加观察者，但是因为我们是在其他线程中去发送通知的，所以最后我们也是在其他线程中接收到通知的。</p>
+<h2 id="通知中的阻塞问题"><a href="#通知中的阻塞问题" class="headerlink" title="通知中的阻塞问题"></a>通知中的阻塞问题</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义通知</span></span><br><span class="line"><span class="keyword">let</span> <span class="type">SleepNotification</span> <span class="operator">=</span> <span class="type">NSNotification</span>.<span class="type">Name</span>.<span class="keyword">init</span>(<span class="string">&quot;com.papa.sleep&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="type">NotificationCenter</span>.default.addObserver(<span class="keyword">self</span>, selector: <span class="keyword">#selector</span>(<span class="type">Test</span>.test(notification:)), name: <span class="type">SleepNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意</span></span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="type">NotificationCenter</span>.default.removeObserver(<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@objc</span> <span class="keyword">func</span> <span class="title function_">test</span>(<span class="params">notification</span>: <span class="type">Notification</span>) &#123;</span><br><span class="line">        sleep(<span class="number">3</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> start <span class="operator">=</span> <span class="type">Date</span>()</span><br><span class="line"><span class="type">NotificationCenter</span>.default.post(name: <span class="type">SleepNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">let</span> end <span class="operator">=</span> <span class="type">Date</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;相差：<span class="subst">\(end.timeIntervalSince(start))</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到最后相差时间大概是 <code>3s</code> ，通过上面的代码我们就知道单 NotificationCenter 去 post 一个通知的时候，它会等待观察者处理完改通知之后才会继续往后执行。所以平常使用过程中我们要注意 post 有可能会阻塞当前线程，特别是在主线程中。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/05/25/Swift-High-Performance-Tip%203%EF%BC%9A@objc-%E5%92%8C-dynamic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/05/25/Swift-High-Performance-Tip%203%EF%BC%9A@objc-%E5%92%8C-dynamic/" class="post-title-link" itemprop="url">Swift High-Performance Tip 3：@objc 和 dynamic</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-05-24 18:48:01" itemprop="dateCreated datePublished" datetime="2018-05-24T18:48:01Z">2018-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="objc"><a href="#objc" class="headerlink" title="@objc"></a>@objc</h3><p>@objc 的作用是为了让 Objective-C 能够调用 Swift 的代码。其中的关键是 @objc 会生成一段 thunk 代码，Objective-C 通过这段 thunk 代码来间接调用 Swift 代码。如果是 Swift 来调用被 @objc 修饰的方法的时候，此时是不需要经过 thunk 代码就能直接调用的。</p>
+<p>所以我们可以想象，如果方法变得复杂或者被 @objc 修饰的方法数量变得越来越多会发生什么事？答案就是 thunk 代码变得越来越多，最后会导致我们的包大小也变得越来越大。并且动态链接器（dynamic linker）还需要整理这些 thunk 代码，最后导致加载时间也会变得越来越长。</p>
+<p>在 Swift3 的时候，编译器会推断出你的方法不是 Swift 专用的（比如有元组、结构体），就会默认给你的方法增加 @objc 的修饰。这种方式就导致了在 Swift3 的时候，会生成大量的 thunk 代码，并且这其中的大部分代码都不会被使用。所以 Swift4 默认是不做 @objc 的推断，只有我们手动添加了 @objc 之后，Objective-C 才能调用我们的 Swift 代码。 </p>
+<h3 id="dynamic"><a href="#dynamic" class="headerlink" title="dynamic"></a>dynamic</h3><p>Swift 的方法是通过 vtable 来调用的，使用 vtable 要比 Objective-C 的 runtime 更高效。</p>
+<p>而使用 dynamic 来修饰的方法，代表这个方法是可以被动态调用的。而由于目前 Swfit 还没有实现自己的 runtime 机制，所以动态调用只能够在 Objective-C 去调用。在  Swift4 使用 dynamic 修饰一个方法的时候，编译器会要求你还需要使用 @objc 去修饰。这是为了明确的告诉编译器这个方法是由 Objective-C 的 runtime 来调用的，同时也是为了兼容以后可能会出现的 Swift runtime 机制。</p>
+<p>由于目前使用 @objc dynamic 修饰的方法并不在 Swift 实例对象的 vtable 里面，所以 Swift 来调用该方法的时候依旧需要通过 thunk 代码来调用。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="https://swiftunboxed.com/images/native-objc-dynamic.png" alt="此图出自 https://swiftunboxed.com/interop/objc-dynamic/"></p>
+<p>通过上图我们知道：</p>
+<blockquote>
+<p>除非明确的知道会在 Objective-C 中调用这段代码，否则别使用 @objc；<br>除非明确的知道该方法需要被 Objective-C 的 runtime 动态调用，否则别使用 @objc dynamic。</p>
+</blockquote>
+<hr>
+<p><strong>参考文献</strong></p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="https://swiftunboxed.com/interop/objc-dynamic/">https://swiftunboxed.com/interop/objc-dynamic/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/apple/swift-evolution/blob/master/proposals/0160-objc-inference.md">https://github.com/apple/swift-evolution/blob/master/proposals/0160-objc-inference.md</a></p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/04/19/self-%E5%9C%A8-block-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/04/19/self-%E5%9C%A8-block-%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">self 在 block 中的引用计数变化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-19 11:34:51" itemprop="dateCreated datePublished" datetime="2018-04-19T11:34:51Z">2018-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>相信大家在 Objective-C 中都会通过 <code>__waek</code> 的修饰符来保证 block 和 self 不会互相引用，代码如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong typeof(self) strongSelf = self;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是你思考过 self 在这一段旅程中的引用计数变化么，接下来我会通过三个例子来展示这一段旅程是怎样的？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 🌰1</span><br><span class="line">NSLog(@&quot;Before block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    self;</span><br><span class="line">    NSLog(@&quot;Within block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">&#125;;</span><br><span class="line">self.block();</span><br><span class="line">NSLog(@&quot;After block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 🌰2</span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">NSLog(@&quot;Before block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    weakSelf;</span><br><span class="line">    NSLog(@&quot;Within block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(weakSelf)));</span><br><span class="line">&#125;;</span><br><span class="line">self.block();</span><br><span class="line">NSLog(@&quot;After block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 🌰3</span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">NSLog(@&quot;Before block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong typeof(self) strongSelf = weakSelf;</span><br><span class="line">    NSLog(@&quot;Within block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(weakSelf)));</span><br><span class="line">&#125;;</span><br><span class="line">self.block();</span><br><span class="line">NSLog(@&quot;After block：%ld&quot;, CFGetRetainCount((__bridge CFTypeRef)(self)));</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过 Clang 对上面的三个例子做一下编译，通过编译后的 C 代码（接下来所展示代码都是经过简化），我们可以推导出 self 的引用计数变化。</p>
+<hr>
+<p>🌰1 的 C 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// Block 结构体。这个大家可以通过其他的资料去看看，我们今天主要是来探寻一下 self 的旅程，这里就不对 Block 本身做更详细的介绍</span><br><span class="line">struct __block_impl &#123;</span><br><span class="line">  void *isa;</span><br><span class="line">  int Flags;</span><br><span class="line">  int Reserved;</span><br><span class="line">  void *FuncPtr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// ^&#123;&#125; 的实现</span><br><span class="line">struct __BlockTest__test_block_impl_0 &#123;</span><br><span class="line">    struct __block_impl impl;</span><br><span class="line">    struct __BlockTest__test_block_desc_0* Desc;</span><br><span class="line">    BlockTest *const __strong self;</span><br><span class="line">    __BlockTest__test_block_impl_0(void *fp, struct __BlockTest__test_block_desc_0 *desc, BlockTest *const __strong _self, int flags=0) : self(_self) &#123;</span><br><span class="line">        impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">        impl.Flags = flags;</span><br><span class="line">        impl.FuncPtr = fp;</span><br><span class="line">        Desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// Block 方法</span><br><span class="line">static void __BlockTest__test_block_func_0(struct __BlockTest__test_block_impl_0 *__cself) &#123;</span><br><span class="line">    BlockTest *const __strong self = __cself-&gt;self; // bound by copy</span><br><span class="line">    self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 copy 操作</span><br><span class="line">static void __BlockTest__test_block_copy_0(struct __BlockTest__test_block_impl_0*dst, struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;self, (void*)src-&gt;self, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 dispose 操作</span><br><span class="line">static void __BlockTest__test_block_dispose_0(struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;self, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// 描述 Block 的 copy 和 dispose</span><br><span class="line">static struct __BlockTest__test_block_desc_0 &#123;</span><br><span class="line">    size_t reserved;</span><br><span class="line">    size_t Block_size;</span><br><span class="line">    void (*copy)(struct __BlockTest__test_block_impl_0*, struct __BlockTest__test_block_impl_0*);</span><br><span class="line">    void (*dispose)(struct __BlockTest__test_block_impl_0*);</span><br><span class="line">&#125; __BlockTest__test_block_desc_0_DATA = &#123; 0, sizeof(struct __BlockTest__test_block_impl_0), __BlockTest__test_block_copy_0, __BlockTest__test_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line">// 方法主体</span><br><span class="line">static void _I_BlockTest_test(BlockTest * self, SEL _cmd) &#123;</span><br><span class="line">    ((void (*)(id, SEL, void (*)()))(void *)objc_msgSend)((id)self, sel_registerName(&quot;setBlock:&quot;), ((void (*)())&amp;__BlockTest__test_block_impl_0((void *)__BlockTest__test_block_func_0, &amp;__BlockTest__test_block_desc_0_DATA, self, 570425344)));</span><br><span class="line">    ((void (*(*)(id, SEL))())(void *)objc_msgSend)((id)self, sel_registerName(&quot;block&quot;))();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在方法主体里面首先会构造一个 <code>__BlockTest__test_block_impl_0</code> 的结构体，该结构体捕获了 self；</li>
+<li><code>__BlockTest__test_block_impl_0</code> 的构造函数中使用了 <code>__strong</code> 来捕获 self，所以我们知道在构造的时候默认是使用 <code>__strong</code> 来捕获外部的对象变量，此时 self 的引用计数应该要 +1；</li>
+<li>Block 被构造出来之后需要被赋值给 self，我们知道在 ARC 模式下此时的 Block 会执行 Copy 操作，从 <code>_NSConcreteStackBlock</code> 变成 <code>_NSMallocBlock</code>；</li>
+<li>Block 通过 <code>__BlockTest__test_block_desc_0_DATA</code> 找到 Copy 方法的具体实现 <code>__BlockTest__test_block_copy_0</code>，从上面的代码中我们知道该方法的实现是通过 <code>_Block_object_assign</code> 来实现的（对于这个方法的实现细节暂时还没有找到更相信的资料，有知道的可以麻烦告诉一下），通过名字我们可以猜测出该方法只是把捕获的变量地址直接拷贝一份到堆内存中，但是不会引起引用计数的变化；</li>
+<li>当 Block 被真正执行的时候会通过 <code>__block_impl</code> 的 <code>FuncPtr</code> 找到真正的实现代码 <code>__BlockTest__test_block_func_0</code>，我们观察到在这个方法里面有这样一句代码 <code>BlockTest *const __strong self = __cself-&gt;self</code>，很明显此时 self 的引用计数会 +1，当该 <code>__BlockTest__test_block_func_0</code> 执行完毕之后还是会释放 self 的，此时引用计数会 -1；</li>
+</ol>
+<p>从上面的分析过程中，我们知道由于 Block 在构造的时候默认就对捕获的 self 进行了强引用，导致 self 的引用计数 +1；而又由于 self 持有了 Block，所以这里就造成了循环引用的问题。</p>
+<p>我们来看 🌰2 能不能解决这个问题？</p>
+<hr>
+<p>🌰2 的 C 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">// ^&#123;&#125; 结构体</span><br><span class="line">struct __BlockTest__test_block_impl_0 &#123;</span><br><span class="line">    struct __block_impl impl;</span><br><span class="line">    struct __BlockTest__test_block_desc_0* Desc;</span><br><span class="line">    BlockTest *const __weak weakSelf;</span><br><span class="line">    __BlockTest__test_block_impl_0(void *fp, struct __BlockTest__test_block_desc_0 *desc, BlockTest *const __weak _weakSelf, int flags=0) : weakSelf(_weakSelf) &#123;</span><br><span class="line">        impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">        impl.Flags = flags;</span><br><span class="line">        impl.FuncPtr = fp;</span><br><span class="line">        Desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// Block 方法</span><br><span class="line">static void __BlockTest__test_block_func_0(struct __BlockTest__test_block_impl_0 *__cself) &#123;</span><br><span class="line">    BlockTest *const __weak weakSelf = __cself-&gt;weakSelf; // bound by copy</span><br><span class="line">    weakSelf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 copy 操作</span><br><span class="line">static void __BlockTest__test_block_copy_0(struct __BlockTest__test_block_impl_0*dst, struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// Block 的 dispose 操作</span><br><span class="line">static void __BlockTest__test_block_dispose_0(struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">// 描述 Block 的 copy 和 dispose</span><br><span class="line">static struct __BlockTest__test_block_desc_0 &#123;</span><br><span class="line">    size_t reserved;</span><br><span class="line">    size_t Block_size;</span><br><span class="line">    void (*copy)(struct __BlockTest__test_block_impl_0*, struct __BlockTest__test_block_impl_0*);</span><br><span class="line">    void (*dispose)(struct __BlockTest__test_block_impl_0*);</span><br><span class="line">&#125; __BlockTest__test_block_desc_0_DATA = &#123; 0, sizeof(struct __BlockTest__test_block_impl_0), __BlockTest__test_block_copy_0, __BlockTest__test_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line">// 方法主体</span><br><span class="line">static void _I_BlockTest_test(BlockTest * self, SEL _cmd) &#123;</span><br><span class="line">    __attribute__((objc_ownership(weak))) typeof(self) weakSelf = self;</span><br><span class="line">    ((void (*)(id, SEL, void (*)()))(void *)objc_msgSend)((id)self, sel_registerName(&quot;setBlock:&quot;), ((void (*)())&amp;__BlockTest__test_block_impl_0((void *)__BlockTest__test_block_func_0, &amp;__BlockTest__test_block_desc_0_DATA, weakSelf, 570425344)));</span><br><span class="line">    ((void (*(*)(id, SEL))())(void *)objc_msgSend)((id)self, sel_registerName(&quot;block&quot;))();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>方法主体会先用 <code>__weak</code> 初始化一个 weakSelf，此时 self 的引用计数是不会发生变化的；之后会构造一个<code>__BlockTest__test_block_impl_0</code> 的结构体，该结构体捕获了 weakSelf；</li>
+<li><code>__BlockTest__test_block_impl_0</code> 的构造函数中使用了 <code>__weak</code> 来捕获 weakSelf，所以我们知道此时 self 的引用计数应该要也是不会发生变化的；</li>
+<li>然后把该结构体赋值给 self.block，block 结构体被从栈复制到堆的时候使用了 <code>_Block_object_assign</code>，所以此时 self 的引用计数不会发生变化</li>
+<li>然后 block 在被执行的时候做了一下 <code>__weak</code> 的操作 <code>BlockTest *const __weak weakSelf = __cself-&gt;weakSelf</code>，这时候 self 的引用计数也不会发生变化</li>
+<li>由于 block 对 weakSelf 没有强引用，所以在 block 执行完成之后也不需要做释放 weakSelf 的工作</li>
+</ol>
+<p>所以，在该例子中 block 无法强引用 weakSelf，weakSelf 的引用计数没有发生任何变化。由于 self 没有被 block 强应用，所以当 self 要被释放的时候，block 也会被释放，这就解决了我们 🌰1 中的循环引用的问题。但是在 block 方法执行的过程中，self 对象有可能已经被释放了，此时如果你还去使用 weakSelf 就有可能造成奔溃的情况。</p>
+<hr>
+<p>🌰3 的 C 代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">struct __BlockTest__test_block_impl_0 &#123;</span><br><span class="line">    struct __block_impl impl;</span><br><span class="line">    struct __BlockTest__test_block_desc_0* Desc;</span><br><span class="line">    BlockTest *const __weak weakSelf;</span><br><span class="line">    __BlockTest__test_block_impl_0(void *fp, struct __BlockTest__test_block_desc_0 *desc, BlockTest *const __weak _weakSelf, int flags=0) : weakSelf(_weakSelf) &#123;</span><br><span class="line">        impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">        impl.Flags = flags;</span><br><span class="line">        impl.FuncPtr = fp;</span><br><span class="line">        Desc = desc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static void __BlockTest__test_block_func_0(struct __BlockTest__test_block_impl_0 *__cself) &#123;</span><br><span class="line">    BlockTest *const __weak weakSelf = __cself-&gt;weakSelf; // bound by copy</span><br><span class="line">    __attribute__((objc_ownership(strong))) typeof(self) strongSelf = weakSelf;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __BlockTest__test_block_copy_0(struct __BlockTest__test_block_impl_0*dst, struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">static void __BlockTest__test_block_dispose_0(struct __BlockTest__test_block_impl_0*src) &#123;_Block_object_dispose((void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);&#125;</span><br><span class="line"></span><br><span class="line">static struct __BlockTest__test_block_desc_0 &#123;</span><br><span class="line">    size_t reserved;</span><br><span class="line">    size_t Block_size;</span><br><span class="line">    void (*copy)(struct __BlockTest__test_block_impl_0*, struct __BlockTest__test_block_impl_0*);</span><br><span class="line">    void (*dispose)(struct __BlockTest__test_block_impl_0*);</span><br><span class="line">&#125; __BlockTest__test_block_desc_0_DATA = &#123; 0, sizeof(struct __BlockTest__test_block_impl_0), __BlockTest__test_block_copy_0, __BlockTest__test_block_dispose_0&#125;;</span><br><span class="line"></span><br><span class="line">static void _I_BlockTest_test(BlockTest * self, SEL _cmd) &#123;</span><br><span class="line">    __attribute__((objc_ownership(weak))) typeof(self) weakSelf = self;</span><br><span class="line">    ((void (*)(id, SEL, void (*)()))(void *)objc_msgSend)((id)self, sel_registerName(&quot;setBlock:&quot;), ((void (*)())&amp;__BlockTest__test_block_impl_0((void *)__BlockTest__test_block_func_0, &amp;__BlockTest__test_block_desc_0_DATA, weakSelf, 570425344)));</span><br><span class="line">    ((void (*(*)(id, SEL))())(void *)objc_msgSend)((id)self, sel_registerName(&quot;block&quot;))();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>前面的步骤都跟 🌰2 中的一样，关键是在 Block 的方法实现里面有点不一样。我们来看看 <code>__BlockTest__test_block_func_0</code>，它首先调用了 <code>BlockTest *const __weak weakSelf = __cself-&gt;weakSelf</code>， 所以它此时的引用计数不会发生变化；但是接下来又用 <code>objc_ownership(strong)</code> 来强引用 weakSelf，所以此时 self 的引用计数 +1。这就保证了在函数执行的过程中，Block 会一直持有 self，知道 Block 执行完毕之后会释放 weakSelf。</p>
+<p>所以 🌰3 完美的解决了循环应用和直接使用 <code>__weak</code> 可能导致奔溃的问题。</p>
+<hr>
+<p>最后，说一下关于 _Block_object_assign 的猜想：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_Block_object_assign((void*)&amp;dst-&gt;weakSelf, (void*)src-&gt;weakSelf, 3/*BLOCK_FIELD_IS_OBJECT*/);</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的例子，我们知道 Block 在构造的时候就会对捕获的变量进行内存管理（强引用和弱引用），所以当 Block 在做 Copy 操作的时候其实没有必要对它捕获的变量再做一遍内存管理了。这也应该是 Block 的 Copy 操作使用了 <code>_Block_object_assign</code> 这种不会导致引用计数发生变化的方式来实现的原因。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/04/02/%E5%A6%82%E4%BD%95%E7%94%A8-Objective-C-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%AD%BB%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/04/02/%E5%A6%82%E4%BD%95%E7%94%A8-Objective-C-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%AD%BB%E9%94%81/" class="post-title-link" itemprop="url">如何用 Objective-C 实现一个死锁</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-04-01 20:29:42" itemprop="dateCreated datePublished" datetime="2018-04-01T20:29:42Z">2018-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>当系统存在两个线程及以上的时候，双方都在等待对方停止执行，以获得系统资源，但是没有一方提前退出的时候就叫做死锁。</p>
+</blockquote>
+<p>那在 Objective-C 里面如何实现死锁呢：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">self.lock1 = [NSLock new];</span><br><span class="line">self.lock2 = [NSLock new];</span><br><span class="line">    </span><br><span class="line">dispatch_async(dispatch_queue_create(&quot;com.papa.task1&quot;, DISPATCH_QUEUE_SERIAL), ^&#123;</span><br><span class="line">    [self.lock1 lock];</span><br><span class="line">    NSLog(@&quot;task1 获得 lock1&quot;);</span><br><span class="line">    sleep(2);</span><br><span class="line">    [self.lock2 lock];</span><br><span class="line">    NSLog(@&quot;task1 获得 lock2&quot;);</span><br><span class="line">    [self.lock2 unlock];</span><br><span class="line">    [self.lock1 unlock];</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">dispatch_async(dispatch_queue_create(&quot;com.papa.task2&quot;, DISPATCH_QUEUE_SERIAL), ^&#123;</span><br><span class="line">    [self.lock2 lock];</span><br><span class="line">    NSLog(@&quot;task2 获得 lock2&quot;);</span><br><span class="line">    sleep(2);</span><br><span class="line">    [self.lock1 lock];</span><br><span class="line">    NSLog(@&quot;task2 获得 lock1&quot;);</span><br><span class="line">    [self.lock1 unlock];</span><br><span class="line">    [self.lock2 unlock];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们可以看到最后控制台输出的结果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">task2 获得 lock2</span><br><span class="line">task1 获得 lock1</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">task2 获得 lock2</span><br><span class="line">task1 获得 lock1</span><br></pre></td></tr></table></figure>
+
+<p>为什么是两种结果呢，可以参考我的<a href="https://hparis.github.io/blog/2017/09/05/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3GCD/">「初步了解 GCD」</a>。</p>
+<p>但是不管如何，这两种结果都没有输出 <code>task1 获得 lock2</code> 或 <code>task2 获得 lock1</code>。我们来分析一下：</p>
+<ul>
+<li>task1 获得 lock1，然后沉睡 2s</li>
+<li>task2 获得 lock2，然后沉睡 2s</li>
+<li>task1 经过 2s 的沉睡之后想要去获取 lock2，此时发现 lock2 已经被使用，那就继续等待</li>
+<li>task2 经过 2s 的沉睡之后想要去获取 lock1，此时发现 lock1 已经被使用，那就继续等待</li>
+<li>task1 又被唤醒想要去获取 lock2，此时 lock2 依旧没有被 task2 释放，只能继续等待</li>
+<li>task2 又被唤醒想要去获取 lock1，此时 lock1 依旧没有被 task1 释放，只能继续等待</li>
+<li>…</li>
+<li>…</li>
+</ul>
+<p>于是 task1 和 task2 都在等待对方释放资源，但是自己也不退出也不释放资源，最终导致死锁的产生。</p>
+<p>接下来，我们来讨论另外一个例子是不是死锁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 某个按钮的点击事件</span><br><span class="line">- (void)onClick:(UIEvent *)event &#123;</span><br><span class="line">    dispatch_sync(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        ...    </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相信大家都知道上面这个例子会导致主线程发生阻塞的现象，但是这是因为死锁造成的么？</p>
+<blockquote>
+<p>Submits a block to a dispatch queue for synchronous execution. Unlike dispatch_async, this function does not return until the block has finished. Calling this function and targeting the current queue results in deadlock.</p>
+</blockquote>
+<p>在官方文档里面明确的说了，这就是死锁。我们可以把上面的例子“翻译”一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 首先进入 onClick 的时候，我们可以认为此时是需要加锁的</span><br><span class="line">// 某个按钮的点击事件</span><br><span class="line">- (void)onClick:(UIEvent *)event &#123;</span><br><span class="line">    [self.lock1 lock];</span><br><span class="line">    </span><br><span class="line">    // 此时我们可以认为 dispatch_sync 是在获取 block 里面的 lock2 </span><br><span class="line">    &#123;</span><br><span class="line">        [self.lock2 lock];</span><br><span class="line">        </span><br><span class="line">        // 放在主线程执行，那么它也需要获得 lock1 </span><br><span class="line">        [self.lock1 lock];</span><br><span class="line">        [self.lock1 unlock];</span><br><span class="line">        </span><br><span class="line">        [self.lock2 unlock];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [self.lock1 unlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到其实上面的情况就是两个任务都在同时竞争主线程的资源，并且谁都没有退出最终导致死锁的产生。但是这两个任务并不是普通的两个线程在竞争资源，而是都在主线程上，一个嵌套另外一个。而且这种特殊的情况，在运行的时候会直接导致奔溃，而不像我们一开始的例子一样只是在互相等待。但是既然苹果把这种情况也称为死锁，那我们就当做死锁来看待，毕竟他们都是在竞争系统资源。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/03/24/%E8%AF%B4%E8%AF%B4-Objective-C-%E4%B8%AD%E7%9A%84-Copy-%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/03/24/%E8%AF%B4%E8%AF%B4-Objective-C-%E4%B8%AD%E7%9A%84-Copy-%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">说说 Objective-C 中的 Copy 操作</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-03-23 16:35:55" itemprop="dateCreated datePublished" datetime="2018-03-23T16:35:55Z">2018-03-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="浅拷贝（Shallow-copies）和深拷贝（Deep-copies）"><a href="#浅拷贝（Shallow-copies）和深拷贝（Deep-copies）" class="headerlink" title="浅拷贝（Shallow copies）和深拷贝（Deep copies）"></a>浅拷贝（Shallow copies）和深拷贝（Deep copies）</h2><p>我们都知道 Objective-C 中把 Copy 操作分成两种：<code>浅拷贝（Shallow copies）</code>和<code>深拷贝（Deep copies）</code>。学过 C 语言的同学应该知道区分这两种操作的区别其实很简单：</p>
+<blockquote>
+<p>浅拷贝（Shallow copies）: 指针拷贝，指向的还是同一块内容的地址<br>深拷贝（Deep copies）: 内容拷贝</p>
+</blockquote>
+<p>但是在 Objective-C 里面对于 Copy 的实现还是跟 C 语言的有点差别。我们先来看看 Apple 的官方文档给出的一张图：</p>
+<p><img src="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Art/CopyingCollections_2x.png" alt="Collections Programming Topics"></p>
+<p>通过上图可以看出<code>浅拷贝</code>过后，Array 1 和 Array 2 的元素都是相同的指针地址，指向相同的内容；<code>深拷贝</code>过后，内容被拷贝一份新的出来，Array 2 的元素的指针地址都和 Array 1 不一样，因为 Array2 的元素的指针地址都指向新的内容。</p>
+<h2 id="immutable-和-mutable-对象的拷贝"><a href="#immutable-和-mutable-对象的拷贝" class="headerlink" title="immutable 和 mutable 对象的拷贝"></a>immutable 和 mutable 对象的拷贝</h2><p>在 Objective-C 中一般会用 copy 或 mutableCopy 进行拷贝操作，我们可以通过观察指针变化来确定这两种拷贝操作是<code>浅复制</code>还是<code>深复制</code>。</p>
+<ul>
+<li><p>immutable 对象的复制操作</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSString * aName = @&quot;帕帕&quot;;</span><br><span class="line">NSString * bName = [aName copy];</span><br><span class="line">NSMutableString * cName = [aName mutableCopy];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;aName 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bName 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;cName 的指针：%p&quot;, cName);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>  输出的结果：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aName 的指针：0x103d34070</span><br><span class="line">bName 的指针：0x103d34070</span><br><span class="line">cName 的指针：0x600000250dd0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mutable 对象的复制操作</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aName = [NSMutableString stringWithString:@&quot;帕帕&quot;];</span><br><span class="line">NSString * bName = [aName copy];</span><br><span class="line">NSMutableString * cName = [aName mutableCopy];</span><br><span class="line"></span><br><span class="line">NSLog(@&quot;aName 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bName 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;cName 的指针：%p&quot;, cName);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>  输出的结果：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aName 的指针：0x60000025e150</span><br><span class="line">bName 的指针：0x600000222900</span><br><span class="line">cName 的指针：0x60000025e450</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>通过上面两个例子以及它们的输出结果，我们可以得出下面这个表格：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">imutable 对象</th>
+<th align="center">mutable 对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">copy</td>
+<td align="center">浅复制</td>
+<td align="center">深复制</td>
+</tr>
+<tr>
+<td align="center">mutableCopy</td>
+<td align="center">深复制</td>
+<td align="center">深复制</td>
+</tr>
+</tbody></table>
+<p>上面的规则对集合对象也是一样的：NSArray 和 NSMutableArray，NSDictionary 和 NSMutableDictionary，NSSet 和 NSMutableSet</p>
+<h2 id="单层深复制（one-level-deep）"><a href="#单层深复制（one-level-deep）" class="headerlink" title="单层深复制（one-level-deep）"></a>单层深复制（one-level-deep）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aString = [NSMutableString stringWithString:@&quot;Hello&quot;]</span><br><span class="line"></span><br><span class="line">NSMutableArray * aArray = [NSMutableArray arrayWithObjects:aString, nil];</span><br><span class="line">NSArray * bArray = [aArray copy];</span><br><span class="line"></span><br><span class="line">NSMutableString * bString = bArray[0];</span><br><span class="line">[bString appendString:@&quot; 帕帕&quot;];</span><br><span class="line">    </span><br><span class="line">NSLog(@&quot;aArray 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bArray 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;aArray 第一个元素的指针: %p，内容：%@&quot;, aArray[0], aArray[0]);</span><br><span class="line">NSLog(@&quot;bArray 第一个元素的指针: %p，内容：%@&quot;, bArray[0], bArray[0]);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x60000025d9a0</span><br><span class="line">bArray 的指针：0x60000002cf60</span><br><span class="line">aArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕</span><br><span class="line">bArray 第一个元素的指针: 0x60000025d880，内容：Hello 帕帕</span><br></pre></td></tr></table></figure>
+
+<p>从 aArray 到 bArray 的 copy 操作之后，它们的指针地址发生了变化，按照我们之前的理解这是<code>深拷贝</code>。<code>深拷贝</code>会把 aArray 的元素都拷贝一份，那为什么改变 bArray 的元素的值会导致 aArray 的元素的值也发生了变化呢？</p>
+<p><img src="https://i.imgur.com/svn3AbQ.png" alt="集合对象的深拷贝"></p>
+<h2 id="完全深复制"><a href="#完全深复制" class="headerlink" title="完全深复制"></a>完全深复制</h2><p>那我们要如何做到真正的深复制呢？我们可以简单的把上面的代码改一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">NSMutableString * aString = [NSMutableString stringWithString:@&quot;Hello&quot;]</span><br><span class="line"></span><br><span class="line">NSMutableArray * aArray = [NSMutableArray arrayWithObjects:aString, nil];</span><br><span class="line"></span><br><span class="line">// 只需要改动这一行代码</span><br><span class="line">NSArray *bArray = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:aArray]];</span><br><span class="line"></span><br><span class="line">NSMutableString * bString = bArray[0];</span><br><span class="line">[bString appendString:@&quot; 帕帕&quot;];</span><br><span class="line">    </span><br><span class="line">NSLog(@&quot;aArray 的指针：%p&quot;, aName);</span><br><span class="line">NSLog(@&quot;bArray 的指针：%p&quot;, bName);</span><br><span class="line">NSLog(@&quot;aArray 第一个元素的指针: %p，内容：%@&quot;, aArray[0], aArray[0]);</span><br><span class="line">NSLog(@&quot;bArray 第一个元素的指针: %p，内容：%@&quot;, bArray[0], bArray[0]);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x600000259cb0</span><br><span class="line">bArray 的指针：0x600000030ac0</span><br><span class="line">aArray 第一个元素的指针: 0x604000452120，内容：Hello</span><br><span class="line">bArray 第一个元素的指针: 0x604000452780，内容：Hello 帕帕</span><br></pre></td></tr></table></figure>
+
+<p>只要先对集合对象分别用 NSKeyedArchiver 和 NSKeyedUnarchiver 就可以真正完成对一个集合对象的深复制。</p>
+<h2 id="Copy-和-内存管理"><a href="#Copy-和-内存管理" class="headerlink" title="Copy 和 内存管理"></a>Copy 和 内存管理</h2><p>之前我们说过 Objective-C 里面对于 Copy 的实现还是跟 C 语言的有点差别，那差别在什么地方呢？<br>内存中做复制操作是很耗费资源的，而我们都知道 Objective-C 高效的一个原因在于它的内存管理机制是<code>引用计数</code>。我们前面分析的<code>深拷贝</code>是对内容的拷贝，这一点跟 C 语言的一样。C 语言的<code>浅拷贝</code>是指针的拷贝，它依旧做了一次复制操作。而在 Objective-C 中，<code>浅拷贝</code>其实只是引用计数的增加，不信的话，我们可以看看下面的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSArray * aArray = [NSArray arrayWithObjects:@&quot;帕帕&quot;, nil];</span><br><span class="line">NSLog(@&quot;aArray 的指针：%p，引用计数：%ld&quot;, aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));</span><br><span class="line">NSArray * bArray = [aArray copy];</span><br><span class="line">NSLog(@&quot;aArray 的指针：%p，引用计数：%ld&quot;, aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));</span><br><span class="line">NSMutableArray * cArray = [aArray mutableCopy];</span><br><span class="line">NSLog(@&quot;aArray 的指针：%p，引用计数：%ld&quot;, aArray, CFGetRetainCount((__bridge CFTypeRef)(aArray)));</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">aArray 的指针：0x604000443ba0，引用计数：2</span><br><span class="line">aArray 的指针：0x604000443ba0，引用计数：3</span><br><span class="line">aArray 的指针：0x604000443ba0，引用计数：3</span><br></pre></td></tr></table></figure>
+
+<p>为什么 aArray 刚出来的时候的引用计数是 2？因为 <code>[NSArray arrayWithObjects:@&quot;帕帕&quot;, nil]</code> 本身就是一个对象，它的引用计数就是 1；然后我们又定义了 aArray 来引用这个对象，此时它的引用计数就增加了 1，变成了 2；之后我们对 aArray 进行了 copy 操作，发现它的引用计数变成了 3，所以这里的 copy 操作其实相当于 retaion；最后我们对 aArray 进行了 mutableCopy 操作，此时它的引用计数还是 3，没有发生变化，因为这个时候进行了内容复制。</p>
+<p>所以在 Objective-C 中对一个 imutable 对象进行的 copy（浅复制）操作，其实都只会引起引用计数的变化，而不会在内存中做出任何拷贝操作，包括指针拷贝。</p>
+<h2 id="NSCopying-和-NSMutableCopying"><a href="#NSCopying-和-NSMutableCopying" class="headerlink" title="NSCopying 和 NSMutableCopying"></a>NSCopying 和 NSMutableCopying</h2><p>如果我们有一个自定义的对象，并且对其进行 copy 操作的话，会发生什么：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Person</span><br><span class="line">@interface Person: NSObject</span><br><span class="line">@property (nonatomic, copy) NSString * name;</span><br><span class="line">@end</span><br><span class="line">@implementation Person</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">Person * aPerson = [Person new];</span><br><span class="line">Person * bPerson = [aPerson copy];</span><br></pre></td></tr></table></figure>
+
+<p>Xcode 直接奔溃了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 崩溃</span><br><span class="line">*** Terminating app due to uncaught exception &#x27;NSInvalidArgumentException&#x27;, reason: &#x27;-[Person copyWithZone:]: unrecognized selector sent to instance 0x60000000d5f0&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>为什么我们对一个 Person 对象使用了 copy，Xcode 确报的是找不到 <code>copyWithZone:</code> 这个 selector 的错误。</p>
+<p>这是因为 Objective-C 中规定，一个对象如果想要使用 copy 或 mutableCopy 的操作，必须要实现 <code>NSCopying</code> 或 <code>NSMutableCopying</code> 这两个协议。这两个协议规定了对象需要实现 <code>copyWithZone:</code> 或 <code>mutableCopyWithZone:</code> 这两个方法，因为对一个对象做 copy 或 mutableCopy 最后都会去调用这两个方法来做最终的实现。<br>上面例子中的集合对象能够使用 copy 和 mutableCopy 操作是也因为它们都实现了 NSCopying 和 NSMutableCopying 协议。</p>
+<p>我们来看看如何对一个普通的对象实现 NSCopying 协议：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@interface Person: NSObject &lt;NSCopying&gt;</span><br><span class="line">@property (nonatomic, copy) NSString * name;</span><br><span class="line">@property (nonatomic, strong) NSMutableArray * mArray;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation Person</span><br><span class="line">- (instancetype)copyWithZone:(NSZone *)zone &#123;</span><br><span class="line">    Person * person = [[self class] new];</span><br><span class="line">    person.name = [self.name copy];</span><br><span class="line">    person.mArray = [self.mArray mutableCopy];</span><br><span class="line">    return person;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>这样，我们就可以愉快的使用 <code>[Person copy]</code> 了。当然，这里 Person 的 mArray 也只是<code>单层深复制</code>，如果想要实现<code>完全深复制</code>的话，我们可以用 NSKeyedArchiver 和 NSKeyedUnarchiver 来完成对 mArray 的<code>完全深复制</code>。</p>
+<h2 id="Block-和-Copy"><a href="#Block-和-Copy" class="headerlink" title="Block 和 Copy"></a>Block 和 Copy</h2><p>简单说一下，在 Objective-C 中，Block 的 copy 是一种特殊的操作。因为 Block 是一种结构体，它无法实现 NSCopying 或 NSMutableCopying 协议，但是它却可以调用 copy 方法。这是由 Block 的结构体决定的：</p>
+<p><img src="http://www.devtalking.com/postImages/block-struct.jpg"></p>
+<p>Block 里面的 descriptor 有 copy 的函数指针，当对 Block 执行 copy 操作最后都会通过该函数指针进行真正的操作。这也是 Bloc看不需要实现 NSCopying 和 NSMutableCopying 就能调用 copy 方法的原因。</p>
+<p>参考资料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Articles/Copying.html">https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Collections/Articles/Copying.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zybuluo.com/MicroCai/note/50592">https://www.zybuluo.com/MicroCai/note/50592</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/03/20/%E5%A6%82%E4%BD%95%E5%9C%A8-iOS-%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89-React-Native-Component/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/03/20/%E5%A6%82%E4%BD%95%E5%9C%A8-iOS-%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89-React-Native-Component/" class="post-title-link" itemprop="url">如何在 iOS 上自定义 React Native Component</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-03-19 17:22:09" itemprop="dateCreated datePublished" datetime="2018-03-19T17:22:09Z">2018-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>当我们要在 iOS 端实现一个 React Native 可用的 Component，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MapView onRegionChange=&#123;(event) =&gt; &#123;&#125;&#125; zoomLevel=&#123;2&#125; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>那么我们基本上就是要解决下面这三个问题：</p>
+<ul>
+<li>如何把 iOS 上的 UI 暴露给 React Native 端？</li>
+<li>如何在 React Native 给 iOS 的 UI 传值？</li>
+<li>如何在 React Native 中响应 iOS 的事件？</li>
+</ul>
+<blockquote>
+<p>这三个问题可以在<a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/docs/native-components-ios.html">官方文档</a>找到答案。</p>
+</blockquote>
+<h2 id="如何把-iOS-上的-UI-暴露给-React-Native-端"><a href="#如何把-iOS-上的-UI-暴露给-React-Native-端" class="headerlink" title="如何把 iOS 上的 UI 暴露给 React Native 端"></a>如何把 iOS 上的 UI 暴露给 React Native 端</h2><p>首先你需要创建一个继承自 <code>RCTViewManager</code> 的子类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// RNTMapManager.m</span><br><span class="line">#import &lt;MapKit/MapKit.h&gt;</span><br><span class="line">#import &lt;React/RCTViewManager.h&gt;</span><br><span class="line"></span><br><span class="line">// 继承 RCTViewManager</span><br><span class="line">@interface RNTMapManager : RCTViewManager</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@implementation RNTMapManager</span><br><span class="line"></span><br><span class="line">// 调用 RCT_EXPORT_MODULE 暴露该类的名字给 React Native 使用。如果你想自定义</span><br><span class="line">// 暴露给 React Native 的名字时，你需要 RCT_EXPORT_MODULE(YOUR_CUSTOM_NAME)。</span><br><span class="line">RCT_EXPORT_MODULE()</span><br><span class="line"></span><br><span class="line">// 由于 RCTViewManager 是 NSObject，所以这里必须需要实现该方法来告诉</span><br><span class="line">// React Native 去使用哪个 UIView</span><br><span class="line">- (UIView *)view</span><br><span class="line">&#123;</span><br><span class="line">  return [MKMapView new];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就可以在 React Native 使用 MapView 了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// MapView.js</span><br><span class="line"></span><br><span class="line">import &#123; requireNativeComponent &#125; from &#x27;react-native&#x27;;</span><br><span class="line"></span><br><span class="line">// requireNativeComponent 会自动把 iOS 上的 RNTMapManager 解析成 RNTMap。</span><br><span class="line">// 如果去掉 iOS 上的 Manager 后缀会有什么影响？嗯，没有任何影响。</span><br><span class="line">module.exports = requireNativeComponent(&#x27;RNTMap&#x27;, null);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// MyApp.js</span><br><span class="line">import MapView from &#x27;./MapView.js&#x27;;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">  return &lt;MapView /&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何在-React-Native-给-iOS-的-UI-传值"><a href="#如何在-React-Native-给-iOS-的-UI-传值" class="headerlink" title="如何在 React Native 给 iOS 的 UI 传值"></a>如何在 React Native 给 iOS 的 UI 传值</h2><p>如果需要传值给 iOS 上的 UI，那么需要使用另外一个宏：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)</span><br></pre></td></tr></table></figure>
+
+<p>这时候就可以在 React Native 上使用了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;MapView zoomEnable=&#123;true&#125; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意的是，<code>RCT_EXPORT_VIEW_PROPERTY</code> 所暴露的属性必须是之前我们说的 UIView（即继承于 <code>RCTViewManager</code> 并通过 <code>- (UIView *)view;</code> 返回的 View）已经存在的属性。</p>
+<p>除了上面的宏 <code>RCT_EXPORT_VIEW_PROPERTY</code> 可以暴露属性给 React Native 使用之外还有下面 5 种（这里先挖个坑，回头研究一下再说说下面五种的作用和区别）：</p>
+<ul>
+<li>RCT_REMAP_VIEW_PROPERTY</li>
+<li>RCT_CUSTOM_VIEW_PROPERTY</li>
+<li>RCT_EXPORT_SHADOW_PROPERTY</li>
+<li>RCT_REMAP_SHADOW_PROPERTY</li>
+<li>RCT_CUSTOM_SHADOW_PROPERTY</li>
+</ul>
+<h2 id="如何在-React-Native-中响应-iOS-的事件"><a href="#如何在-React-Native-中响应-iOS-的事件" class="headerlink" title="如何在 React Native 中响应 iOS 的事件"></a>如何在 React Native 中响应 iOS 的事件</h2><p>要想在 React Native 中响应 iOS 的事件，只需要暴露用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 定义的属性即可，代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// RNTMapView.h</span><br><span class="line">#import &lt;MapKit/MapKit.h&gt;</span><br><span class="line">#import &lt;React/RCTComponent.h&gt;</span><br><span class="line"></span><br><span class="line">// 由于 MKMapView 没有任何 `RCTBubblingEventBlock` 或 `RCTDirectEventBlock` 所定义的</span><br><span class="line">// 属性，所以这里需要定义 MKMapView 的子类 RNTMapView</span><br><span class="line">@interface RNTMapView: MKMapView</span><br><span class="line"></span><br><span class="line">// 需要暴露给 React Native 的事件属性</span><br><span class="line">@property (nonatomic, copy) RCTBubblingEventBlock onRegionChange;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// RNTMapView.m</span><br><span class="line">#import &quot;RNTMapView.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation RNTMapView</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>然后我们需要在 <code>RCTViewManager</code> 中暴露 <code>onRegionChange</code> 给 React Native 使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// RNTMapManager.m</span><br><span class="line">#import &lt;MapKit/MapKit.h&gt;</span><br><span class="line">#import &lt;React/RCTViewManager.h&gt;</span><br><span class="line"></span><br><span class="line">#import &quot;RNTMapView.h&quot;</span><br><span class="line"></span><br><span class="line">@interface RNTMapManager : RCTViewManager &lt;MKMapViewDelegate&gt;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation RNTMapManager</span><br><span class="line"></span><br><span class="line">RCT_EXPORT_MODULE()</span><br><span class="line">// 暴露 RNTMapView 中的 `onRegionChange` 属性</span><br><span class="line">RCT_EXPORT_VIEW_PROPERTY(onRegionChange, RCTBubblingEventBlock)</span><br><span class="line"></span><br><span class="line">- (UIView *)view &#123;</span><br><span class="line">    // 这里需要返回 RNTMapView 而不是 MKMapView</span><br><span class="line">    return [RNTMapView new];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>重要的事说三遍：<br>使用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 所定义的事件都必须加上前缀 <code>on</code>，否则 React Native 无法接收到事件<br>使用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 所定义的事件都必须加上前缀 <code>on</code>，否则 React Native 无法接收到事件<br>使用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 所定义的事件都必须加上前缀 <code>on</code>，否则 React Native 无法接收到事件</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/02/27/redux-%E4%B9%8B%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2018/02/27/redux-%E4%B9%8B%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/" class="post-title-link" itemprop="url">redux 之页面跳转</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-02-26 17:48:56" itemprop="dateCreated datePublished" datetime="2018-02-26T17:48:56Z">2018-02-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近正在用 React Native 重构整个项目，我们用了 <strong><a target="_blank" rel="noopener" href="https://github.com/krystofcelba/react-native-navigation#rn52">react-native-navigation</a></strong> 这个库来作为项目的导航控制器。<br>所以，我们平常会把页面跳转逻辑的时候放在 Screen 里面的，比如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FirstScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击事件</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">navigator</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">          <span class="attr">screen</span>: <span class="string">&#x27;example.SecondScreen&#x27;</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般情况下，上面的写法没有问题。但是直到我们碰到这样一个需求的时候就抓瞎了：点击一个 PDF 文件，如果 PDF 文件没有下载就先去下载，下载完成之后自动跳转到 PDF 阅读器。由于用了 redux 之后，我们就增加一个 finished 的 state 来判断是否已经下载完成。示例代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExampleScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    componentWillReceiveProps = <span class="function">(<span class="params">nextProps</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 这里判断下载状态是否已完成，完成的话就去跳转</span></span><br><span class="line">        <span class="keyword">if</span> (nextProps.<span class="property">finished</span> === <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="comment">// 这里需要重置一下状态，不然其他 state 发生变化会多次触发页面的跳转</span></span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">resetFinished</span>());</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">navigator</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">              <span class="attr">screen</span>: <span class="string">&#x27;example.PDFScreen&#x27;</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击事件</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// openPDF() 这个 action 会自动去下载 PDF 文件，然后修改 finished 的状态</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">openPDF</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">mapStateToProps</span> = state =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">finished</span>: state.<span class="property">finished</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">connect</span>(mapStateToProps)(<span class="title class_">ExampleScreen</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上面的做法是可以实现我们的需求，但是这种写法很蛋疼。因为当你在调用用 openPDF() 的时候，你以为后面的事不需要你操心，然后这个时候有人告诉你还需要在其他地方增加一个中间状态去补充 openPDF() 的后续逻辑处理。</p>
+<p>经过讨论之后，我们决定改成用 callback 的方式来实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExampleScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点击事件</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// openPDF() 是一个异步 action</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">openPDF</span>(<span class="attr">callback</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">navigator</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">              <span class="attr">screen</span>: <span class="string">&#x27;example.PDFScreen&#x27;</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 callback 的好处就是去掉了一个烦人的中间状态，并且从阅读体验来说很容易让读者明白这个点击事件在干什么。但是在 redux 的 action 方法中增加一个 callback 的调用，看起来也有点不伦不类的。虽然我认为 callback 和其他参数具有相同的法律地位。</p>
+<p>其实最好的实现是，这个点击事件应该连页面的跳转逻辑也不需要处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExampleScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点击事件，这个事件只做一件事就是去 dispatch 一个 openPDF() 的 action</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">openPDF</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>像上面这种实现，我们也就只能在 openPDF() 里动手脚了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// action.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> openPDF = <span class="keyword">await</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 异步下载 PDF</span></span><br><span class="line">        <span class="keyword">async</span> <span class="title function_">downloadPDF</span>();</span><br><span class="line">        <span class="comment">// 完成之后通过 router 去实现页面跳转</span></span><br><span class="line">        <span class="title function_">dispatch</span>(<span class="title function_">openRouter</span>(<span class="string">&#x27;PDFScreen&#x27;</span>));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里就不再详细说 router 的实现细节了，因为网上有很多现成的资料。（PS: 主要是我也还没看到这一块）</p>
+</blockquote>
+<p>从页面（Screen）的角度来说，我认为这样的处理是最合适的。因为 Screen 只需要关注本页面的 state 和 action，至于跳转的逻辑交给后面的 action 来处理是最好的。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2017/09/05/Swift-High-Performance-Tip%201%EF%BC%9AArray%E5%92%8CContiguousArray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2017/09/05/Swift-High-Performance-Tip%201%EF%BC%9AArray%E5%92%8CContiguousArray/" class="post-title-link" itemprop="url">Swift High-Performance Tip 1：Array 和 ContiguousArray</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-05 15:30:56" itemprop="dateCreated datePublished" datetime="2017-09-05T15:30:56Z">2017-09-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>Array 是随机存储的（random-access）集合类型。</p>
+</blockquote>
+<blockquote>
+<p>ContiguousArray 是连续存储（contiguously stored）的数组，并且不允许和 NSArray 进行桥接的。</p>
+</blockquote>
+<p>当我们的数组元素是 Class 或 @objc protocol 类型的话，并且我们不需要在 Objective-C 中使用该数组的话，那么我们最好使用 ContiguousArray。这是因为 Array 需要额外的资源来处理跟 NSArray 的桥接功能，但是 ContiguousArray 则不需要，所以 ContiguousArray 比 Array 的效率要高。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要用Array: let array = Array&lt;A&gt;()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> contiguousArray <span class="operator">=</span> <span class="type">ContiguousArray</span>&lt;<span class="type">A</span>&gt;()</span><br></pre></td></tr></table></figure>
+
+<p>另外需要注意的是官方文档说如果数组元素不是 Class 和 @objc protocol 类型的话，Array 和 ContiguousArray 的效率是一样的。（我猜测是因为如果 Array 的元素都是 Struct 类型的话，它就不需要消耗资源来处理桥接的问题了。）</p>
+<blockquote>
+<p>Efficiency is equivalent to that of Array, unless Element is a class or @objc protocol type, in which case using ContiguousArray may be more efficient.</p>
+</blockquote>
+<p>但是 <a target="_blank" rel="noopener" href="https://twitter.com/twostraws">@Paul Hudson</a> 在他的<a target="_blank" rel="noopener" href="https://gumroad.com/l/proswift">《Pro Swift》</a>中说他发现即使数组元素是 Struct 类型的话，ContiguousArray 也要比 Array 更快。我们来看看他给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array2 <span class="operator">=</span> <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span><span class="operator">...</span><span class="number">1000000</span>)</span><br><span class="line"><span class="keyword">let</span> array3 <span class="operator">=</span> <span class="type">ContiguousArray</span>&lt;<span class="type">Int</span>&gt;(<span class="number">1</span><span class="operator">...</span><span class="number">1000000</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> start <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array2.reduce(<span class="number">0</span>, combine: <span class="operator">+</span>)</span><br><span class="line"><span class="keyword">var</span> end <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>() <span class="operator">-</span> start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Took <span class="subst">\(end)</span> seconds&quot;</span>)</span><br><span class="line"></span><br><span class="line">start <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>()</span><br><span class="line">array3.reduce(<span class="number">0</span>, combine: <span class="operator">+</span>)</span><br><span class="line">end <span class="operator">=</span> <span class="type">CFAbsoluteTimeGetCurrent</span>() <span class="operator">-</span> start</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Took <span class="subst">\(end)</span> seconds&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>经过我的测试，上面的代码中 ContiguousArray 只用了0.19秒而 Array 用了0.38秒，所以 ContiguousArray 确实要比 Array 快。</p>
+<p>如果大家想在性能上有所提升的话，建议大家可以用 ContiguousArray 试一试。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/blog/page/2/">2</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/blog/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/schemes/muse.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

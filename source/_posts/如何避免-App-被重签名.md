@@ -26,6 +26,5 @@ let store = UserDefaults(suiteName: "group.com.yourcompany.product")!
 let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.yourcompany.product")!
 ```
 
-所以这种用法就是导致我们的应用在使用企业证书进行重签名之后出现了崩溃的问题。
-
-所以我们就可以利用这种特性来保证我们的应用不会那么容易被别人用企业证书重签名之后拿去使用。
+由于使用重签名的企业证书并没有包含这个的 **App Group** 的特性，所以最后会导致当我们手机安装重签名的包之后并且在启动后运行到这段代码的时候因为强制解包失败导致应用直接崩溃。
+所以一般的应用即使在业务上没有相关的需求，我依旧建议大家也应该增加这样的特性功能，并且利用这个特性来让其他人没有那么容易就能对你的应用进行重签名之后拿去使用。

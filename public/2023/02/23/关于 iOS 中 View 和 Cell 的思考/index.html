@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hparis.github.io","root":"/blog/","images":"/blog/images","scheme":"Mist","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"style":null,"show_result":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="Cell 组件相信很多 iOS 开发同学在拿到一个列表的需求的时候，会习惯性的写出一个 Cell 的组件，比如下面的课程组件。  123456789101112131415161718&#x2F;&#x2F; 定义课程的 Cell 组件final class CourseCell: UITableCell &amp;#123;    &#x2F;&#x2F; ...    let coverView &#x3D; CourseCoverView()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 iOS 中 View 和 Cell 的思考">
+<meta property="og:url" content="https://hparis.github.io/blog/2023/02/23/%E5%85%B3%E4%BA%8E%20iOS%20%E4%B8%AD%20View%20%E5%92%8C%20Cell%20%E7%9A%84%E6%80%9D%E8%80%83/index.html">
+<meta property="og:site_name" content="帕帕&#39;s Blog">
+<meta property="og:description" content="Cell 组件相信很多 iOS 开发同学在拿到一个列表的需求的时候，会习惯性的写出一个 Cell 的组件，比如下面的课程组件。  123456789101112131415161718&#x2F;&#x2F; 定义课程的 Cell 组件final class CourseCell: UITableCell &amp;#123;    &#x2F;&#x2F; ...    let coverView &#x3D; CourseCoverView()">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/Z96M8LW.jpg">
+<meta property="article:published_time" content="2023-02-23T14:35:06.000Z">
+<meta property="article:modified_time" content="2023-02-23T08:17:43.412Z">
+<meta property="article:author" content="帕帕">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Z96M8LW.jpg">
+
+
+<link rel="canonical" href="https://hparis.github.io/blog/2023/02/23/%E5%85%B3%E4%BA%8E%20iOS%20%E4%B8%AD%20View%20%E5%92%8C%20Cell%20%E7%9A%84%E6%80%9D%E8%80%83/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://hparis.github.io/blog/2023/02/23/%E5%85%B3%E4%BA%8E%20iOS%20%E4%B8%AD%20View%20%E5%92%8C%20Cell%20%E7%9A%84%E6%80%9D%E8%80%83/","path":"2023/02/23/关于 iOS 中 View 和 Cell 的思考/","title":"关于 iOS 中 View 和 Cell 的思考"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>关于 iOS 中 View 和 Cell 的思考 | 帕帕's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">帕帕's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录点点滴滴</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cell-%E7%BB%84%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">Cell 组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View-%E7%BB%84%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">View 组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CheapCell"><span class="nav-number">3.</span> <span class="nav-text">CheapCell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E5%90%88%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%BD%BF%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">配合第三方库使用</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">帕帕</p>
+  <div class="site-description" itemprop="description">奋斗中的程序员。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hparis" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hparis" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/404_Shelter" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;404_Shelter" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2023/02/23/%E5%85%B3%E4%BA%8E%20iOS%20%E4%B8%AD%20View%20%E5%92%8C%20Cell%20%E7%9A%84%E6%80%9D%E8%80%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="关于 iOS 中 View 和 Cell 的思考 | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于 iOS 中 View 和 Cell 的思考
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-02-23 14:35:06 / Modified: 08:17:43" itemprop="dateCreated datePublished" datetime="2023-02-23T14:35:06Z">2023-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="Cell-组件"><a href="#Cell-组件" class="headerlink" title="Cell 组件"></a>Cell 组件</h2><p>相信很多 iOS 开发同学在拿到一个列表的需求的时候，会习惯性的写出一个 Cell 的组件，比如下面的课程组件。</p>
+<p><img src="https://i.imgur.com/Z96M8LW.jpg" alt="列表组件"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义课程的 Cell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCell</span>: <span class="title class_">UITableCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">    <span class="keyword">let</span> infoView <span class="operator">=</span> <span class="type">CourseInfoView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的封面组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的详细信息组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseInfoView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果现在又来一个新的需求，需要在列表的最上面放一排可以横向滚动的封面图，下面依旧还是课程列表。这里使用 UICollectionView 来实现我们的这个需求，那么需要修改的代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义课程的 Cell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCell</span>: <span class="title class_">UICollectionViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">    <span class="keyword">let</span> infoView <span class="operator">=</span> <span class="type">CourseInfoView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程封面的 Cell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverCell</span>: <span class="title class_">UICollectionViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的封面组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的详细信息组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseInfoView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过上面的两个例子，我们就能够清楚的知道当我们以 Cell 的方式来实现组件的时候，一旦列表的实现方式在 UITableView 和 UICollectionView 之前切换的话，我们的 Cell 组件就需要做修改了，这就不够灵活了。甚至于当这个 Cell 组件不仅仅用在 UITableView 或 UICollectionView 的时候，我们还需要把这个组件使用 UIView 的方式重新实现一遍。</p>
+<h2 id="View-组件"><a href="#View-组件" class="headerlink" title="View 组件"></a>View 组件</h2><p>我们现在以 View 的方式来实现组件，参考下面的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - Cell 组件</span></span><br><span class="line"><span class="comment">// 定义课程的 UICollectionViewCell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCollectionCell</span>: <span class="title class_">UICollectionViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> courseView <span class="operator">=</span> <span class="type">CourseView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的 UITableViewCell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseTableCell</span>: <span class="title class_">UITableViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> courseView <span class="operator">=</span> <span class="type">CourseView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: -  View 组件</span></span><br><span class="line"><span class="comment">// 定义课程组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">    <span class="keyword">let</span> infoView <span class="operator">=</span> <span class="type">CourseInfoView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的封面组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的详细信息组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseInfoView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这种以 View 的方式实现的组件就要比以 Cell 实现的组件要灵活了，因为在这里 Cell 的作用其实就只是一个容器而已，只是把 View 放到 Cell 上去，并且负责做一些注册和重用的机制。</p>
+<p>但是这种方式也有一个问题，就是只要这个 View 被用在 UITableView 或 UICollectionView 的时候，我们就要去写对应的 Cell 容器代码，而且这部分代码的工作基本上都是一样的（添加 View，添加约束）。</p>
+<h2 id="CheapCell"><a href="#CheapCell" class="headerlink" title="CheapCell"></a><a target="_blank" rel="noopener" href="https://github.com/HParis/CheapCell">CheapCell</a></h2><p>CheapCell 是我们之前的项目重构成 Swift 之后实现的一套能够让你不用写 Cell 容器的库，这个库当时帮助我们减少了上千行的 Cell 容器代码。它的核心代码很简单，最重要的是利用了 Swift 的面相协议编程的方式来实现的。具体的实现代码可以看我的 Github 仓库 <a target="_blank" rel="noopener" href="https://github.com/HParis/CheapCell%E3%80%82">https://github.com/HParis/CheapCell。</a></p>
+<p>下面是集成了 CheapCell 之后的使用方式：</p>
+<p>第一步：让我们的 View 组件遵循我们定义的 CheapCell 协议</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - CheapCell 协议</span></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">CourseView</span>: <span class="title class_">CheapCell</span> &#123;&#125;</span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">CheapCell</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步：在 UICollectionView 中的使用方式（UITableView 的使用方式也是类似的）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register cheap cell</span></span><br><span class="line">collectionView.registerCheapCell(<span class="type">CourseView</span>.<span class="keyword">self</span>)</span><br><span class="line">collectionView.registerCheapCell(<span class="type">CourseCoverView</span>.<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reuse cheep cell</span></span><br><span class="line"><span class="keyword">let</span> cell <span class="operator">=</span> collectionView.dequeueReusableCheapCell(for: indexPath) <span class="keyword">as</span> <span class="type">CollectionCell</span>&lt;<span class="type">CourseView</span>&gt;</span><br><span class="line"><span class="keyword">let</span> cell <span class="operator">=</span> collectionView.dequeueReusableCheapCell(for: indexPath) <span class="keyword">as</span> <span class="type">CollectionCell</span>&lt;<span class="type">CourseCoverView</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="配合第三方库使用"><a href="#配合第三方库使用" class="headerlink" title="配合第三方库使用"></a>配合第三方库使用</h3><p>如果你使用了一些第三方的 Cell 的话，比如 <a target="_blank" rel="noopener" href="https://github.com/SwipeCellKit/SwipeCellKit">SwipeCellKit</a>，那么你可以按照下面的方式来实现你的 CheapCell：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwipeCellKit</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">extension</span> <span class="title class_">UICollectionView</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">registerCheapSwipeCell</span>&lt;<span class="type">T</span>: <span class="type">CheapCell</span>&gt;(<span class="keyword">_</span> : <span class="type">T</span>.<span class="keyword">Type</span>) &#123;</span><br><span class="line">        register(<span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;.<span class="keyword">self</span>, forCellWithReuseIdentifier: <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;.identifier)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dequeueReusableCheapSwaipeCell</span>&lt;<span class="type">T</span>: <span class="type">CheapCell</span>&gt;(<span class="params">for</span> <span class="params">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt; &#123;</span><br><span class="line">        dequeueReusableCell(withReuseIdentifier: <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;.identifier, for: indexPath) <span class="keyword">as!</span> <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CollectionSwipeCell</span>&lt;<span class="title class_">T</span>: <span class="title class_">CheapCell</span>&gt;: <span class="title class_">SwipeCollectionViewCell</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> identifier: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">T</span>.identifier</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">let</span> itemView <span class="operator">=</span> <span class="type">T</span>()</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>(<span class="params">frame</span>: <span class="type">CGRect</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)</span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init?</span>(<span class="params">coder</span> <span class="params">aDecoder</span>: <span class="type">NSCoder</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)</span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">setupView</span>() &#123;</span><br><span class="line">        contentView.addSubview(itemView)</span><br><span class="line"></span><br><span class="line">        itemView.translatesAutoresizingMaskIntoConstraints <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">        itemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        itemView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        itemView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在你就可以直接通过 CheapCell 的方式来使用了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register cheap swipe cell</span></span><br><span class="line">collectionView.registerCheapSwipeCell(<span class="type">CourseView</span>.<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reuse cheep swipe cell</span></span><br><span class="line"><span class="keyword">let</span> cell <span class="operator">=</span> collectionView.dequeueReusableCheapCell(for: indexPath) <span class="keyword">as</span> <span class="type">CollectionSwipeCell</span>&lt;<span class="type">CourseView</span>&gt;</span><br><span class="line">cell.delegate <span class="operator">=</span> <span class="keyword">self</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/2023/02/06/%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D-App-%E8%A2%AB%E9%87%8D%E7%AD%BE%E5%90%8D/" rel="prev" title="如何避免 App 被重签名（奇怪的用法）">
+                  <i class="fa fa-chevron-left"></i> 如何避免 App 被重签名（奇怪的用法）
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">帕帕</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script><script src="/blog/js/schemes/muse.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

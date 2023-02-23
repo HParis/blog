@@ -123,7 +123,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -157,6 +157,110 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2023/02/23/%E5%85%B3%E4%BA%8E%20iOS%20%E4%B8%AD%20View%20%E5%92%8C%20Cell%20%E7%9A%84%E6%80%9D%E8%80%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="帕帕">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="帕帕's Blog">
+      <meta itemprop="description" content="奋斗中的程序员。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 帕帕's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/blog/2023/02/23/%E5%85%B3%E4%BA%8E%20iOS%20%E4%B8%AD%20View%20%E5%92%8C%20Cell%20%E7%9A%84%E6%80%9D%E8%80%83/" class="post-title-link" itemprop="url">关于 iOS 中 View 和 Cell 的思考</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2023-02-23 14:35:06 / Modified: 08:17:43" itemprop="dateCreated datePublished" datetime="2023-02-23T14:35:06Z">2023-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Cell-组件"><a href="#Cell-组件" class="headerlink" title="Cell 组件"></a>Cell 组件</h2><p>相信很多 iOS 开发同学在拿到一个列表的需求的时候，会习惯性的写出一个 Cell 的组件，比如下面的课程组件。</p>
+<p><img src="https://i.imgur.com/Z96M8LW.jpg" alt="列表组件"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义课程的 Cell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCell</span>: <span class="title class_">UITableCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">    <span class="keyword">let</span> infoView <span class="operator">=</span> <span class="type">CourseInfoView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的封面组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的详细信息组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseInfoView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果现在又来一个新的需求，需要在列表的最上面放一排可以横向滚动的封面图，下面依旧还是课程列表。这里使用 UICollectionView 来实现我们的这个需求，那么需要修改的代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义课程的 Cell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCell</span>: <span class="title class_">UICollectionViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">    <span class="keyword">let</span> infoView <span class="operator">=</span> <span class="type">CourseInfoView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程封面的 Cell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverCell</span>: <span class="title class_">UICollectionViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的封面组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的详细信息组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseInfoView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过上面的两个例子，我们就能够清楚的知道当我们以 Cell 的方式来实现组件的时候，一旦列表的实现方式在 UITableView 和 UICollectionView 之前切换的话，我们的 Cell 组件就需要做修改了，这就不够灵活了。甚至于当这个 Cell 组件不仅仅用在 UITableView 或 UICollectionView 的时候，我们还需要把这个组件使用 UIView 的方式重新实现一遍。</p>
+<h2 id="View-组件"><a href="#View-组件" class="headerlink" title="View 组件"></a>View 组件</h2><p>我们现在以 View 的方式来实现组件，参考下面的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - Cell 组件</span></span><br><span class="line"><span class="comment">// 定义课程的 UICollectionViewCell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCollectionCell</span>: <span class="title class_">UICollectionViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> courseView <span class="operator">=</span> <span class="type">CourseView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的 UITableViewCell 组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseTableCell</span>: <span class="title class_">UITableViewCell</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> courseView <span class="operator">=</span> <span class="type">CourseView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: -  View 组件</span></span><br><span class="line"><span class="comment">// 定义课程组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> coverView <span class="operator">=</span> <span class="type">CourseCoverView</span>()</span><br><span class="line">    <span class="keyword">let</span> infoView <span class="operator">=</span> <span class="type">CourseInfoView</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的封面组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义课程的详细信息组件</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CourseInfoView</span>: <span class="title class_">UIView</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这种以 View 的方式实现的组件就要比以 Cell 实现的组件要灵活了，因为在这里 Cell 的作用其实就只是一个容器而已，只是把 View 放到 Cell 上去，并且负责做一些注册和重用的机制。</p>
+<p>但是这种方式也有一个问题，就是只要这个 View 被用在 UITableView 或 UICollectionView 的时候，我们就要去写对应的 Cell 容器代码，而且这部分代码的工作基本上都是一样的（添加 View，添加约束）。</p>
+<h2 id="CheapCell"><a href="#CheapCell" class="headerlink" title="CheapCell"></a><a target="_blank" rel="noopener" href="https://github.com/HParis/CheapCell">CheapCell</a></h2><p>CheapCell 是我们之前的项目重构成 Swift 之后实现的一套能够让你不用写 Cell 容器的库，这个库当时帮助我们减少了上千行的 Cell 容器代码。它的核心代码很简单，最重要的是利用了 Swift 的面相协议编程的方式来实现的。具体的实现代码可以看我的 Github 仓库 <a target="_blank" rel="noopener" href="https://github.com/HParis/CheapCell%E3%80%82">https://github.com/HParis/CheapCell。</a></p>
+<p>下面是集成了 CheapCell 之后的使用方式：</p>
+<p>第一步：让我们的 View 组件遵循我们定义的 CheapCell 协议</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - CheapCell 协议</span></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">CourseView</span>: <span class="title class_">CheapCell</span> &#123;&#125;</span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">CourseCoverView</span>: <span class="title class_">CheapCell</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步：在 UICollectionView 中的使用方式（UITableView 的使用方式也是类似的）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register cheap cell</span></span><br><span class="line">collectionView.registerCheapCell(<span class="type">CourseView</span>.<span class="keyword">self</span>)</span><br><span class="line">collectionView.registerCheapCell(<span class="type">CourseCoverView</span>.<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reuse cheep cell</span></span><br><span class="line"><span class="keyword">let</span> cell <span class="operator">=</span> collectionView.dequeueReusableCheapCell(for: indexPath) <span class="keyword">as</span> <span class="type">CollectionCell</span>&lt;<span class="type">CourseView</span>&gt;</span><br><span class="line"><span class="keyword">let</span> cell <span class="operator">=</span> collectionView.dequeueReusableCheapCell(for: indexPath) <span class="keyword">as</span> <span class="type">CollectionCell</span>&lt;<span class="type">CourseCoverView</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="配合第三方库使用"><a href="#配合第三方库使用" class="headerlink" title="配合第三方库使用"></a>配合第三方库使用</h3><p>如果你使用了一些第三方的 Cell 的话，比如 <a target="_blank" rel="noopener" href="https://github.com/SwipeCellKit/SwipeCellKit">SwipeCellKit</a>，那么你可以按照下面的方式来实现你的 CheapCell：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SwipeCellKit</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">extension</span> <span class="title class_">UICollectionView</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">registerCheapSwipeCell</span>&lt;<span class="type">T</span>: <span class="type">CheapCell</span>&gt;(<span class="keyword">_</span> : <span class="type">T</span>.<span class="keyword">Type</span>) &#123;</span><br><span class="line">        register(<span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;.<span class="keyword">self</span>, forCellWithReuseIdentifier: <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;.identifier)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">dequeueReusableCheapSwaipeCell</span>&lt;<span class="type">T</span>: <span class="type">CheapCell</span>&gt;(<span class="params">for</span> <span class="params">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt; &#123;</span><br><span class="line">        dequeueReusableCell(withReuseIdentifier: <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;.identifier, for: indexPath) <span class="keyword">as!</span> <span class="type">CollectionSwipeCell</span>&lt;<span class="type">T</span>&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">CollectionSwipeCell</span>&lt;<span class="title class_">T</span>: <span class="title class_">CheapCell</span>&gt;: <span class="title class_">SwipeCollectionViewCell</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> identifier: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">T</span>.identifier</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">let</span> itemView <span class="operator">=</span> <span class="type">T</span>()</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>(<span class="params">frame</span>: <span class="type">CGRect</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(frame: frame)</span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init?</span>(<span class="params">coder</span> <span class="params">aDecoder</span>: <span class="type">NSCoder</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(coder: aDecoder)</span><br><span class="line">        setupView()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">func</span> <span class="title function_">setupView</span>() &#123;</span><br><span class="line">        contentView.addSubview(itemView)</span><br><span class="line"></span><br><span class="line">        itemView.translatesAutoresizingMaskIntoConstraints <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">        itemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        itemView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        itemView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在你就可以直接通过 CheapCell 的方式来使用了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Register cheap swipe cell</span></span><br><span class="line">collectionView.registerCheapSwipeCell(<span class="type">CourseView</span>.<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Reuse cheep swipe cell</span></span><br><span class="line"><span class="keyword">let</span> cell <span class="operator">=</span> collectionView.dequeueReusableCheapCell(for: indexPath) <span class="keyword">as</span> <span class="type">CollectionSwipeCell</span>&lt;<span class="type">CourseView</span>&gt;</span><br><span class="line">cell.delegate <span class="operator">=</span> <span class="keyword">self</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1215,111 +1319,6 @@
 <blockquote>
 <p>重要的事说三遍：<br>使用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 所定义的事件都必须加上前缀 <code>on</code>，否则 React Native 无法接收到事件<br>使用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 所定义的事件都必须加上前缀 <code>on</code>，否则 React Native 无法接收到事件<br>使用 <code>RCTBubblingEventBlock</code> 或 <code>RCTDirectEventBlock</code> 所定义的事件都必须加上前缀 <code>on</code>，否则 React Native 无法接收到事件</p>
 </blockquote>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hparis.github.io/blog/2018/02/27/redux-%E4%B9%8B%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.gif">
-      <meta itemprop="name" content="帕帕">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="帕帕's Blog">
-      <meta itemprop="description" content="奋斗中的程序员。">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 帕帕's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/blog/2018/02/27/redux-%E4%B9%8B%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/" class="post-title-link" itemprop="url">redux 之页面跳转</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-02-26 17:48:56" itemprop="dateCreated datePublished" datetime="2018-02-26T17:48:56Z">2018-02-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2023-01-07 05:42:02" itemprop="dateModified" datetime="2023-01-07T05:42:02Z">2023-01-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/blog/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>最近正在用 React Native 重构整个项目，我们用了 <strong><a target="_blank" rel="noopener" href="https://github.com/krystofcelba/react-native-navigation#rn52">react-native-navigation</a></strong> 这个库来作为项目的导航控制器。<br>所以，我们平常会把页面跳转逻辑的时候放在 Screen 里面的，比如:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FirstScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击事件</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">navigator</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">          <span class="attr">screen</span>: <span class="string">&#x27;example.SecondScreen&#x27;</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>一般情况下，上面的写法没有问题。但是直到我们碰到这样一个需求的时候就抓瞎了：点击一个 PDF 文件，如果 PDF 文件没有下载就先去下载，下载完成之后自动跳转到 PDF 阅读器。由于用了 redux 之后，我们就增加一个 finished 的 state 来判断是否已经下载完成。示例代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExampleScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    componentWillReceiveProps = <span class="function">(<span class="params">nextProps</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 这里判断下载状态是否已完成，完成的话就去跳转</span></span><br><span class="line">        <span class="keyword">if</span> (nextProps.<span class="property">finished</span> === <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="comment">// 这里需要重置一下状态，不然其他 state 发生变化会多次触发页面的跳转</span></span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">resetFinished</span>());</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">navigator</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">              <span class="attr">screen</span>: <span class="string">&#x27;example.PDFScreen&#x27;</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击事件</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// openPDF() 这个 action 会自动去下载 PDF 文件，然后修改 finished 的状态</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">openPDF</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">mapStateToProps</span> = state =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">finished</span>: state.<span class="property">finished</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">connect</span>(mapStateToProps)(<span class="title class_">ExampleScreen</span>);</span><br></pre></td></tr></table></figure>
-
-<p>上面的做法是可以实现我们的需求，但是这种写法很蛋疼。因为当你在调用用 openPDF() 的时候，你以为后面的事不需要你操心，然后这个时候有人告诉你还需要在其他地方增加一个中间状态去补充 openPDF() 的后续逻辑处理。</p>
-<p>经过讨论之后，我们决定改成用 callback 的方式来实现：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExampleScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点击事件</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// openPDF() 是一个异步 action</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">openPDF</span>(<span class="attr">callback</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">navigator</span>.<span class="title function_">push</span>(&#123;</span><br><span class="line">              <span class="attr">screen</span>: <span class="string">&#x27;example.PDFScreen&#x27;</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用 callback 的好处就是去掉了一个烦人的中间状态，并且从阅读体验来说很容易让读者明白这个点击事件在干什么。但是在 redux 的 action 方法中增加一个 callback 的调用，看起来也有点不伦不类的。虽然我认为 callback 和其他参数具有相同的法律地位。</p>
-<p>其实最好的实现是，这个点击事件应该连页面的跳转逻辑也不需要处理：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ExampleScreen</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 点击事件，这个事件只做一件事就是去 dispatch 一个 openPDF() 的 action</span></span><br><span class="line">    _someAction = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">props</span>.<span class="title function_">dispatch</span>(<span class="title function_">openPDF</span>());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    render = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>像上面这种实现，我们也就只能在 openPDF() 里动手脚了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// action.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> openPDF = <span class="keyword">await</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">dispatch</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 异步下载 PDF</span></span><br><span class="line">        <span class="keyword">async</span> <span class="title function_">downloadPDF</span>();</span><br><span class="line">        <span class="comment">// 完成之后通过 router 去实现页面跳转</span></span><br><span class="line">        <span class="title function_">dispatch</span>(<span class="title function_">openRouter</span>(<span class="string">&#x27;PDFScreen&#x27;</span>));</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这里就不再详细说 router 的实现细节了，因为网上有很多现成的资料。（PS: 主要是我也还没看到这一块）</p>
-</blockquote>
-<p>从页面（Screen）的角度来说，我认为这样的处理是最合适的。因为 Screen 只需要关注本页面的 state 和 action，至于跳转的逻辑交给后面的 action 来处理是最好的。</p>
 
       
     </div>

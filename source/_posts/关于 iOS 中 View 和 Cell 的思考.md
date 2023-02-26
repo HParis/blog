@@ -9,7 +9,9 @@ thumbnail: https://images.unsplash.com/photo-1507289872412-523fc6b2db5f?ixlib=rb
 
 ## Cell 组件
 
-相信很多 iOS 开发同学在拿到一个列表的需求的时候，会习惯性的写出一个 Cell 的组件，比如下面的课程组件。
+在 iOS 开发中，当我们需要实现列表需求时，通常会写出 Cell 组件来实现每个列表项的布局和样式。但是这种方式的缺点是，当列表的实现方式从 UITableView 切换到 UICollectionView 时，我们的 Cell 组件就需要做出一些修改，这不够灵活。甚至当我们需要在其他地方使用 Cell 组件时，还需要重新实现一遍，这对于复用和维护来说都不是最佳的解决方案。
+
+当使用 Cell 的方式实现下面的课程组件：
 
 ![列表组件](https://i.imgur.com/Z96M8LW.jpg)
 
@@ -64,11 +66,9 @@ final class CourseInfoView: UIView {
 
 ```
 
-通过上面的两个例子，我们就能够清楚的知道当我们以 Cell 的方式来实现组件的时候，一旦列表的实现方式在 UITableView 和 UICollectionView 之前切换的话，我们的 Cell 组件就需要做修改了，这就不够灵活了。甚至于当这个 Cell 组件不仅仅用在 UITableView 或 UICollectionView 的时候，我们还需要把这个组件使用 UIView 的方式重新实现一遍。
-
 ## View 组件
 
-我们现在以 View 的方式来实现组件，参考下面的代码：
+因此，使用 View 组件实现列表项会更加灵活。在这种情况下，Cell 的作用只是一个容器，只是把 View 放到 Cell 上去，并且负责做一些注册和重用的机制。但这种方式的问题是，每当我们把这个 View 用在 UITableView 或 UICollectionView 上时，我们就必须编写对应的 Cell 容器代码，这部分代码的工作基本相同（添加 View，添加约束）。
 
 ```Swift
 // MARK: - Cell 组件
@@ -107,13 +107,11 @@ final class CourseInfoView: UIView {
 
 ```
 
-这种以 View 的方式实现的组件就要比以 Cell 实现的组件要灵活了，因为在这里 Cell 的作用其实就只是一个容器而已，只是把 View 放到 Cell 上去，并且负责做一些注册和重用的机制。
-
-但是这种方式也有一个问题，就是只要这个 View 被用在 UITableView 或 UICollectionView 的时候，我们就要去写对应的 Cell 容器代码，而且这部分代码的工作基本上都是一样的（添加 View，添加约束）。
+我们可以从上面的示例代码中看出，这种方式在实际的工程中依旧会出现大量的模板代码，所这就需要我们思考有没有什么方式可以来避免编写大量、重复的模板代码了？
 
 ## [CheapCell](https://github.com/HParis/CheapCell)
 
-CheapCell 是我们之前的项目重构成 Swift 之后实现的一套能够让你不用写 Cell 容器的库，这个库当时帮助我们减少了上千行的 Cell 容器代码。它的核心代码很简单，最重要的是利用了 Swift 的面相协议编程的方式来实现的。具体的实现代码可以看我的 Github 仓库 https://github.com/HParis/CheapCell。
+CheapCell 是之前的项目重构成 Swift 之后实现的一套能够让你不用写 Cell 容器的库，这个库当时帮助我们减少了上千行的 Cell 容器代码。它的核心代码很简单，最重要的是利用了 Swift 的面相协议编程的方式来实现的，能够极大地减少代码量和提高代码的复用性和可维护性。具体的实现代码可以看我的 Github 仓库 https://github.com/HParis/CheapCell。
 
 下面是集成了 CheapCell 之后的使用方式：
 

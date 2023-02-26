@@ -1,0 +1,58 @@
+---
+title: 常用工具
+author: 帕帕
+categories: 技术
+tags: [其他]
+thumbnail: https://images.unsplash.com/photo-1514443031610-8c063c7a9822?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=73d9a7ce5ba0ed22cb91bdc0506ac9d0&auto=format&fit=crop&w=160&q=10
+---
+
+> 此文章暂未完成....
+
+# Ruby
+
+## 版本管理工具 - rvm
+
+* `$ rvm list` 列出已安装的 ruby 版本
+* `$ rvm list kn=own` 显示 local + remote 的 ruby 版本
+* `$ rvm use [ruby-version]` 可以使用 default 来改变系统环境下的 ruby 版本，或使用 system 来改变当前环境下的 ruby 版本
+* `$ rvm remove [ruby-version]` 删除 ruby 版本
+
+## 包管理工具 - gem
+
+* `$ gem install [gem-package]` 安装 gem 包
+* `$ gem update` 更新 gem 包
+* `$ gem update --system` 更新 gem 本身
+* `$ gem install [gem-package]` 安装 gem 包
+* `$ gem list` 列出所有安装的 gem 包
+* `$ gem remove [gem-package]` 删除安装过的 gem 包
+
+
+## 常用工具
+
+### cocoapods
+
+* `$ gem instal cocoapods` 安装 cocoapods
+* `$ pod setup` 初始化 Pod 库
+* `$ pod repo update` 更新 Pod 库
+* `$ pod install` 根据当前目录的 Podfile 文件安装 Pod 库
+* `$ pod update` 更新 Podfile 文件中的 Pod 库
+
+# Python
+
+## 版本管理工具 - pyenv
+
+
+# JavaScript
+
+
+## 包管理工具 - npm
+
+
+# 包管理工具 - brew
+
+* `brew update` 更新 pythpackage
+* `brew cleanup` 移除旧版本
+* `brew cleanup -n` 查看可以清理的旧版本
+* `brew list` 列出已安装的 package
+
+
